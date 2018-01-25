@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Vaccinations</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="addChild">Add Child</string>
+    <string name="name">Name</string>
+    <string name="birthDate">Birth Date</string>
+    <string name="add">Add</string>
+    <string name="days">days</string>
+    <string name="after">after</string>
+    <string name="haveToTakeTheVaccination">have to take the vaccination</string>
+    <string name="daysRemaining">Days Remaining</string>
+    <string name="edit">Edit</string>
+    <string name="yourChild">Your child</string>
+    <string name="vaccinationName">Vaccination Name</string>
+    <string name="today">Today</string>
+    <string name="haveAVaccination">have a vaccination</string>
+    <string name="haveAVaccinationAfter">have a vaccination after</string>
+    <string name="age">Age</string>
+    <string name="delete">Delete</string>
+    <string name="deleteChild">Delete Child</string>
+    <string name="areYouSureYouWantToDeleteThisChild">Are you sure you want to delete this child ?</string>
+    <string name="forAge">For Age</string>
+    <string name="haveToTakeThisVaccinationAfter">have to take this vaccination after</string>
+    <string name="notificationDate">Notification Date</string>
+    <string name="changeNotificationDate">Change Notification Date</string>
+    <string name="change">Change</string>
+    <string name="save">Save</string>
+    <string name="vaccinations">Vaccinations</string>
+    <string name="ads">Ads</string>
+    <string name="title_activity_dummy">DummyActivity</string>
+    <string name="desc">Description</string>
+    <string name="errorWhileSavingTheCavvination">Error while saving the vaccination</string>
+    <string name="title">Title</string>
+    <string name="errorWhileDeletingTheVaccination">Error While deleting the vaccination</string>
+    <string name="fromDay">From Day</string>
+    <string name="fromTime">From Time</string>
+    <string name="toDay">To Day</string>
+    <string name="toTime">To Time</string>
+    <string name="sat">Satrday</string>
+    <string name="sun">Sunday</string>
+    <string name="mon">Monday</string>
+    <string name="tue">Tuesday</string>
+    <string name="wed">Wednsday</string>
+    <string name="thu">Thursday</string>
+    <string name="fri">Friday</string>
+    <string name="search">Search</string>
+    <string name="corporations">Corporations</string>
+</resources>

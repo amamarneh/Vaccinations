@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "950779064586",
+    "firebase_url": "https://vaccinations-79a9a.firebaseio.com",
+    "project_id": "vaccinations-79a9a",
+    "storage_bucket": "vaccinations-79a9a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950779064586:android:1d145587c552b5a6",
+        "android_client_info": {
+          "package_name": "com.amarnehsoft.vaccinations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950779064586-ei9h5aar2pr5tnb1fhbklegi0huqk7s7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amarnehsoft.vaccinations",
+            "certificate_hash": "0ae558ff22b0377f1eac29e91bb5745267cf480b"
+          }
+        },
+        {
+          "client_id": "950779064586-h5dgmj15g9sh8j89so7r05clo7kdfdns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCASexBifLtm5DLx3V7zfZE285XMmpFApg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950779064586-h5dgmj15g9sh8j89so7r05clo7kdfdns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
