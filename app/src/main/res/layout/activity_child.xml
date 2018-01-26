@@ -8,18 +8,18 @@
     tools:context="com.amarnehsoft.vaccinations.activities.ChildActivity">
 
     <LinearLayout
+        android:background="@drawable/border_flat"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:src="@drawable/baby"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent" />
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
 
         <LinearLayout
-            android:gravity="center"
+            android:padding="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -27,9 +27,9 @@
 
             <TextView
                 android:id="@+id/txtName"
-                android:textStyle="bold|italic"
+                android:textStyle="bold"
                 android:textSize="17sp"
-                android:textColor="@color/pink"
+                android:textColor="@color/colorPrimary"
                 android:text="child name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:textColor="@color/black"
                     android:text="@string/age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -59,9 +60,15 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:textColor="@color/black"
+                    android:text="@string/birthDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginStart="3dp"
                     android:id="@+id/txtBirthdate"
-                    android:textStyle="italic"
-                    android:textColor="#a00"
+                    android:textColor="@color/black"
                     android:text="@string/birthDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -71,13 +78,10 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#aa0"></View>
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="5dp"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"/>
 </LinearLayout>

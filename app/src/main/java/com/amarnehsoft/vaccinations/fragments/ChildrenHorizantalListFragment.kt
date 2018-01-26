@@ -32,9 +32,9 @@ class ChildrenHorizantalListFragment : Fragment() {
         val v = inflater!!.inflate(R.layout.fragment_children_horizantal_list, container, false)
         val btnAddChild : View
         recyclerView=v.findViewById<RecyclerView>(R.id.recyclerView)
-        btnAddChild=v.findViewById(R.id.btnAddChild)
+        btnAddChild= v.findViewById(R.id.btnAddChild)
 
-        recyclerView?.layoutManager = (LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true))
+        recyclerView?.layoutManager = (LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false))
 
         btnAddChild.setOnClickListener { startActivity(AddChildActivity.newIntent(context,null))  }
 

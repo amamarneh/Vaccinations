@@ -41,6 +41,8 @@
         <activity android:name=".activities.CorporationsListActivity" />
         <activity android:name=".activities.itemDetail.CorporationsDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".admin.activities.KindergartenListActivity" />
+        <activity android:name=".admin.activities.AddEditKindergartenActivity"></activity>
     </application>
 
 </manifest>

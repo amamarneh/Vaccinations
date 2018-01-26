@@ -2,6 +2,7 @@ package com.amarnehsoft.vaccinations.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.provider.SyncStateContract
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,9 +16,11 @@ import android.widget.TextView
 
 import com.amarnehsoft.vaccinations.R
 import com.amarnehsoft.vaccinations.activities.KindergartenInfoActivity
+import com.amarnehsoft.vaccinations.admin.activities.AddEditKindergartenActivity
 import com.amarnehsoft.vaccinations.beans.Ad
 import com.amarnehsoft.vaccinations.beans.Kindergarten
 import com.amarnehsoft.vaccinations.beans.custome.VacinationForChild
+import com.amarnehsoft.vaccinations.constants.VersionConstants
 import com.amarnehsoft.vaccinations.controllers.VaccinationsForChildrenController
 import com.amarnehsoft.vaccinations.database.firebase.FBAd
 import com.amarnehsoft.vaccinations.database.firebase.FBKindergarten
@@ -27,7 +30,7 @@ import com.bumptech.glide.Glide
 
 
 class KindergartensListFragment : Fragment() {
-    private var mListener : OnFragmentInteractionListener? = null
+//    private var mListener : OnFragmentInteractionListener? = null
     lateinit var recyclerView: RecyclerView
 
     internal lateinit var helper: FBKindergarten
@@ -66,22 +69,22 @@ class KindergartensListFragment : Fragment() {
         adapter.notifyDataSetChanged()
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            mListener = context
-        } else {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
+//    override fun onAttach(context: Context?) {
+//        super.onAttach(context)
+//        if (context is OnFragmentInteractionListener) {
+//            mListener = context
+//        } else {
+//            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
+//        }
+//    }
 
-    override fun onDetach() {
-        super.onDetach()
-        mListener = null
-    }
+//    override fun onDetach() {
+//        super.onDetach()
+//        mListener = null
+//    }
 
-    interface OnFragmentInteractionListener {
-    }
+//    interface OnFragmentInteractionListener {
+//    }
 
     companion object {
         fun newInstance(): KindergartensListFragment {
@@ -101,7 +104,13 @@ class KindergartensListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val bean = beans[position]
-            holder.itemView.setOnClickListener { startActivity(KindergartenInfoActivity.newIntent(context,bean)) }
+            holder.itemView.setOnClickListener {
+                if(VersionConstants.CURRENT_VERSION == VersionConstants.VERSION_USER)
+                    startActivity(KindergartenInfoActivity.newIntent(context,bean))
+                else
+                    startActivity(AddEditKindergartenActivity.newIntent(context,bean))
+
+            }
             holder.txtName.text = bean.name
             holder.txtAddress.text = bean.address
             holder.txtDesc.text = bean.description

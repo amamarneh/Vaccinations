@@ -38,12 +38,13 @@ class ChildActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
 
         updateUI(child)
+        setTitle(child?.name)
         recyclerView?.layoutManager=LinearLayoutManager(this)
         val adapter = Adapter(this,ArrayList())
         recyclerView?.adapter = adapter
         var helper: FBVacinations
         helper = object : FBVacinations(this,true){
-            override fun afterChildAdded(bean: Any?,s:String) {
+            override fun afterChildAdded(bean: Any?,s:String?) {
                 super.afterChildAdded(bean,s)
                 try {
                     recyclerView!!.adapter = Adapter(this@ChildActivity, VacinationDB.getInstance(this@ChildActivity).getUpCommingVaccinationsForAge(DateUtils.getAgeInDays(child?.birthDate)) as List<Vaccination>)
