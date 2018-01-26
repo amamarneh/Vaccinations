@@ -35,12 +35,12 @@
         <activity android:name=".admin.activities.AddEditVaccinationActivity" />
         <activity android:name=".admin.activities.AdsListActivity" />
         <activity android:name=".admin.activities.AddEditAdsActivity" />
-        <activity android:name=".activities.KindergartenInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.CorporationsListActivity"></activity>
-        <activity android:name=".activities.CorporationInfoActivity"></activity>
-
-
+        <activity
+            android:name=".activities.KindergartenInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.CorporationsListActivity" />
+        <activity android:name=".activities.CorporationInfoActivity" />
+        <activity android:name=".activities.abstractActivities.EmptyActivity" />
     </application>
 
 </manifest>

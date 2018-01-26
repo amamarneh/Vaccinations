@@ -9,6 +9,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
         <LinearLayout
+            android:foreground="?android:attr/selectableItemBackground"
             android:padding="5dp"
             android:gravity="center"
             android:layout_width="match_parent"

@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 public class Kindergarten implements Parcelable{
-    private String code,name, address,description,fromTime,toTime,imgUrl;
+    private String code,name, address,description,fromTime,toTime,imgUrl, contactInfo;
     private int fromYear,toYear,fromDay,toDay;
 
     public String getImgUrl() {
@@ -34,6 +34,7 @@ public class Kindergarten implements Parcelable{
         fromDay = in.readInt();
         toDay = in.readInt();
         imgUrl = in.readString();
+        contactInfo = in.readString();
     }
 
     public static final Creator<Kindergarten> CREATOR = new Creator<Kindergarten>() {
@@ -133,6 +134,14 @@ public class Kindergarten implements Parcelable{
         return 0;
     }
 
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(code);
@@ -146,5 +155,6 @@ public class Kindergarten implements Parcelable{
         parcel.writeInt(fromDay);
         parcel.writeInt(toDay);
         parcel.writeString(imgUrl);
+        parcel.writeString(contactInfo);
     }
 }
