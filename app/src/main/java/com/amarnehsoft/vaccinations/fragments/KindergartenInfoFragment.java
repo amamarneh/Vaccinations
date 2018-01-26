@@ -6,21 +6,34 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amarnehsoft.vaccinations.R;
+import com.amarnehsoft.vaccinations.adapters.Adapter;
+import com.amarnehsoft.vaccinations.adapters.Holder;
 import com.amarnehsoft.vaccinations.beans.Kindergarten;
 import com.amarnehsoft.vaccinations.utils.DateUtils;
+import com.bumptech.glide.Glide;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KindergartenInfoFragment extends Fragment {
 
-    private TextView txtName,txtAddress,txtDesc,txtFromDay,txtToDay,txtFromTime,txtToTime;
+    private TextView txtName,txtAddress,txtDesc,txtDays,txtTimes,txtYears,txtContact;
     private OnFragmentInteractionListener mListener;
     private Kindergarten mBean;
-
+    private ImageView imgName;
+    private RecyclerView recyclerView;
+    private View layoutExtra;
     public KindergartenInfoFragment() {
     }
 
@@ -48,10 +61,15 @@ public class KindergartenInfoFragment extends Fragment {
         txtName = view.findViewById(R.id.txtName);
         txtAddress = view.findViewById(R.id.txtAddress);
         txtDesc = view.findViewById(R.id.txtDesc);
-        txtFromDay= view.findViewById(R.id.txtFromDay);
-        txtToDay = view.findViewById(R.id.txtToDay);
-        txtFromTime = view.findViewById(R.id.txtFromTime);
-        txtToTime = view.findViewById(R.id.txtToTime);
+        txtDays= view.findViewById(R.id.txtDays);
+        txtTimes = view.findViewById(R.id.txtTimes);
+        txtYears = view.findViewById(R.id.txtYears);
+        txtContact = view.findViewById(R.id.txtContact);
+        imgName = view.findViewById(R.id.imgName);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        layoutExtra = view.findViewById(R.id.layoutExtra);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
 
@@ -62,10 +80,43 @@ public class KindergartenInfoFragment extends Fragment {
             txtName.setText(mBean.getName());
             txtDesc.setText(mBean.getDescription());
             txtAddress.setText(mBean.getAddress());
-            txtFromTime.setText(mBean.getFromTime());
-            txtToTime.setText(mBean.getToTime());
-            txtFromDay.setText(DateUtils.getDayStr(getContext(),mBean.getFromDay()));
-            txtToDay.setText(DateUtils.getDayStr(getContext(),mBean.getToDay()));
+
+            String days = "From" +" " + mBean.getFromDay() + " " + "to" + " " + mBean.getToDay();
+            String times = "At" +" " + mBean.getFromTime() + " " + "to" + " " + mBean.getToTime();
+            String years = "From" +" " + mBean.getFromYear() + " " + "-" + " " + mBean.getToYear() + " " + "years";
+
+            txtDays.setText(days);
+            txtTimes.setText(times);
+            txtYears.setText(years);
+            txtContact.setText(mBean.getContactInfo());
+
+
+            if(mBean.getImgUrl() != null){
+                Glide.with(view).load(mBean.getImgUrl()).into(imgName);
+            }
+
+            // TODO: 1/26/2018 get extra
+            List<String> extras = new ArrayList<>();
+            extras.add("some text");
+            extras.add("some text");
+            extras.add("some text");
+            extras.add("some text");
+            setListExtra(extras);
+
+
+
+
+
+        }
+    }
+
+    private void setListExtra(List<String> list) {
+        if(list == null){
+            layoutExtra.setVisibility(View.GONE);
+        }else{
+            layoutExtra.setVisibility(View.VISIBLE);
+            MyAdapter adapter = new MyAdapter(list);
+            recyclerView.setAdapter(adapter);
         }
     }
 
@@ -87,5 +138,40 @@ public class KindergartenInfoFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
+    }
+
+    class MyHolder extends Holder<String>{
+        private TextView txtExtra;
+        public MyHolder(View itemView) {
+            super(itemView);
+            txtExtra = itemView.findViewById(R.id.txtExtra);
+        }
+
+        @Override
+        public void onClicked(View v) {
+
+        }
+
+        @Override
+        public void bind(String item) {
+            super.bind(item);
+            txtExtra.setText(mItem);
+        }
+    }
+    class MyAdapter extends Adapter<String>{
+
+        public MyAdapter(List<String> items) {
+            super(items);
+        }
+
+        @Override
+        public int getLayoutId() {
+            return R.layout.row_extra;
+        }
+
+        @Override
+        public Holder getNewHolder(View v) {
+            return new MyHolder(v);
+        }
     }
 }

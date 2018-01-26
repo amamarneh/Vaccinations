@@ -9,6 +9,7 @@ import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.beans.Corporation;
 import com.amarnehsoft.vaccinations.fragments.CorporationsListFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ public abstract class Adapter<T> extends RecyclerView.Adapter<Holder>
     public Adapter(List<T> items)
     {
         mItems = items;
+        if(mItems == null)
+            mItems = new ArrayList<>();
     }
 
     @Override
