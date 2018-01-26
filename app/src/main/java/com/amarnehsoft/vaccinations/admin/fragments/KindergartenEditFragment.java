@@ -1,0 +1,215 @@
+package com.amarnehsoft.vaccinations.admin.fragments;
+
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.amarnehsoft.vaccinations.R;
+import com.amarnehsoft.vaccinations.adapters.Adapter;
+import com.amarnehsoft.vaccinations.adapters.Holder;
+import com.amarnehsoft.vaccinations.beans.Kindergarten;
+import com.amarnehsoft.vaccinations.fragments.KindergartenInfoFragment;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
+
+public class KindergartenEditFragment extends Fragment {
+
+    private static final int PICK_IMAGE = 1;
+        private EditText txtName,txtAddress,txtDesc,txtFromDay,txtToDay,txtFromTime,txtToTime,txtFromYear,txtToYear,txtContact;
+        private Button btnChangeImage;
+        private Kindergarten mBean;
+        private ImageView imgName;
+        private RecyclerView recyclerView;
+        private View layoutExtra;
+    private Uri mUriImage;
+    private String imageUrl = null;
+    public KindergartenEditFragment() {
+        }
+
+    public static KindergartenEditFragment newInstance(Kindergarten kindergarten) {
+        KindergartenEditFragment fragment = new KindergartenEditFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("bean",kindergarten);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public Kindergarten getKindergarten(){
+        Kindergarten kindergarten = new Kindergarten();
+        kindergarten.setCode(mBean.getCode());
+        kindergarten.setAddress(txtAddress.getText().toString());
+        kindergarten.setContactInfo(txtContact.getText().toString());
+        kindergarten.setDescription(txtDesc.getText().toString());
+        kindergarten.setFromDay(Integer.parseInt(txtFromDay.getText().toString()));
+        kindergarten.setToDay(Integer.parseInt(txtToDay.getText().toString()));
+        kindergarten.setFromTime(txtFromTime.getText().toString());
+        kindergarten.setFromYear(Integer.parseInt(txtFromYear.getText().toString()));
+        kindergarten.setToYear(Integer.parseInt(txtToYear.getText().toString()));
+
+        kindergarten.setToTime(txtToTime.getText().toString());
+        kindergarten.setImgUrl(imageUrl==null?mBean.getImgUrl():imageUrl);
+
+        return kindergarten;
+
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mBean = getArguments().getParcelable("bean");
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_kindergarten_edit, container, false);
+        txtName = view.findViewById(R.id.txtName);
+        txtAddress = view.findViewById(R.id.txtAddress);
+        txtDesc = view.findViewById(R.id.txtDesc);
+        txtFromDay= view.findViewById(R.id.txtFromDay);
+        txtToDay= view.findViewById(R.id.txtToDay);
+
+        txtFromTime = view.findViewById(R.id.txtFromTime);
+        txtToTime = view.findViewById(R.id.txtToTime);
+
+
+        txtFromYear = view.findViewById(R.id.txtFromYear);
+        txtToYear = view.findViewById(R.id.txtToYear);
+
+        txtContact = view.findViewById(R.id.txtContact);
+        imgName = view.findViewById(R.id.imgName);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        layoutExtra = view.findViewById(R.id.layoutExtra);
+
+        btnChangeImage =  view.findViewById(R.id.btnChangeImage);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        btnChangeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeImage();
+            }
+        });
+        return view;
+    }
+
+    private void changeImage() {
+        openGallery();
+    }
+    private void openGallery() {
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+        startActivityForResult(getIntent, PICK_IMAGE);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            mUriImage = data.getData();
+            Glide.with(this).load(mUriImage).apply(RequestOptions.circleCropTransform()).into(imgName);
+
+        }
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (mBean != null){
+            txtName.setText(mBean.getName());
+            txtDesc.setText(mBean.getDescription());
+            txtAddress.setText(mBean.getAddress());
+
+
+            txtFromDay.setText(mBean.getFromDay());
+            txtFromTime.setText(mBean.getFromTime());
+            txtFromYear.setText(mBean.getFromYear());
+            txtContact.setText(mBean.getContactInfo());
+            txtToDay.setText(mBean.getToDay());
+            txtToTime.setText(mBean.getToTime());
+            txtToYear.setText(mBean.getToYear());
+
+            if(mBean.getImgUrl() != null){
+                Glide.with(view).load(mBean.getImgUrl()).into(imgName);
+            }
+
+            // TODO: 1/26/2018 get extra
+            setListExtra(null);
+
+
+
+
+
+        }
+    }
+
+    private void setListExtra(List<String> list) {
+        if(list == null){
+            layoutExtra.setVisibility(View.GONE);
+        }else{
+            layoutExtra.setVisibility(View.VISIBLE);
+            MyAdapter adapter = new MyAdapter(list);
+            recyclerView.setAdapter(adapter);
+        }
+    }
+
+    public interface OnFragmentInteractionListener {
+    }
+
+    class MyHolder extends Holder<String> {
+        private TextView txtExtra;
+        public MyHolder(View itemView) {
+            super(itemView);
+            txtExtra = itemView.findViewById(R.id.txtExtra);
+        }
+
+        @Override
+        public void onClicked(View v) {
+
+        }
+
+        @Override
+        public void bind(String item) {
+            super.bind(item);
+            txtExtra.setText(mItem);
+        }
+    }
+    class MyAdapter extends Adapter<String> {
+
+        public MyAdapter(List<String> items) {
+            super(items);
+        }
+
+        @Override
+        public int getLayoutId() {
+            return R.layout.row_extra;
+        }
+
+        @Override
+        public Holder getNewHolder(View v) {
+            return new MyHolder(v);
+        }
+    }
+}
