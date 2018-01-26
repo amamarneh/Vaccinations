@@ -1,20 +1,20 @@
 package com.amarnehsoft.vaccinations.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.amarnehsoft.vaccinations.R;
-import com.amarnehsoft.vaccinations.activities.CorporationInfoActivity;
+import com.amarnehsoft.vaccinations.activities.itemDetail.CorporationsDetailActivity;
 import com.amarnehsoft.vaccinations.adapters.Adapter;
 import com.amarnehsoft.vaccinations.adapters.Holder;
 import com.amarnehsoft.vaccinations.beans.Corporation;
@@ -112,7 +112,8 @@ public class CorporationsListFragment extends Fragment {
 
         @Override
         public void onClicked(View v) {
-            startActivity(CorporationInfoActivity.newIntent(getContext(),mItem));
+            Log.e("Amarneh","onClicked,mItem="+ (mItem==null));
+            startActivity(CorporationsDetailActivity.newIntent(getContext(),mItem));
         }
 
         @Override

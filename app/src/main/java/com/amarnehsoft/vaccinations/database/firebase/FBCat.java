@@ -38,17 +38,20 @@ public class FBCat extends FirebaseHelper<Cat>{
 
     @Override
     protected boolean addBeanToList(Cat bean) {
+        Log.e("Amarneh","FBCat.addBeanToList,name="+bean.getName()+",corporationCode="+corporationCode);
         return (bean.getCorporationCode().equals(corporationCode));
     }
 
     @Override
     protected Query orderBy(DatabaseReference db) {
-        super.orderBy(db);
-        return db.child("corporationCode").equalTo(corporationCode);
+//        return super.orderBy(db);
+        Log.e("Amarneh","FBCat.orderBy,corporationCode="+corporationCode);
+        return db.orderByChild("corporationCode").equalTo(corporationCode);
     }
 
     public FBCat(Context context, String corporationCode){
-        super(Cat.class,context,true);
+        super(Cat.class,context,false);
         this.corporationCode = corporationCode;
+        retrieve();
     }
 }

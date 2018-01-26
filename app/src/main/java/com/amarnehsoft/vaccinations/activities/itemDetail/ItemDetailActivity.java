@@ -2,6 +2,7 @@ package com.amarnehsoft.vaccinations.activities.itemDetail;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,7 +25,6 @@ public abstract class ItemDetailActivity<B> extends AppCompatActivity {
 
     protected ItemDetailFragment mFragment;
     protected CollapsingToolbarLayout mAppBarLayout;
-    protected String mKey;
 
     protected B mBean;
     public void refresh(B item){
@@ -33,7 +33,7 @@ public abstract class ItemDetailActivity<B> extends AppCompatActivity {
         mFragment.refresh(item);
     }
 
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ITEM_ID = "item";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +66,12 @@ public abstract class ItemDetailActivity<B> extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(ARG_ITEM_ID,
-                    getIntent().getStringExtra(ARG_ITEM_ID));
+            //Bundle arguments = new Bundle();
+            //arguments.putParcelable(ARG_ITEM_ID, (Parcelable) mBean);
             ItemDetailFragment fragment = getFragment();
             mFragment = fragment;
 
-            fragment.setArguments(arguments);
+            //fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)
                     .commit();

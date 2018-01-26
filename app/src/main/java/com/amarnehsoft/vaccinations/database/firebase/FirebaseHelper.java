@@ -38,10 +38,11 @@ public abstract class FirebaseHelper<T> {
             return false;
         }
 
+        protected FirebaseHelper(){}
+
         public FirebaseHelper(Class<T> entityClass, Context context,boolean retrive){
             mContext = context;
             this.entityClass = entityClass;
-
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             int level = 0;
             while (getRefName(level) != null){
@@ -141,7 +142,7 @@ public abstract class FirebaseHelper<T> {
             ChildEventListener l = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String code) {
-//                    Log.e("Amarneh","FirebaseHelper.retrieve.onChildAdded.code="+code);
+                    Log.e("Amarneh","FirebaseHelper.retrieve.onChildAdded.code="+code);
                     FirebaseHelper.this.onChildAdded(dataSnapshot,code);
                     if (mProgressDialog != null)
                         mProgressDialog.dismiss();

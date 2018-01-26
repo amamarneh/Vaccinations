@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Vaccinations.iml" filepath="$PROJECT_DIR$/.idea/Vaccinations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Vaccinations.iml" filepath="$PROJECT_DIR$/Vaccinations.iml" />
+      <module fileurl="file://C:\Users\jcc\AndroidStudioProjects\Vaccinations\.idea\Vaccinations.iml" filepath="C:\Users\jcc\AndroidStudioProjects\Vaccinations\.idea\Vaccinations.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

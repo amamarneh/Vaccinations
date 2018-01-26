@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,13 @@ public class CorporationDetailFragment extends ItemDetailFragment<Corporation> i
 
     private RecyclerView catsRecyclerView,stocksRecyclerView;
 
-    public static ItemDetailFragment newInstance(Corporation bean){
-        ItemDetailFragment fragment = new CorporationDetailFragment();
+    public static CorporationDetailFragment newInstance(Corporation bean){
+        CorporationDetailFragment fragment = new CorporationDetailFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("ala","ala");
         bundle.putParcelable("bean",bean);
+        Log.e("Amarneh","CorporationDetailFragment.newInstance,bean="+(bean==null));
+
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -35,11 +39,27 @@ public class CorporationDetailFragment extends ItemDetailFragment<Corporation> i
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        for (String key : getArguments().keySet()){
+            Log.e("Amarneh","key:"+key +"="+getArguments().get(key));
+        }
+        if (savedInstanceState != null){
+            for (String key : savedInstanceState.keySet()){
+                Log.e("Amarneh","savedInstanceState.key:"+key +"="+savedInstanceState.get(key));
+            }
+        }
+
         setBean();
+
+        String args = getArguments().toString();
+        Log.e("Amarneh","args="+args);
+        String test = getArguments().getString("ala");
+        Log.e("Amarneh","ala="+test);
+        Log.e("Amarneh","corporationDetailFragment.onCreate");
     }
 
     private void setBean(){
         mItem = getArguments().getParcelable("bean");
+        Log.e("Amarneh","corporationDetailFragment.setBean , bean="+(mItem==null));
     }
 
     @Override
@@ -62,11 +82,13 @@ public class CorporationDetailFragment extends ItemDetailFragment<Corporation> i
     public void onResume() {
         super.onResume();
         if (mItem != null){
+            Log.e("Amarneh","CorporationDetailFragment.onResume , mItem != null");
             FBCat fbCat = new FBCat(getContext(),mItem.getCode());
             CatsAdapter adapter = new CatsAdapter(fbCat.getList(),this);
             catsRecyclerView.setAdapter(adapter);
             fbCat.setAdapter(adapter);
-
+        }else {
+            Log.e("Amarneh","CorporationDetailFragment.onResume , mItem = null");
         }
     }
 

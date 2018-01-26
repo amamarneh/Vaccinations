@@ -13,14 +13,14 @@ class StocksListActivity : AppCompatActivity(),StocksListFragment.OnFragmentInte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fragment)
-        val type = intent.getIntExtra("type",Stock.TYPE_TOY)
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container,StocksListFragment.newInstance(type)).commit()
+        val catCode = intent.getStringExtra("catCode")
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container,StocksListFragment.newInstance(catCode)).commit()
     }
 
     companion object {
-        fun newIntent(context: Context?,type:Int): Intent{
+        fun newIntent(context: Context?,catCode:String): Intent{
             val intent = Intent(context, StocksListActivity::class.java)
-            intent.putExtra("type",type)
+            intent.putExtra("catCode",catCode)
             return intent
         }
     }

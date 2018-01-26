@@ -39,8 +39,8 @@
             android:name=".activities.KindergartenInfoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.CorporationsListActivity" />
-        <activity android:name=".activities.CorporationInfoActivity" />
-        <activity android:name=".activities.abstractActivities.EmptyActivity" />
+        <activity android:name=".activities.itemDetail.CorporationsDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

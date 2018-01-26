@@ -2,6 +2,7 @@ package com.amarnehsoft.vaccinations.activities.itemDetail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.beans.Corporation;
@@ -15,9 +16,10 @@ import com.amarnehsoft.vaccinations.fragments.itemDetail.ItemDetailFragment;
 
 public class CorporationsDetailActivity extends ItemDetailActivity<Corporation> {
 
-    public static Intent getIntent(Context ctx, Corporation bean){
+    public static Intent newIntent(Context ctx, Corporation bean){
         Intent intent = new Intent(ctx,CorporationsDetailActivity.class);
-        intent.putExtra("bean",bean);
+        intent.putExtra("item",bean);
+        Log.e("Amarneh","CorporationsDetailActivity.newIntent,corporation="+(bean==null));
         return intent;
     }
 
@@ -29,6 +31,7 @@ public class CorporationsDetailActivity extends ItemDetailActivity<Corporation> 
     @Override
     protected ItemDetailFragment getFragment()
     {
+        Log.e("Amarneh","corporationsDetailActivity.getFragment , mBean ="+(mBean==null));
         ItemDetailFragment fragment = CorporationDetailFragment.newInstance(mBean);
         return fragment;
     }
