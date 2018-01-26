@@ -23,6 +23,7 @@ class AddChildActivity : AppCompatActivity(),AddChildFragment.OnFragmentInteract
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fragment)
+        setTitle("Child")
         val c = intent.getParcelableExtra<Child>("child")
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container,AddChildFragment.newInstance(c)).commit()
     }

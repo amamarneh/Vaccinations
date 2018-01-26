@@ -40,7 +40,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.CorporationsListActivity" />
         <activity android:name=".activities.CorporationInfoActivity" />
-        <activity android:name=".activities.abstractActivities.EmptyActivity" />
+        <activity android:name=".admin.activities.KindergartenListActivity" />
+        <activity android:name=".admin.activities.AddEditKindergartenActivity"></activity>
     </application>
 
 </manifest>

@@ -7,32 +7,25 @@
     android:orientation="vertical"
     tools:context="com.amarnehsoft.vaccinations.admin.DashboardActivity">
 
-    <LinearLayout
-        android:id="@+id/vaccinationsLayout"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content">
 
-        <TextView
+
+        <Button
+            android:id="@+id/vaccinationsLayout"
             android:text="@string/vaccinations"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/adsLayout"
-        android:padding="10dp"
+    <Button
+        android:id="@+id/btnKindergarten"
+        android:text="Kindergarten"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" />
 
-        <TextView
+
+        <Button
+            android:id="@+id/adsLayout"
             android:text="@string/ads"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-    </LinearLayout>
 
 </LinearLayout>

@@ -41,7 +41,7 @@ class StocksListFragment : Fragment() {
         val v = inflater!!.inflate(R.layout.fragment_stocks_list, container, false)
         recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView);
         recyclerView.layoutManager = LinearLayoutManager(context)
-        helper = FBStocks(context,type)
+        helper = FBStocks(context,type.toString())
         adapter = Adapter(context, helper.list as List<Stock>)
         recyclerView.adapter = adapter
         helper.setAdapter(adapter)

@@ -1,10 +1,12 @@
 package com.amarnehsoft.vaccinations.admin
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.amarnehsoft.vaccinations.R
 import com.amarnehsoft.vaccinations.admin.activities.AdsListActivity
+import com.amarnehsoft.vaccinations.admin.activities.KindergartenListActivity
 import com.amarnehsoft.vaccinations.admin.activities.VaccinationsListActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -16,6 +18,11 @@ class DashboardActivity : AppCompatActivity() {
 
         val vaccinationsLayout = findViewById<View>(R.id.vaccinationsLayout)
         val adsLayout = findViewById<View>(R.id.adsLayout)
+        val btnKG = findViewById<View>(R.id.btnKindergarten)
+
+
+        val i = Intent(this,KindergartenListActivity::class.java)
+        btnKG.setOnClickListener({startActivity( i)})
 
         vaccinationsLayout.setOnClickListener({startActivity(VaccinationsListActivity.newIntent(this))})
         adsLayout.setOnClickListener({startActivity(AdsListActivity.newIntent(this))})
