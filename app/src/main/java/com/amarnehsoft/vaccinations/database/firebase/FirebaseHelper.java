@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +138,7 @@ public abstract class FirebaseHelper<T> {
             if (mProgressDialog != null)
                 mProgressDialog.show();
 
-            db.addChildEventListener(new ChildEventListener() {
+            ChildEventListener l = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String code) {
 //                    Log.e("Amarneh","FirebaseHelper.retrieve.onChildAdded.code="+code);
@@ -158,7 +159,16 @@ public abstract class FirebaseHelper<T> {
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                 }
-            });
+            };
+
+            Query q = orderBy(db);
+
+            if (q != null){
+                q.addChildEventListener(l);
+            }else {
+                db.addChildEventListener(l);
+            }
+
             return beans;
         }
         private void onChildAdded(DataSnapshot dataSnapshot,String code)
@@ -189,6 +199,10 @@ public abstract class FirebaseHelper<T> {
         }
 
     protected abstract String getRefName(int level);
+
+        protected Query orderBy(DatabaseReference db){
+            return null;
+        }
 
         public List<T> search(String query){
             List<T> result = new ArrayList<>();

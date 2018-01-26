@@ -6,17 +6,19 @@ import android.util.Log;
 import com.amarnehsoft.vaccinations.beans.Kindergarten;
 import com.amarnehsoft.vaccinations.beans.Stock;
 import com.amarnehsoft.vaccinations.utils.StringsUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 
 /**
  * Created by jcc on 11/12/2017.
  */
 
-public class FBStocks extends FirebaseHelper{
-    private int type;
+public class FBStocks extends FirebaseHelper<Stock>{
+    private String catCode;
 
-    public FBStocks(Context context,int type){
+    public FBStocks(Context context,String catCode){
         super(Stock.class,context,true);
-        this.type = type;
+        this.catCode = catCode;
     }
 
     @Override
@@ -29,31 +31,17 @@ public class FBStocks extends FirebaseHelper{
     }
 
     @Override
-    protected boolean addBeanToSearchList(Object bean,String query) {
-        try {
-            Stock info = (Stock) bean;
-            return StringsUtils.like(info.getName(),"%"+query+"%");
-        }catch (ClassCastException e){
-            Log.e("Amarneh","this is not Stock class ,, " + e.getMessage());
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public FBStocks(Context context){
-        super(Stock.class,context,true);
+    protected boolean addBeanToSearchList(Stock bean,String query) {
+        return StringsUtils.like(bean.getName(),"%"+query+"%");
     }
 
     @Override
-    protected boolean addBeanToList(Object bean) {
-        try {
-            Stock info = (Stock) bean;
-            if (info.getType()==type)
-                return  true;
-        }catch (ClassCastException e){
-            Log.e("Amarneh","this is not Stock class ,, " + e.getMessage());
-            e.printStackTrace();
-        }
-        return false;
+    protected boolean addBeanToList(Stock bean) {
+        return bean.getCat().equals(catCode);
+    }
+
+    @Override
+    protected Query orderBy(DatabaseReference db) {
+        return db.child("cat").equalTo(catCode);
     }
 }

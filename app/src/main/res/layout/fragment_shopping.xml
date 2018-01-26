@@ -17,81 +17,6 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/toysLayout"
-                    android:background="?attr/selectableItemBackground"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_height="50dp">
-
-                    <ImageView
-                        android:src="@drawable/toy"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="0dp" />
-
-                    <TextView
-                        android:text="Toys"
-                        android:textColor="#153c96"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/clothesLayout"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:background="?attr/selectableItemBackground"
-                    android:orientation="vertical"
-                    android:layout_height="50dp">
-
-                    <ImageView
-                        android:src="@drawable/clothes"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="0dp" />
-
-                    <TextView
-                        android:text="Clothes"
-                        android:textColor="#153c96"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/foodLayout"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:background="?attr/selectableItemBackground"
-                    android:orientation="vertical"
-                    android:layout_height="50dp">
-
-                    <ImageView
-                        android:src="@drawable/milk"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="0dp" />
-
-                    <TextView
-                        android:text="Food"
-                        android:textColor="#153c96"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -142,27 +67,6 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:background="?attr/selectableItemBackground"
-                    android:orientation="vertical"
-                    android:layout_height="50dp">
-
-                    <ImageView
-                        android:src="@drawable/ic_person_black_24dp"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="0dp" />
-
-                    <TextView
-                        android:textColor="#153c96"
-                        android:text="food"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

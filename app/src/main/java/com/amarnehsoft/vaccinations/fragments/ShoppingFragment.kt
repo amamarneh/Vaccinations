@@ -26,15 +26,15 @@ class ShoppingFragment : Fragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater!!.inflate(R.layout.fragment_shopping, container, false)
-        val toys = v.findViewById<View>(R.id.toysLayout)
-        val clothes = v.findViewById<View>(R.id.clothesLayout)
-        val food = v.findViewById<View>(R.id.foodLayout)
+//        val toys = v.findViewById<View>(R.id.toysLayout)
+//        val clothes = v.findViewById<View>(R.id.clothesLayout)
+//        val food = v.findViewById<View>(R.id.foodLayout)
         val kindergartens = v.findViewById<View>(R.id.kindergartenLayout);
         val corporations = v.findViewById<View>(R.id.corporationsLayout);
 
-        toys.setOnClickListener({startActivity(StocksListActivity.newIntent(context,Stock.TYPE_TOY))})
-        clothes.setOnClickListener({startActivity(StocksListActivity.newIntent(context,Stock.TYPE_CLOTH))})
-        food.setOnClickListener({startActivity(StocksListActivity.newIntent(context,Stock.TYPE_FOOD))})
+//        toys.setOnClickListener({startActivity(StocksListActivity.newIntent(context,Stock.TYPE_TOY))})
+//        clothes.setOnClickListener({startActivity(StocksListActivity.newIntent(context,Stock.TYPE_CLOTH))})
+//        food.setOnClickListener({startActivity(StocksListActivity.newIntent(context,Stock.TYPE_FOOD))})
         kindergartens.setOnClickListener({startActivity(KindergartnsListActivity.newIntent(context))})
         corporations.setOnClickListener({startActivity(CorporationsListActivity.newIntent(context))})
 

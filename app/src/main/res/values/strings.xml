@@ -47,4 +47,6 @@
     <string name="fri">Friday</string>
     <string name="search">Search</string>
     <string name="corporations">Corporations</string>
+    <string name="price">Price</string>
+    <string name="not_found">Not found</string>
 </resources>

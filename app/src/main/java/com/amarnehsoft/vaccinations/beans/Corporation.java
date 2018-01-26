@@ -10,6 +10,9 @@ import android.os.Parcelable;
 public class Corporation implements Parcelable{
     private String code,name,address;
 
+    public Corporation() {
+    }
+
     protected Corporation(Parcel in) {
         code = in.readString();
         name = in.readString();
