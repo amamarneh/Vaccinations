@@ -23,6 +23,7 @@ import com.amarnehsoft.vaccinations.database.firebase.FBAd
 import com.amarnehsoft.vaccinations.database.firebase.FBKindergarten
 import com.amarnehsoft.vaccinations.database.firebase.FBVacinations
 import com.amarnehsoft.vaccinations.utils.StringsUtils
+import com.bumptech.glide.Glide
 
 
 class KindergartensListFragment : Fragment() {
@@ -104,6 +105,10 @@ class KindergartensListFragment : Fragment() {
             holder.txtName.text = bean.name
             holder.txtAddress.text = bean.address
             holder.txtDesc.text = bean.description
+
+            if(bean.imgUrl != null){
+                Glide.with(holder.itemView.context).load(bean.imgUrl).into(holder.imgName)
+            }
         }
 
         override fun getItemCount(): Int {
@@ -119,10 +124,13 @@ class KindergartensListFragment : Fragment() {
         internal var txtName: TextView
         internal var txtAddress: TextView
         internal var txtDesc: TextView
+        internal var imgName: ImageView
         init {
             txtName = itemView.findViewById<View>(R.id.txtName) as TextView
             txtAddress = itemView.findViewById<View>(R.id.txtAddress) as TextView
             txtDesc = itemView.findViewById<View>(R.id.txtDesc) as TextView
+            imgName = itemView.findViewById<View>(R.id.imgName) as ImageView
+
         }
     }
 }
