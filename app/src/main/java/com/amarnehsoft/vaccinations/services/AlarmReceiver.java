@@ -17,7 +17,7 @@ import com.amarnehsoft.vaccinations.controllers.NotificationController;
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
-    //remiaming 10 mints for the car;
+    // remianing 10 mints for the car;
 
     @Override
     public void onReceive(Context context, Intent intent) {

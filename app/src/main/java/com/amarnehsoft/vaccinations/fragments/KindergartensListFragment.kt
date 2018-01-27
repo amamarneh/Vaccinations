@@ -27,6 +27,8 @@ import com.amarnehsoft.vaccinations.database.firebase.FBKindergarten
 import com.amarnehsoft.vaccinations.database.firebase.FBVacinations
 import com.amarnehsoft.vaccinations.utils.StringsUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 
 
 class KindergartensListFragment : Fragment() {
@@ -116,7 +118,7 @@ class KindergartensListFragment : Fragment() {
             holder.txtDesc.text = bean.description
 
             if(bean.imgUrl != null){
-                Glide.with(holder.itemView.context).load(bean.imgUrl).into(holder.imgName)
+                Glide.with(holder.itemView.context).load(bean.imgUrl).apply(RequestOptions.circleCropTransform()).into(holder.imgName)
             }
         }
 

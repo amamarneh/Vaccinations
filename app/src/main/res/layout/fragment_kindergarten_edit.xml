@@ -19,10 +19,18 @@
 
             <ImageView
                 android:id="@+id/imgName"
-                android:src="@drawable/kindergarten"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="150dp" />
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/kindergarten" />
+            <Button
+                android:id="@+id/btnChangeImage"
+                android:text="change image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -41,12 +49,12 @@
                         android:src="@drawable/kindergarten"
                         android:layout_width="48dp"
                         android:layout_height="48dp" />
-                    <TextView
+                    <EditText
                         android:textColor="@color/colorPrimary"
                         android:id="@+id/txtName"
                         android:text="@string/name"
                         android:textSize="20sp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
@@ -85,9 +93,20 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp" />
 
+                        <EditText
+                            android:id="@+id/txtFromYear"
+                            android:text="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
                         <TextView
-                            android:id="@+id/txtYears"
-                            android:text="1 - 5 years"
+                            android:text="to"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <EditText
+                            android:id="@+id/txtToYear"
+                            android:text="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -116,16 +135,54 @@
                             android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-                            <TextView
-                                android:id="@+id/txtDays"
-                                android:text="From wed to Fri"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                            <TextView
-                                android:id="@+id/txtTimes"
-                                android:text="At 8:00 am to 2:00 pm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+
+
+                            <LinearLayout
+                                android:gravity="center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/txtFromDay"
+                                    android:text="1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                                <TextView
+                                    android:text="to day"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                                <EditText
+                                    android:id="@+id/txtToDay"
+                                    android:text="1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:gravity="center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/txtFromTime"
+                                    android:text="1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                                <TextView
+                                    android:text="to time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                                <EditText
+                                    android:id="@+id/txtToTime"
+                                    android:text="1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+
                         </LinearLayout>
                     </LinearLayout>
 
@@ -195,7 +252,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp" />
 
-                        <TextView
+                        <EditText
                             android:textColor="@color/black"
                             android:id="@+id/txtAddress"
                             android:text="Address"
@@ -214,7 +271,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp" />
 
-                        <TextView
+                        <EditText
                             android:textColor="@color/black"
                             android:id="@+id/txtDesc"
                             android:text="@string/desc"
@@ -255,11 +312,11 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp" />
 
-                        <TextView
+                        <EditText
                             android:textColor="@color/black"
                             android:id="@+id/txtContact"
                             android:text="phone number"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 

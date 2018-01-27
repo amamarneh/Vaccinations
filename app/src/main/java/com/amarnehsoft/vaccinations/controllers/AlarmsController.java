@@ -42,6 +42,6 @@ public class AlarmsController {
         intent.putExtra("vaccination",vaccination);
         intent.putExtra("child",child);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, code, intent, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + time,pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,time,pendingIntent);
     }
 }
