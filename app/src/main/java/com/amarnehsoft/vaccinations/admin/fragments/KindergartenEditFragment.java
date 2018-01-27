@@ -23,6 +23,8 @@ import com.amarnehsoft.vaccinations.adapters.Adapter;
 import com.amarnehsoft.vaccinations.adapters.Holder;
 import com.amarnehsoft.vaccinations.beans.Kindergarten;
 import com.amarnehsoft.vaccinations.fragments.KindergartenInfoFragment;
+import com.amarnehsoft.vaccinations.fragments.dialogs.DatePickerFragment;
+import com.amarnehsoft.vaccinations.utils.DateUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -42,6 +44,7 @@ public class KindergartenEditFragment extends Fragment {
         private View layoutExtra;
     private Uri mUriImage;
     private String imageUrl = null;
+    OnFragmentInteractionListener mListener;
     public KindergartenEditFragment() {
         }
 
@@ -52,6 +55,7 @@ public class KindergartenEditFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     public Kindergarten getKindergarten(){
         Kindergarten kindergarten = new Kindergarten();
@@ -64,12 +68,15 @@ public class KindergartenEditFragment extends Fragment {
         kindergarten.setFromTime(txtFromTime.getText().toString());
         kindergarten.setFromYear(Integer.parseInt(txtFromYear.getText().toString()));
         kindergarten.setToYear(Integer.parseInt(txtToYear.getText().toString()));
-
+        kindergarten.setName(txtName.getText().toString().trim());
         kindergarten.setToTime(txtToTime.getText().toString());
         kindergarten.setImgUrl(imageUrl==null?mBean.getImgUrl():imageUrl);
 
         return kindergarten;
 
+    }
+    public Uri getUri(){
+        return mUriImage;
     }
 
 
@@ -130,7 +137,7 @@ public class KindergartenEditFragment extends Fragment {
     {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             mUriImage = data.getData();
-            Glide.with(this).load(mUriImage).apply(RequestOptions.circleCropTransform()).into(imgName);
+            Glide.with(this).load(mUriImage).into(imgName);
 
         }
     }
@@ -143,13 +150,13 @@ public class KindergartenEditFragment extends Fragment {
             txtAddress.setText(mBean.getAddress());
 
 
-            txtFromDay.setText(mBean.getFromDay());
+            txtFromDay.setText(mBean.getFromDay()+"");
             txtFromTime.setText(mBean.getFromTime());
-            txtFromYear.setText(mBean.getFromYear());
+            txtFromYear.setText(mBean.getFromYear()+"");
             txtContact.setText(mBean.getContactInfo());
-            txtToDay.setText(mBean.getToDay());
+            txtToDay.setText(mBean.getToDay()+"");
             txtToTime.setText(mBean.getToTime());
-            txtToYear.setText(mBean.getToYear());
+            txtToYear.setText(mBean.getToYear()+"");
 
             if(mBean.getImgUrl() != null){
                 Glide.with(view).load(mBean.getImgUrl()).into(imgName);
@@ -176,7 +183,24 @@ public class KindergartenEditFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
+        void onSaveClick(Kindergarten kindergarten, Uri uri);
     }
+
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        try {
+//            mListener = (DatePickerFragment.IDatePickerFragment)context;
+//        }catch (Exception ex){
+//            ex.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
 
     class MyHolder extends Holder<String> {
         private TextView txtExtra;
