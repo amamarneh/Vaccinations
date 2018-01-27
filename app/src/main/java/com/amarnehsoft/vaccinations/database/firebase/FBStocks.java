@@ -17,8 +17,9 @@ public class FBStocks extends FirebaseHelper<Stock>{
     private String catCode;
 
     public FBStocks(Context context,String catCode){
-        super(Stock.class,context,true);
+        super(Stock.class,context,false);
         this.catCode = catCode;
+        retrieve();
     }
 
     @Override
@@ -37,11 +38,11 @@ public class FBStocks extends FirebaseHelper<Stock>{
 
     @Override
     protected boolean addBeanToList(Stock bean) {
-        return bean.getCat().equals(catCode);
+        return true;
     }
 
     @Override
     protected Query orderBy(DatabaseReference db) {
-        return db.child("cat").equalTo(catCode);
+        return db.orderByChild("catCode").equalTo(catCode);
     }
 }

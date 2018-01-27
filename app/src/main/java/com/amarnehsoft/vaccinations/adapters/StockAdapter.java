@@ -31,15 +31,23 @@ public class StockAdapter extends Adapter<Stock>{
     class Holder extends com.amarnehsoft.vaccinations.adapters.Holder<Stock> {
         private TextView txtName;
         private TextView txtPrice;
-        private TextView txtDesc;
 
         public Holder(View itemView) {
             super(itemView);
+            txtName=itemView.findViewById(R.id.txtName);
+            txtPrice=itemView.findViewById(R.id.txtPrice);
         }
 
         @Override
         public void onClicked(View v) {
 
+        }
+
+        @Override
+        public void bind(Stock item) {
+            super.bind(item);
+            txtName.setText(item.getName());
+            txtPrice.setText(item.getPrice()+"");
         }
     }
 }

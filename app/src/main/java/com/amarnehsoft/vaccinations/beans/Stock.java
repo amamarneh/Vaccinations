@@ -9,12 +9,9 @@ import android.support.design.internal.ParcelableSparseArray;
  */
 
 public class Stock implements Parcelable{
-    public static final int TYPE_TOY=0;
-    public static final int TYPE_CLOTH=1;
-    public static final int TYPE_FOOD=2;
 
-    private String code,name,desc,address,cat;
-    private int type;
+    private String code,name,desc,catCode,img;
+    private double price;
 
     public Stock() {
     }
@@ -23,9 +20,9 @@ public class Stock implements Parcelable{
         code = in.readString();
         name = in.readString();
         desc = in.readString();
-        address = in.readString();
-        cat = in.readString();
-        type = in.readInt();
+        img = in.readString();
+        catCode = in.readString();
+        price = in.readDouble();
     }
 
     public static final Creator<Stock> CREATOR = new Creator<Stock>() {
@@ -64,28 +61,20 @@ public class Stock implements Parcelable{
         this.desc = desc;
     }
 
-    public String getAddress() {
-        return address;
+    public String getImg() {
+        return img;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setImg(String img) {
+        this.img = img;
     }
 
-    public String getCat() {
-        return cat;
+    public double getPrice() {
+        return price;
     }
 
-    public void setCat(String cat) {
-        this.cat = cat;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override
@@ -98,8 +87,8 @@ public class Stock implements Parcelable{
         parcel.writeString(code);
         parcel.writeString(name);
         parcel.writeString(desc);
-        parcel.writeString(address);
-        parcel.writeString(cat);
-        parcel.writeInt(type);
+        parcel.writeString(img);
+        parcel.writeString(catCode);
+        parcel.writeDouble(price);
     }
 }

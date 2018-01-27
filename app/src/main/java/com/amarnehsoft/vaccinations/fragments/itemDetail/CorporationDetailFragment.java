@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.adapters.CatsAdapter;
+import com.amarnehsoft.vaccinations.adapters.StockAdapter;
 import com.amarnehsoft.vaccinations.beans.Corporation;
 import com.amarnehsoft.vaccinations.database.firebase.FBCat;
 import com.amarnehsoft.vaccinations.database.firebase.FBStocks;
@@ -100,6 +101,8 @@ public class CorporationDetailFragment extends ItemDetailFragment<Corporation> i
     @Override
     public void onCatClicked(String catCode) {
         FBStocks fbStocks = new FBStocks(getContext(),catCode);
-
+        StockAdapter adapter = new StockAdapter(fbStocks.getList());
+        stocksRecyclerView.setAdapter(adapter);
+        fbStocks.setAdapter(adapter);
     }
 }
