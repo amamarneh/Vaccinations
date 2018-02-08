@@ -16,9 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.amarnehsoft.vaccinations.R;
+import com.amarnehsoft.vaccinations.activities.Base;
 import com.amarnehsoft.vaccinations.fragments.itemDetail.ItemDetailFragment;
 
-public abstract class ItemDetailActivity<B> extends AppCompatActivity {
+public abstract class ItemDetailActivity<B> extends Base {
     //b : bean type
 
     public static final int REQ_EDIT =222;

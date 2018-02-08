@@ -84,7 +84,7 @@ public class CorporationDetailFragment extends ItemDetailFragment<Corporation> i
         super.onResume();
         if (mItem != null){
             Log.e("Amarneh","CorporationDetailFragment.onResume , mItem != null");
-            FBCat fbCat = new FBCat(getContext(),mItem.getCode());
+            FBCat fbCat = new FBCat(getContext(),mItem.getCatCodes());
             CatsAdapter adapter = new CatsAdapter(fbCat.getList(),this);
             catsRecyclerView.setAdapter(adapter);
             fbCat.setAdapter(adapter);
@@ -100,7 +100,7 @@ public class CorporationDetailFragment extends ItemDetailFragment<Corporation> i
 
     @Override
     public void onCatClicked(String catCode) {
-        FBStocks fbStocks = new FBStocks(getContext(),catCode);
+        FBStocks fbStocks = new FBStocks(getContext(),catCode,mItem.getCode());
         StockAdapter adapter = new StockAdapter(fbStocks.getList());
         stocksRecyclerView.setAdapter(adapter);
         fbStocks.setAdapter(adapter);

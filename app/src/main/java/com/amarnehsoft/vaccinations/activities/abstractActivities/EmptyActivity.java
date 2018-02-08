@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.amarnehsoft.vaccinations.R;
+import com.amarnehsoft.vaccinations.activities.Base;
+import com.amarnehsoft.vaccinations.controllers.SPController;
 
 
-public abstract class EmptyActivity<T> extends AppCompatActivity {
+public abstract class EmptyActivity<T> extends Base {
     protected T mBean;
     public static final String ARG_NUMBER_OF_COLS = "numberOfCols";
     public static final String ARG_BEAN = "bean";
@@ -41,6 +43,13 @@ public abstract class EmptyActivity<T> extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle(SPController.getInstance(this).getTitle());
+    }
+
     protected abstract String getBarTitle();
     public abstract Fragment getFragment();
 }

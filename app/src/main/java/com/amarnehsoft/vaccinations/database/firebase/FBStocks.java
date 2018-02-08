@@ -14,11 +14,12 @@ import com.google.firebase.database.Query;
  */
 
 public class FBStocks extends FirebaseHelper<Stock>{
-    private String catCode;
+    private String catCode,corporationCode;
 
-    public FBStocks(Context context,String catCode){
+    public FBStocks(Context context,String catCode,String corporationCode){
         super(Stock.class,context,false);
         this.catCode = catCode;
+        this.corporationCode =  corporationCode;
         retrieve();
     }
 
@@ -38,11 +39,11 @@ public class FBStocks extends FirebaseHelper<Stock>{
 
     @Override
     protected boolean addBeanToList(Stock bean) {
-        return true;
+        return bean.getCatCode().equals(catCode);
     }
 
     @Override
     protected Query orderBy(DatabaseReference db) {
-        return db.orderByChild("catCode").equalTo(catCode);
+        return db.orderByChild("corporationCode").equalTo(corporationCode);
     }
 }

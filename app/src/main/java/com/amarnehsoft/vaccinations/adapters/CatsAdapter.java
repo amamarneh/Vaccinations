@@ -1,10 +1,12 @@
 package com.amarnehsoft.vaccinations.adapters;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.beans.Cat;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -32,10 +34,12 @@ public class CatsAdapter extends Adapter<Cat> {
 
     class Holder extends com.amarnehsoft.vaccinations.adapters.Holder<Cat> {
         private TextView txtName;
+        private ImageView img;
 
         public Holder(View itemView) {
             super(itemView);
             txtName=itemView.findViewById(R.id.txtName);
+            img=itemView.findViewById(R.id.img);
         }
 
         @Override
@@ -47,6 +51,9 @@ public class CatsAdapter extends Adapter<Cat> {
         public void bind(Cat item) {
             super.bind(item);
             txtName.setText(item.getName());
+            if(mItem.getImg() != null){
+                Glide.with(itemView).load(mItem.getImg()).into(img);
+            }
         }
     }
 

@@ -10,7 +10,7 @@ import android.support.design.internal.ParcelableSparseArray;
 
 public class Stock implements Parcelable{
 
-    private String code,name,desc,catCode,img;
+    private String code,name,desc,catCode,img,corporationCode;
     private double price;
 
     public Stock() {
@@ -23,6 +23,7 @@ public class Stock implements Parcelable{
         img = in.readString();
         catCode = in.readString();
         price = in.readDouble();
+        corporationCode=in.readString();
     }
 
     public static final Creator<Stock> CREATOR = new Creator<Stock>() {
@@ -77,6 +78,22 @@ public class Stock implements Parcelable{
         this.price = price;
     }
 
+    public String getCatCode() {
+        return catCode;
+    }
+
+    public void setCatCode(String catCode) {
+        this.catCode = catCode;
+    }
+
+    public String getCorporationCode() {
+        return corporationCode;
+    }
+
+    public void setCorporationCode(String corporationCode) {
+        this.corporationCode = corporationCode;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -90,5 +107,6 @@ public class Stock implements Parcelable{
         parcel.writeString(img);
         parcel.writeString(catCode);
         parcel.writeDouble(price);
+        parcel.writeString(corporationCode);
     }
 }

@@ -96,7 +96,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
         Cursor rs = null;
         try {
             rs = db.query(getTableName(), null
-                    , selection, args , null, null, null);
+                    , selection, args , null, null, orderBy());
 
             if (rs.moveToFirst())
             {
@@ -112,6 +112,10 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
                 rs.close();
         }
         return list;
+    }
+
+    protected String orderBy(){
+        return null;
     }
 
     public int deleteAll()

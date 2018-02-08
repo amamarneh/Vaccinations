@@ -20,6 +20,7 @@ class ChildrenHorizantalListFragment : Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
     var recyclerView : RecyclerView? = null
+    var layout : View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,7 @@ class ChildrenHorizantalListFragment : Fragment() {
         val v = inflater!!.inflate(R.layout.fragment_children_horizantal_list, container, false)
         val btnAddChild : View
         recyclerView=v.findViewById<RecyclerView>(R.id.recyclerView)
+        layout = v.findViewById(R.id.layout)
         btnAddChild= v.findViewById(R.id.btnAddChild)
 
         recyclerView?.layoutManager = (LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false))
@@ -44,8 +46,14 @@ class ChildrenHorizantalListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val list = ChildDB.getInstance(context).all
-        if (list.size==0)
+        if (list.size==0){
             recyclerView?.visibility=View.GONE
+            layout?.visibility = View.VISIBLE
+        } else{
+            recyclerView?.visibility=View.VISIBLE
+            layout?.visibility = View.GONE
+        }
+
         recyclerView?.adapter=Adapter(context,list)
     }
 

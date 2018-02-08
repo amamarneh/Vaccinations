@@ -7,7 +7,7 @@ import com.amarnehsoft.vaccinations.R
 
 import kotlinx.android.synthetic.main.activity_dummy.*
 
-class DummyActivity : AppCompatActivity() {
+class DummyActivity : Base() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -23,6 +23,7 @@
                 android:src="@drawable/kindergarten"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="match_parent"
+                android:scaleType="fitXY"
                 android:layout_height="150dp" />
 
             <LinearLayout
@@ -71,7 +72,7 @@
 
                     <TextView
                         android:textColor="@color/black"
-                        android:text="Ages"
+                        android:text="@string/ages"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -98,7 +99,7 @@
 
                     <TextView
                         android:textColor="@color/black"
-                        android:text="Open days"
+                        android:text="@string/openDays"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -145,6 +146,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:padding="5dp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -153,7 +155,7 @@
 
                     <TextView
                         android:textColor="@color/black"
-                        android:text="More"
+                        android:text="@string/more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -161,8 +163,6 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-
-
 
                 </LinearLayout>
 
@@ -182,7 +182,7 @@
 
                     <TextView
                         android:textColor="@color/black"
-                        android:text="About"
+                        android:text="@string/about"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <LinearLayout
@@ -242,7 +242,7 @@
 
                     <TextView
                         android:textColor="@color/black"
-                        android:text="Contact Info"
+                        android:text="@string/contactInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <LinearLayout

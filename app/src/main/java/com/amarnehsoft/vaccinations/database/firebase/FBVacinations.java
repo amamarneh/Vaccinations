@@ -14,7 +14,7 @@ import com.amarnehsoft.vaccinations.utils.StringsUtils;
  * Created by jcc on 11/12/2017.
  */
 
-public class FBVacinations extends FirebaseHelper{
+public class FBVacinations extends FirebaseHelper<Vaccination>{
     @Override
     protected String getRefName(int level) {
         switch (level){
@@ -25,15 +25,8 @@ public class FBVacinations extends FirebaseHelper{
     }
 
     @Override
-    protected boolean addBeanToSearchList(Object bean,String query) {
-        try {
-            Vaccination info = (Vaccination) bean;
-            return StringsUtils.like(info.getName(),"%"+query+"%");
-        }catch (ClassCastException e){
-            Log.e("Amarneh","this is not vacination class ,, " + e.getMessage());
-            e.printStackTrace();
-        }
-        return false;
+    protected boolean addBeanToSearchList(Vaccination bean,String query) {
+        return StringsUtils.like(bean.getName(),"%"+query+"%");
     }
 
     public FBVacinations(Context context,boolean retrive){
@@ -41,38 +34,26 @@ public class FBVacinations extends FirebaseHelper{
     }
 
     @Override
-    protected boolean addBeanToList(Object bean) {
-        try {
-            Vaccination info = (Vaccination) bean;
-            return  true;
-        }catch (ClassCastException e){
-            Log.e("Amarneh","this is not vacination class ,, " + e.getMessage());
-            e.printStackTrace();
-        }
-        return false;
+    protected boolean addBeanToList(Vaccination bean) {
+        return true;
     }
 
     @Override
-    public void afterChildAdded(Object bean,String code) {
+    public void afterChildAdded(Vaccination bean,String code) {
         super.afterChildAdded(bean,code);
-        try {
-            Vaccination info = (Vaccination) bean;
-            Vaccination saved = VacinationDB.getInstance(mContext).getBeanById(info.getCode());
+
+            Vaccination saved = VacinationDB.getInstance(mContext).getBeanById(bean.getCode());
             if (saved != null){
                 if (saved.getManuallySet() == 0){
-                    NotifyVaccinationsController.notify(mContext,info);
+                    NotifyVaccinationsController.notify(mContext,bean);
                 }else {
                     //dont notify.
-                    info.setNewAge(saved.getNewAge());
-                    info.setManuallySet(saved.getManuallySet());
-                    info.setNotificationId(saved.getNotificationId());
+                    bean.setNewAge(saved.getNewAge());
+                    bean.setManuallySet(saved.getManuallySet());
+                    bean.setNotificationId(saved.getNotificationId());
                 }
             }
-            VacinationDB.getInstance(mContext).saveBean(info);
-            Log.e("Amarneh","vacination beas saved , name="+info.getName());
-        }catch (ClassCastException e){
-            Log.e("Amarneh","this is not vacination class ,, " + e.getMessage());
-            e.printStackTrace();
-        }
+            VacinationDB.getInstance(mContext).saveBean(bean);
+            Log.e("Amarneh","vacination bean saved , name="+bean.getName());
     }
 }

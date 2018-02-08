@@ -60,7 +60,7 @@ class AddChildFragment : Fragment(),DatePickerFragment.IDatePickerFragment{
             if (selectedDate != null){
                 c = DateUtils.getCalendarFromDate(selectedDate)
             }
-            DatePickerFragment.newInstance(c,1,this).show(fragmentManager,DatePickerFragment.TAG)
+            DatePickerFragment.newInstance(c,1,this,true,false).show(fragmentManager,DatePickerFragment.TAG)
         })
         return v
     }

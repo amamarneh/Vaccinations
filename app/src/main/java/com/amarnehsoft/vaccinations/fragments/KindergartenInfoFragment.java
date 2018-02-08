@@ -81,9 +81,9 @@ public class KindergartenInfoFragment extends Fragment {
             txtDesc.setText(mBean.getDescription());
             txtAddress.setText(mBean.getAddress());
 
-            String days = "From" +" " + mBean.getFromDay() + " " + "to" + " " + mBean.getToDay();
-            String times = "At" +" " + mBean.getFromTime() + " " + "to" + " " + mBean.getToTime();
-            String years = "From" +" " + mBean.getFromYear() + " " + "-" + " " + mBean.getToYear() + " " + "years";
+            String days = getString(R.string.from) +" " + DateUtils.getDayStr(getContext(),mBean.getFromDay()) + " " + getString(R.string.to) + " " + DateUtils.getDayStr(getContext(),mBean.getToDay());
+            String times = getString(R.string.at)+" " + mBean.getFromTime() + " " + getString(R.string.to) + " " + mBean.getToTime();
+            String years = getString(R.string.from) +" " + mBean.getFromYear() + " " + "-" + " " + mBean.getToYear() + " " + getString(R.string.years);
 
             txtDays.setText(days);
             txtTimes.setText(times);

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.amarnehsoft.vaccinations.beans.Ad;
 import com.amarnehsoft.vaccinations.beans.Cat;
+import com.amarnehsoft.vaccinations.beans.Corporation;
 import com.amarnehsoft.vaccinations.utils.StringsUtils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
@@ -14,7 +15,7 @@ import com.google.firebase.database.Query;
  */
 
 public class FBCat extends FirebaseHelper<Cat>{
-    private String  corporationCode;
+    private String catsCodes;
 
     @Override
     protected String getRefName(int level) {
@@ -27,31 +28,22 @@ public class FBCat extends FirebaseHelper<Cat>{
 
     @Override
     protected boolean addBeanToSearchList(Cat bean,String query) {
-        try {
-            return StringsUtils.like(bean.getName(),"%"+query+"%");
-        }catch (ClassCastException e){
-            Log.e("Amarneh","this is not ad class ,, " + e.getMessage());
-            e.printStackTrace();
-        }
-        return false;
+        return StringsUtils.like(bean.getName(),"%"+query+"%");
     }
 
     @Override
     protected boolean addBeanToList(Cat bean) {
-        Log.e("Amarneh","FBCat.addBeanToList,name="+bean.getName()+",corporationCode="+corporationCode);
-        return (bean.getCorporationCode().equals(corporationCode));
+        Log.e("Amarneh","FBCat.addBeanToList,name="+bean.getName()+",catsCodes="+catsCodes);
+        if (catsCodes==null) return true;
+        for (String code : Corporation.getCatsFromString(catsCodes)){
+            if (bean.getCode().equals(code)) return true;
+        }
+        return false;
     }
 
-    @Override
-    protected Query orderBy(DatabaseReference db) {
-//        return super.orderBy(db);
-        Log.e("Amarneh","FBCat.orderBy,corporationCode="+corporationCode);
-        return db.orderByChild("corporationCode").equalTo(corporationCode);
-    }
-
-    public FBCat(Context context, String corporationCode){
+    public FBCat(Context context, String catsCodes){
         super(Cat.class,context,false);
-        this.corporationCode = corporationCode;
+        this.catsCodes= catsCodes;
         retrieve();
     }
 }

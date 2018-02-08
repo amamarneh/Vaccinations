@@ -11,7 +11,7 @@ import com.amarnehsoft.vaccinations.R
 import com.amarnehsoft.vaccinations.fragments.KindergartensListFragment
 import com.amarnehsoft.vaccinations.interfaces.SearchViewExpandListener
 
-class KindergartnsListActivity : AppCompatActivity(){
+class KindergartnsListActivity : Base(){
 
     lateinit var mFragment:KindergartensListFragment
 

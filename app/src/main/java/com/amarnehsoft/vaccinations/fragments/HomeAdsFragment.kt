@@ -44,11 +44,15 @@ class HomeAdsFragment : Fragment() {
         val v = inflater!!.inflate(R.layout.fragment_home_ads, container, false)
         recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView);
         recyclerView.layoutManager = LinearLayoutManager(context)
+        return v
+    }
+
+    override fun onResume() {
+        super.onResume()
         helper = FBAd(context)
         adapter = Adapter(context, helper.list as List<Ad>)
         recyclerView.adapter = adapter
         helper.setAdapter(adapter)
-        return v
     }
 
     override fun onAttach(context: Context?) {

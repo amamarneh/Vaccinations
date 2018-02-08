@@ -107,7 +107,7 @@ public class VacinationDB<B extends Vaccination,T extends VacinationTable> exten
         List<B> list = new ArrayList<>();
         String selection = T.Cols.AGE + " >= ?";
         String[] args = new String[]{age+""};
-        String orderBy = T.Cols.AGE;
+        String orderBy = orderBy();
         String limitStr = ""+limit;
         if (limit==0) limitStr=null;
 
@@ -161,6 +161,7 @@ public class VacinationDB<B extends Vaccination,T extends VacinationTable> exten
         bean.setNewAge(rs.getInt(rs.getColumnIndex(T.Cols.ARG_NEW_AGE)));
         bean.setManuallySet(rs.getInt(rs.getColumnIndex(T.Cols.ARG_MANUALLY_SET)));
         bean.setDesc(rs.getString(rs.getColumnIndex(T.Cols.DESC)));
+        bean.setType(rs.getInt(rs.getColumnIndex(T.Cols.TYPE)));
     }
 
     public int updateBean(B bean)
@@ -198,6 +199,7 @@ public class VacinationDB<B extends Vaccination,T extends VacinationTable> exten
         values.put(T.Cols.ARG_NEW_AGE,bean.getNewAge());
         values.put(T.Cols.ARG_MANUALLY_SET,bean.getManuallySet());
         values.put(T.Cols.DESC,bean.getDesc());
+        values.put(T.Cols.TYPE,bean.getType());
     }
 
 
@@ -219,4 +221,8 @@ public class VacinationDB<B extends Vaccination,T extends VacinationTable> exten
         }
     }
 
+    @Override
+    protected String orderBy() {
+        return T.Cols.AGE;
+    }
 }

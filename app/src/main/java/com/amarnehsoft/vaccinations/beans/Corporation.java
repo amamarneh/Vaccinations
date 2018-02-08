@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 public class Corporation implements Parcelable{
-    private String code,name,address;
+    private String code,name,address,contact,desc,img,cats, catCodes;
 
     public Corporation() {
     }
@@ -17,6 +17,11 @@ public class Corporation implements Parcelable{
         code = in.readString();
         name = in.readString();
         address = in.readString();
+        contact = in.readString();
+        desc=in.readString();
+        img=in.readString();
+        cats=in.readString();
+        catCodes =in.readString();
     }
 
     public static final Creator<Corporation> CREATOR = new Creator<Corporation>() {
@@ -55,6 +60,46 @@ public class Corporation implements Parcelable{
         this.address = address;
     }
 
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getCats() {
+        return cats;
+    }
+
+    public void setCats(String cats) {
+        this.cats = cats;
+    }
+
+    public String getCatCodes() {
+        return catCodes;
+    }
+
+    public void setCatCodes(String catCodes) {
+        this.catCodes = catCodes;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -65,5 +110,17 @@ public class Corporation implements Parcelable{
         dest.writeString(code);
         dest.writeString(name);
         dest.writeString(address);
+        dest.writeString(contact);
+        dest.writeString(desc);
+        dest.writeString(img);
+        dest.writeString(cats);
+        dest.writeString(catCodes);
+    }
+
+
+
+
+    public static String[] getCatsFromString(String catsCodes){
+        return catsCodes.split(",");
     }
 }

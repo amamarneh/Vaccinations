@@ -27,6 +27,7 @@ class StocksListFragment : Fragment() {
     private var mListener: OnFragmentInteractionListener? = null
     lateinit var recyclerView: RecyclerView
     var catCode : String=""
+    var corporationCode:String=""
     internal lateinit var helper: FBStocks
     internal lateinit var adapter: Adapter
 
@@ -34,6 +35,7 @@ class StocksListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             catCode = arguments!!.getString("catCode")
+            corporationCode=arguments!!.getString("corporationCode");
         }
     }
 
@@ -41,7 +43,7 @@ class StocksListFragment : Fragment() {
         val v = inflater!!.inflate(R.layout.fragment_stocks_list, container, false)
         recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView);
         recyclerView.layoutManager = LinearLayoutManager(context)
-        helper = FBStocks(context,catCode)
+        helper = FBStocks(context,catCode,corporationCode)
         adapter = Adapter(context, helper.list as List<Stock>)
         recyclerView.adapter = adapter
         helper.setAdapter(adapter)
@@ -66,10 +68,11 @@ class StocksListFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(catCode:String): StocksListFragment {
+        fun newInstance(catCode:String,corporationCode:String): StocksListFragment {
             val fragment = StocksListFragment()
             val args = Bundle()
             args.putString("catCode",catCode)
+            args.putString("corporationCode",corporationCode);
             fragment.arguments = args
             return fragment
         }

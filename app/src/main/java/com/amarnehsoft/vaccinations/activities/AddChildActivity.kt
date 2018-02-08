@@ -11,7 +11,7 @@ import com.amarnehsoft.vaccinations.R
 import com.amarnehsoft.vaccinations.beans.Child
 import com.amarnehsoft.vaccinations.fragments.AddChildFragment
 
-class AddChildActivity : AppCompatActivity(),AddChildFragment.OnFragmentInteractionListener {
+class AddChildActivity : Base(),AddChildFragment.OnFragmentInteractionListener {
     override fun afterSaved(child: Child?) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         val i = Intent()

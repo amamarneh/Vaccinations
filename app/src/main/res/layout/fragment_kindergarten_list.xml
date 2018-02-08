@@ -2,9 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context="com.amarnehsoft.vaccinations.fragments.HomeVaccinationsFragment">
 
+    <EditText
+        android:id="@+id/txtAddress"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border_flat"
+        android:padding="5dp"
+        android:hint="@string/searchAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="5dp"
         android:id="@+id/recyclerView"
         android:nestedScrollingEnabled="false"
         android:layout_width="match_parent"

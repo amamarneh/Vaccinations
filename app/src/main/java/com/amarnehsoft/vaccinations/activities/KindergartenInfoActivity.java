@@ -9,7 +9,7 @@ import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.beans.Kindergarten;
 import com.amarnehsoft.vaccinations.fragments.KindergartenInfoFragment;
 
-public class KindergartenInfoActivity extends AppCompatActivity implements KindergartenInfoFragment.OnFragmentInteractionListener{
+public class KindergartenInfoActivity extends Base implements KindergartenInfoFragment.OnFragmentInteractionListener{
 
     public static Intent newIntent(Context context, Kindergarten kindergarten){
         Intent intent = new Intent(context,KindergartenInfoActivity.class);

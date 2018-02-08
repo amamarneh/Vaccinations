@@ -8,19 +8,21 @@ import com.amarnehsoft.vaccinations.R
 import com.amarnehsoft.vaccinations.beans.Stock
 import com.amarnehsoft.vaccinations.fragments.StocksListFragment
 
-class StocksListActivity : AppCompatActivity(),StocksListFragment.OnFragmentInteractionListener{
+class StocksListActivity : Base(),StocksListFragment.OnFragmentInteractionListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fragment)
         val catCode = intent.getStringExtra("catCode")
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container,StocksListFragment.newInstance(catCode)).commit()
+        val corporationCode = intent.getStringExtra("corporationCode")
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container,StocksListFragment.newInstance(catCode,corporationCode)).commit()
     }
 
     companion object {
-        fun newIntent(context: Context?,catCode:String): Intent{
+        fun newIntent(context: Context?,catCode:String,corporationCode:String): Intent{
             val intent = Intent(context, StocksListActivity::class.java)
             intent.putExtra("catCode",catCode)
+            intent.putExtra("corporationCode",corporationCode)
             return intent
         }
     }

@@ -4,10 +4,14 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.View;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by jcc on 8/22/2017.
@@ -27,20 +31,22 @@ public class DatePickerFragment extends DialogFragment
         this.mListener = mListener;
     }
 
-    public static DialogFragment newInstance(Calendar calendar, int requestCode){
-        DialogFragment fragment = new DatePickerFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLong(ARG_CALENDAR,calendar.getTimeInMillis());
-        bundle.putInt(ARG_REQ_CODE,requestCode);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-    public static DialogFragment newInstance(Calendar calendar, int requestCode, IDatePickerFragment mListener){
+//    public static DialogFragment newInstance(Calendar calendar, int requestCode){
+//        DialogFragment fragment = new DatePickerFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putLong(ARG_CALENDAR,calendar.getTimeInMillis());
+//        bundle.putInt(ARG_REQ_CODE,requestCode);
+//        fragment.setArguments(bundle);
+//        return fragment;
+//    }
+    public static DialogFragment newInstance(Calendar calendar, int requestCode, IDatePickerFragment mListener,boolean allowOld,boolean allowFuture){
         DatePickerFragment fragment = new DatePickerFragment();
         fragment.setmListener(mListener);
         Bundle bundle = new Bundle();
         bundle.putLong(ARG_CALENDAR,calendar.getTimeInMillis());
         bundle.putInt(ARG_REQ_CODE,requestCode);
+        bundle.putBoolean("allowOld",allowOld);
+        bundle.putBoolean("allowFuture",allowFuture);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -58,7 +64,19 @@ public class DatePickerFragment extends DialogFragment
         mReqCode = getArguments().getInt(ARG_REQ_CODE);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        DatePickerDialog a = new DatePickerDialog(getActivity(), this, year, month, day);
+        boolean allowOld = getArguments().getBoolean("allowOld");
+        if (!allowOld)
+            a.getDatePicker().setMinDate(System.currentTimeMillis());
+        boolean allowFuture = getArguments().getBoolean("allowFuture");
+        if (!allowFuture)
+            a.getDatePicker().setMaxDate(System.currentTimeMillis());
+        return a;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

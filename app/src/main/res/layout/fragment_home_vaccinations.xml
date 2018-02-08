@@ -2,7 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context="com.amarnehsoft.vaccinations.fragments.HomeVaccinationsFragment">
+
+    <TextView
+        android:id="@+id/txtName"
+        android:padding="0dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="normal"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:text="@string/vaccinationsAndDatesForYourChildrens"
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

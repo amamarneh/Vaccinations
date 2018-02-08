@@ -15,7 +15,7 @@ import com.amarnehsoft.vaccinations.fragments.dialogs.DatePickerFragment
 import com.amarnehsoft.vaccinations.utils.DateUtils
 import java.util.*
 
-class VaccinationActivity : AppCompatActivity(),DatePickerFragment.IDatePickerFragment {
+class VaccinationActivity : Base(),DatePickerFragment.IDatePickerFragment {
 
     override fun onDateSet(reqCode: Int, year: Int, month: Int, day: Int) {
         val dat = DateUtils.getDate(year,month,day)
@@ -95,7 +95,7 @@ class VaccinationActivity : AppCompatActivity(),DatePickerFragment.IDatePickerFr
             val d = DateUtils.incrementDateByDays(diff)
             val c = Calendar.getInstance()
             c.time=d
-            DatePickerFragment.newInstance(c,1,this).show(supportFragmentManager,DatePickerFragment.TAG)
+            DatePickerFragment.newInstance(c,1,this,false,true).show(supportFragmentManager,DatePickerFragment.TAG)
         })
     }
 

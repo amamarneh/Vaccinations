@@ -32,29 +32,55 @@ public class NotifyVaccinationsController {
             }else {
                 diff = vaccination.getNewAge() - DateUtils.getAgeInDays(c.getBirthDate());
             }
-            if (diff < min ){
+            if (diff < min  && diff >= 0){
                 min = diff;
                 choosenChild = c;
             }
         }
 
         Log.e("Amarneh","totify method:: min="+min);
-        if (min != 1000){
+        if (min != 1000 && min >= 0){
             if (choosenChild != null){
                 int r = NumberUtils.getRandomInt();
                 if (vaccination.getNotificationId()==0){
                     vaccination.setNotificationId(r);
                     VacinationDB.getInstance(context).saveBean(vaccination);
                 }
-                long time = min * 24 * 60 * 60 * 1000;
-                Calendar calendar = DateUtils.getCalendarFromDate(new Date(time));
+                int seconds = min * 24 * 60 * 60;
+                Calendar calendar = DateUtils.getCalendarFromDate(DateUtils.incrementDateBySeconds(seconds));
                 calendar.set(Calendar.HOUR_OF_DAY,12);
                 calendar.set(Calendar.MINUTE,0);
                 calendar.set(Calendar.SECOND,0);
 
-                AlarmsController.addFixedAlarm(context,calendar.getTimeInMillis(),vaccination.getNotificationId(),vaccination,choosenChild);
+                if (calendar.getTime().getTime() > new Date().getTime()){
+                    AlarmsController.addFixedAlarm(context,calendar.getTimeInMillis(),vaccination.getNotificationId(),vaccination,choosenChild);
+                }
             }
         }
     }
+
+
+    public static void notifyDate(Context context,Vaccination vaccination,Child child){
+            int min = vaccination.getAge() - DateUtils.getAgeInDays(child.getBirthDate());
+
+        if (min >= 0){
+            if (true){
+                if (vaccination.getNotificationId()==0){
+                    vaccination.setNotificationId(NumberUtils.getRandomInt());
+                    VacinationDB.getInstance(context).saveBean(vaccination);
+                }
+                int seconds = min * 24 * 60 * 60;
+                Calendar calendar = DateUtils.getCalendarFromDate(DateUtils.incrementDateBySeconds(seconds));
+                calendar.set(Calendar.HOUR_OF_DAY,12);
+                calendar.set(Calendar.MINUTE,0);
+                calendar.set(Calendar.SECOND,0);
+
+                if (calendar.getTime().getTime() > new Date().getTime()){
+                    AlarmsController.addFixedAlarm(context,calendar.getTimeInMillis(),vaccination.getNotificationId(),vaccination,child);
+                }
+            }
+        }
+    }
+
 
 }

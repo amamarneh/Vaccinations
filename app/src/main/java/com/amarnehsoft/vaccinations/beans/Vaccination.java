@@ -8,11 +8,15 @@ import android.os.Parcelable;
  */
 
 public class Vaccination implements Parcelable{
+    public static int TYPE_VACCINATION=0;
+    public static int TYPE_DATE=1;
+
     private String code,name,desc;
     private int age;//in day
     private int manuallySet; //0 or 1
     private int newAge;
     private int notificationId;
+    private int type;
 
     public Vaccination(){}
 
@@ -24,6 +28,7 @@ public class Vaccination implements Parcelable{
         newAge = in.readInt();
         manuallySet = in.readInt();
         notificationId = in.readInt();
+        type = in.readInt();
     }
 
     public static final Creator<Vaccination> CREATOR = new Creator<Vaccination>() {
@@ -94,6 +99,14 @@ public class Vaccination implements Parcelable{
         this.desc = desc;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -108,5 +121,6 @@ public class Vaccination implements Parcelable{
         parcel.writeInt(newAge);
         parcel.writeInt(manuallySet);
         parcel.writeInt(notificationId);
+        parcel.writeInt(type);
     }
 }

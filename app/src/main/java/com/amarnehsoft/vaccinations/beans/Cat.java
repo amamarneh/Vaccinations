@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 public class Cat implements Parcelable{
-    private String code,name,corporationCode,img;
+    private String code,name,img;
 
     public Cat() {
     }
@@ -37,19 +37,10 @@ public class Cat implements Parcelable{
         this.img = img;
     }
 
-    public String getCorporationCode() {
-        return corporationCode;
-    }
-
-    public void setCorporationCode(String corporationCode) {
-        this.corporationCode = corporationCode;
-    }
-
     protected Cat(Parcel in) {
         code = in.readString();
         name = in.readString();
         img = in.readString();
-        corporationCode = in.readString();
     }
 
     public static final Creator<Cat> CREATOR = new Creator<Cat>() {
@@ -74,6 +65,5 @@ public class Cat implements Parcelable{
         dest.writeString(code);
         dest.writeString(name);
         dest.writeString(img);
-        dest.writeString(corporationCode);
     }
 }

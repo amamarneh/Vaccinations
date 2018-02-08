@@ -6,11 +6,14 @@ import android.provider.SyncStateContract
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -34,6 +37,9 @@ import com.bumptech.glide.request.RequestOptions
 class KindergartensListFragment : Fragment() {
 //    private var mListener : OnFragmentInteractionListener? = null
     lateinit var recyclerView: RecyclerView
+    lateinit var txtAddress: EditText
+    lateinit var mQuery:String
+    lateinit var mAddress:String
 
     internal lateinit var helper: FBKindergarten
     internal lateinit var adapter: Adapter
@@ -42,20 +48,43 @@ class KindergartensListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
         }
+
+        mQuery = ""
+        mAddress=""
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater!!.inflate(R.layout.fragment_kindergarten_list, container, false)
-        recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView);
+        recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
+        txtAddress = v.findViewById<EditText>(R.id.txtAddress)
+
         recyclerView.layoutManager = LinearLayoutManager(context)
         helper = FBKindergarten(context)
         adapter = Adapter(context, helper.list as List<Kindergarten>)
         recyclerView.adapter = adapter
         helper.setAdapter(adapter)
+
+
+        txtAddress.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                mAddress = s.toString()
+                search(mQuery)
+            }
+        })
+
         return v
     }
 
     fun search(s:String){
+        mQuery = s
         var res = ArrayList<Kindergarten>()
         if (TextUtils.isEmpty(s))
             res = helper.list as ArrayList<Kindergarten>
@@ -67,7 +96,16 @@ class KindergartensListFragment : Fragment() {
             }
         }
 
-        adapter.setList(res)
+        var list2 =  ArrayList<Kindergarten>()
+        if (!TextUtils.isEmpty(mAddress)){
+            for (k in res){
+                if (StringsUtils.like(k.address,"%"+mAddress+"%"))
+                    list2.add(k)
+            }
+        }else{
+            list2 = res;
+        }
+        adapter.setList(list2)
         adapter.notifyDataSetChanged()
     }
 

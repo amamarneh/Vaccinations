@@ -14,4 +14,10 @@
         app:showAsAction="ifRoom"
         android:title="@string/delete"/>
 
+    <item
+        android:id="@+id/menu_add"
+        android:icon="@drawable/ic_add_white_24dp"
+        app:showAsAction="ifRoom"
+        android:title="@string/add"/>
+
 </menu>

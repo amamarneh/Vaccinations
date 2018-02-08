@@ -21,7 +21,7 @@ import com.amarnehsoft.vaccinations.fragments.dialogs.ConfirmDialog
 import com.amarnehsoft.vaccinations.utils.DateUtils
 import java.util.*
 
-class ChildActivity : AppCompatActivity() {
+class ChildActivity : Base() {
     var txtName : TextView? = null
     var txtAge : TextView? = null
     var txtBirthDate : TextView? = null
@@ -42,9 +42,13 @@ class ChildActivity : AppCompatActivity() {
         recyclerView?.layoutManager=LinearLayoutManager(this)
         val adapter = Adapter(this,ArrayList())
         recyclerView?.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
         var helper: FBVacinations
         helper = object : FBVacinations(this,true){
-            override fun afterChildAdded(bean: Any?,s:String?) {
+            override fun afterChildAdded(bean: Vaccination?,s:String?) {
                 super.afterChildAdded(bean,s)
                 try {
                     recyclerView!!.adapter = Adapter(this@ChildActivity, VacinationDB.getInstance(this@ChildActivity).getUpCommingVaccinationsForAge(DateUtils.getAgeInDays(child?.birthDate)) as List<Vaccination>)
@@ -54,7 +58,6 @@ class ChildActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     fun updateUI(child: Child?){
@@ -65,33 +68,36 @@ class ChildActivity : AppCompatActivity() {
         txtBirthDate?.text = DateUtils.formatDateWithoutTime(child?.birthDate)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_child, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_edit){
-            startActivityForResult(AddChildActivity.newIntent(this,child),1)
+        override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+            val inflater = menuInflater
+            inflater.inflate(R.menu.menu_child, menu)
+            return super.onCreateOptionsMenu(menu)
         }
-        if(item?.itemId == R.id.menu_delete){
-            val o = object : ConfirmDialog(this){
-                override fun title(): String {
-                    return getString(R.string.deleteChild)
-                }
 
-                override fun msg(): String {
-                    return getString(R.string.areYouSureYouWantToDeleteThisChild)
-                }
+        override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+            if (item?.itemId == R.id.menu_edit){
+                startActivityForResult(AddChildActivity.newIntent(this,child),1)
+            }
+            if (item?.itemId == R.id.menu_add){
+                startActivityForResult(AddVaccinationActivity.newIntent(this, null,child),2)
+            }
+            if(item?.itemId == R.id.menu_delete){
+                val o = object : ConfirmDialog(this){
+                    override fun title(): String {
+                        return getString(R.string.deleteChild)
+                    }
 
-                override fun onPositive() {
-                    ChildDB.getInstance(this@ChildActivity).deleteBean(child?.code)
-                    finish()
-                }
+                    override fun msg(): String {
+                        return getString(R.string.areYouSureYouWantToDeleteThisChild)
+                    }
 
-            }.create().show()
-        }
+                    override fun onPositive() {
+                        ChildDB.getInstance(this@ChildActivity).deleteBean(child?.code)
+                        finish()
+                    }
+
+                }.create().show()
+            }
 
         return super.onOptionsItemSelected(item)
     }
@@ -113,7 +119,12 @@ class ChildActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val bean = beans[position]
-            holder.itemView.setOnClickListener { startActivity(VaccinationActivity.newIntent(this@ChildActivity,bean, child)) }
+            holder.itemView.setOnClickListener {
+                if (bean.type == Vaccination.TYPE_VACCINATION)
+                    startActivity(VaccinationActivity.newIntent(this@ChildActivity,bean, child))
+                else
+                    startActivity(AddVaccinationActivity.newIntent(this@ChildActivity,bean,child))
+            }
             holder.txtName.text = child?.name
             holder.txtVaccinationName.text = bean.name
             val diff = bean.age - DateUtils.getAgeInDays(child?.birthDate)
@@ -127,6 +138,12 @@ class ChildActivity : AppCompatActivity() {
             }
             val d = DateUtils.incrementDateByDays(Date(),diff)
             holder.txtDate.text = DateUtils.formatDateWithoutTime(d)
+
+            if (bean.type == Vaccination.TYPE_VACCINATION){
+                holder.img.setImageDrawable(resources.getDrawable(R.drawable.vaccination2))
+            }else{
+                holder.img.setImageDrawable(resources.getDrawable(R.drawable.ic_date_range_black_36dp))
+            }
         }
 
         override fun getItemCount(): Int {
