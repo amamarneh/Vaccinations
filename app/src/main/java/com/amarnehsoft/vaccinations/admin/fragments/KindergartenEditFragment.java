@@ -27,6 +27,7 @@ import com.amarnehsoft.vaccinations.fragments.dialogs.DatePickerFragment;
 import com.amarnehsoft.vaccinations.utils.DateUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,10 +166,10 @@ public class KindergartenEditFragment extends Fragment {
             // TODO: 1/26/2018 get extra
             setListExtra(null);
 
-
-
-
-
+        }else{
+            // new
+            mBean = new Kindergarten();
+            mBean.setCode(FirebaseDatabase.getInstance().getReference().push().getKey());
         }
     }
 

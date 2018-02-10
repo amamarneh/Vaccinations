@@ -28,4 +28,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/btnCat"
+        android:text="@string/category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnCorporations"
+        android:text="@string/corporations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

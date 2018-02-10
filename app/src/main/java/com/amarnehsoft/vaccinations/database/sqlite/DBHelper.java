@@ -60,12 +60,15 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
     {
         db.execSQL(ChildTable._CREATE_TABLE);
         db.execSQL(VacinationTable._CREATE_TABLE);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-
+        db.execSQL("drop table if EXISTS " + ChildTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + VacinationTable.TBL_NAME);
+        onCreate(db);
     }
 
     public int getNoOfBeans(){

@@ -8,6 +8,7 @@ import com.amarnehsoft.vaccinations.beans.Cat;
 import com.amarnehsoft.vaccinations.beans.Corporation;
 import com.amarnehsoft.vaccinations.utils.StringsUtils;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 /**
@@ -24,6 +25,9 @@ public class FBCat extends FirebaseHelper<Cat>{
                 return "cats";
         }
         return null;
+    }
+    public static DatabaseReference getDataRef(){
+        return FirebaseDatabase.getInstance().getReference().child("cats");
     }
 
     @Override
@@ -46,4 +50,10 @@ public class FBCat extends FirebaseHelper<Cat>{
         this.catsCodes= catsCodes;
         retrieve();
     }
+    public FBCat(Context context){
+        super(Cat.class,context,false);
+    }
+
+
+
 }

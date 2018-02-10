@@ -39,7 +39,7 @@ public class AddEditKindergartenActivity extends EmptyActivity<Kindergarten> {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save, menu);
+        getMenuInflater().inflate(R.menu.menu_save_delete, menu);
         return true;
     }
 
@@ -51,7 +51,20 @@ public class AddEditKindergartenActivity extends EmptyActivity<Kindergarten> {
             save();
             return true;
         }
+        if (id == R.id.action_delete) {
+            delete();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void delete() {
+        if(mBean != null){
+            FBKindergarten fbKindergarten = new FBKindergarten(AddEditKindergartenActivity.this);
+            fbKindergarten.delete(mBean.getCode());
+            finish();
+        }
     }
 
     private void save() {

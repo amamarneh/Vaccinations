@@ -15,10 +15,12 @@ class SplashActivity : AppCompatActivity() {
 
         LanguageController.arabic(this)
 
-        if (VersionConstants.CURRENT_VERSION == VersionConstants.VERSION_USER)
-            startActivity(Intent(this, HomeActivity::class.java))
-        else
-            startActivity(Intent(this,DashboardActivity::class.java))
+//        if (VersionConstants.CURRENT_VERSION == VersionConstants.VERSION_USER)
+//            startActivity(Intent(this, HomeActivity::class.java))
+//        else
+//            startActivity(Intent(this,DashboardActivity::class.java))
+
+            startActivity(Intent(this, MainActivity::class.java))
 
         finish()
     }

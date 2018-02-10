@@ -7,6 +7,7 @@ import com.amarnehsoft.vaccinations.beans.Kindergarten;
 import com.amarnehsoft.vaccinations.beans.Stock;
 import com.amarnehsoft.vaccinations.utils.StringsUtils;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 /**
@@ -30,6 +31,10 @@ public class FBStocks extends FirebaseHelper<Stock>{
                 return "stocks";
         }
         return null;
+    }
+
+    public static DatabaseReference getDataRef(){
+        return FirebaseDatabase.getInstance().getReference().child("stocks");
     }
 
     @Override

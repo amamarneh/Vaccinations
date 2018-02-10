@@ -6,23 +6,25 @@ import android.view.MenuItem;
 
 import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.activities.abstractActivities.EmptyActivity;
-import com.amarnehsoft.vaccinations.beans.Kindergarten;
-import com.amarnehsoft.vaccinations.fragments.KindergartensListFragment;
+import com.amarnehsoft.vaccinations.admin.fragments.CatListFragment;
+import com.amarnehsoft.vaccinations.beans.Cat;
 
 /**
- * Created by alaam on 1/26/2018.
+ * Created by alaam on 2/10/2018.
  */
 
-public class KindergartenListActivity extends EmptyActivity<Kindergarten> {
+public class CatListActivity extends EmptyActivity<Cat> {
     @Override
     protected String getBarTitle() {
-        return "Kindergarten";
+        return "Cats";
     }
+
 
     @Override
     public Fragment getFragment() {
-        return  KindergartensListFragment.Companion.newInstance();
+        return  CatListFragment.newInstance(getIntent().getIntExtra("mode",CatListFragment.MODE_NORMAL));
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -40,9 +42,7 @@ public class KindergartenListActivity extends EmptyActivity<Kindergarten> {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private void add() {
-        startActivity(AddEditKindergartenActivity.newIntent(this,null));
+        startActivity(AddEditCatActivity.newIntent(this,null));
     }
-
 }

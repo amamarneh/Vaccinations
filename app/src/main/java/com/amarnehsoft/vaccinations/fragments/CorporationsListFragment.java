@@ -27,12 +27,17 @@ import com.amarnehsoft.vaccinations.activities.itemDetail.CorporationsDetailActi
 import com.amarnehsoft.vaccinations.adapters.Adapter;
 import com.amarnehsoft.vaccinations.adapters.CatsAdapter;
 import com.amarnehsoft.vaccinations.adapters.Holder;
+import com.amarnehsoft.vaccinations.admin.activities.AddEditCorporationActivity;
+import com.amarnehsoft.vaccinations.admin.fragments.AddEditCorporationFragment;
 import com.amarnehsoft.vaccinations.beans.Cat;
 import com.amarnehsoft.vaccinations.beans.Corporation;
+import com.amarnehsoft.vaccinations.constants.VersionConstants;
 import com.amarnehsoft.vaccinations.database.firebase.FBCat;
 import com.amarnehsoft.vaccinations.database.firebase.FBCorporation;
 import com.amarnehsoft.vaccinations.utils.StringsUtils;
 import com.bumptech.glide.Glide;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,13 +78,18 @@ public class CorporationsListFragment extends Fragment {
         txtAddress=v.findViewById(R.id.txtAddress);
 
         final List<String> list = new ArrayList<>();
+//        final List<Cat> beansList= new ArrayList<>();
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, list);
+        mSpinner.setAdapter(arrayAdapter);
         FBCat fb = new FBCat(getContext(),null){
             @Override
             protected void afterChildAdded(Cat bean, String code) {
                 super.afterChildAdded(bean, code);
+//                beansList.add(bean);
                 list.add(bean.getName());
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, list);
-                mSpinner.setAdapter(arrayAdapter);
+                arrayAdapter.notifyDataSetChanged();
+
                 mCat=null;
                 onQueryTextChanged(mQuery);
             }
@@ -88,6 +98,7 @@ public class CorporationsListFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mCat = mSpinner.getSelectedItem().toString();
+//                mCat = beansList.get(position).getCode();
                 onQueryTextChanged(mQuery);
             }
 
@@ -115,6 +126,8 @@ public class CorporationsListFragment extends Fragment {
             }
         });
         return v;
+
+
     }
 
     @Override
@@ -209,7 +222,12 @@ public class CorporationsListFragment extends Fragment {
         @Override
         public void onClicked(View v) {
             Log.e("Amarneh","onClicked,mItem="+ (mItem==null));
+            if(VersionConstants.CURRENT_VERSION == VersionConstants.VERSION_USER){
+
             startActivity(CorporationInfoActivity.newIntent(getContext(),mItem));
+            }else{
+                startActivity(AddEditCorporationActivity.newIntent(getContext(),mItem));
+            }
         }
 
         @Override

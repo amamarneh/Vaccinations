@@ -76,4 +76,5 @@
     <string name="areYouSureYouWantToDeleteThisDate">هل انت متأكد من حذف الموعد ؟</string>
     <string name="vaccinationsAndDatesForYourChildrens">تطعيمات ومواعيد لأطفالك</string>
     <string name="language">اللغة</string>
+    <string name="changeImage">Change Image</string>
 </resources>

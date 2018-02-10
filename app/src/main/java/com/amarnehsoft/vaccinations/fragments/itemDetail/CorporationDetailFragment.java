@@ -105,4 +105,9 @@ public class CorporationDetailFragment extends ItemDetailFragment<Corporation> i
         stocksRecyclerView.setAdapter(adapter);
         fbStocks.setAdapter(adapter);
     }
+
+    @Override
+    public void onLongClicked(String catCode) {
+        //d o nothing
+    }
 }

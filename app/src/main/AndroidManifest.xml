@@ -3,6 +3,7 @@
     package="com.amarnehsoft.vaccinations">
 
     <application
+        android:name=".FireApp"
         android:allowBackup="true"
         android:icon="@drawable/baby"
         android:label="@string/app_name"
@@ -46,7 +47,13 @@
         <activity android:name=".admin.activities.AddEditKindergartenActivity" />
         <activity android:name=".activities.CorporationInfoActivity" />
         <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.AddVaccinationActivity"></activity>
+        <activity android:name=".activities.AddVaccinationActivity" />
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".admin.activities.AddEditCatActivity" />
+        <activity android:name=".admin.activities.CatListActivity" />
+        <activity android:name=".admin.activities.AddEditCorporationActivity" />
+        <activity android:name=".admin.activities.AddEditStockActivity" />
+        <activity android:name=".admin.activities.StocksListActivity"></activity>
     </application>
 
 </manifest>

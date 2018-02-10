@@ -32,7 +32,7 @@ public class CatsAdapter extends Adapter<Cat> {
         return new Holder(v);
     }
 
-    class Holder extends com.amarnehsoft.vaccinations.adapters.Holder<Cat> {
+    class Holder extends com.amarnehsoft.vaccinations.adapters.Holder<Cat> implements View.OnLongClickListener {
         private TextView txtName;
         private ImageView img;
 
@@ -40,6 +40,8 @@ public class CatsAdapter extends Adapter<Cat> {
             super(itemView);
             txtName=itemView.findViewById(R.id.txtName);
             img=itemView.findViewById(R.id.img);
+
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -55,9 +57,16 @@ public class CatsAdapter extends Adapter<Cat> {
                 Glide.with(itemView).load(mItem.getImg()).into(img);
             }
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            listener.onLongClicked(mItem.getCode());
+            return true;
+        }
     }
 
     public interface Listener{
         void onCatClicked(String catCode);
+        void onLongClicked(String catCode);
     }
 }

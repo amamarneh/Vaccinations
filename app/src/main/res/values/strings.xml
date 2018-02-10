@@ -79,4 +79,5 @@
     <string name="areYouSureYouWantToDeleteThisDate">Are you sure you want to delete this date ?</string>
     <string name="vaccinationsAndDatesForYourChildrens">Vaccinations and dates for your children</string>
     <string name="language">Language</string>
+    <string name="changeImage">Change Image</string>
 </resources>
