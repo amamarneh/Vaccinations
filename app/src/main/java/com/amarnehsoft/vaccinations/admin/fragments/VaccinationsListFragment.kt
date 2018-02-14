@@ -20,8 +20,7 @@ import com.amarnehsoft.vaccinations.beans.Ad
 import com.amarnehsoft.vaccinations.beans.Vaccination
 import com.amarnehsoft.vaccinations.beans.custome.VacinationForChild
 import com.amarnehsoft.vaccinations.controllers.VaccinationsForChildrenController
-import com.amarnehsoft.vaccinations.database.firebase.FBAd
-import com.amarnehsoft.vaccinations.database.firebase.FBVacinations
+import com.amarnehsoft.vaccinations.database.db2.DBVaccination
 import com.amarnehsoft.vaccinations.database.sqlite.ChildDB
 import com.amarnehsoft.vaccinations.database.sqlite.VacinationDB
 import com.amarnehsoft.vaccinations.fragments.HomeAdsFragment
@@ -36,7 +35,7 @@ class VaccinationsListFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var btnAdd:Button
 
-    internal lateinit var helper: FBVacinations
+//    internal lateinit var helper: FBVacinations
     internal lateinit var adapter: Adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,10 +56,10 @@ class VaccinationsListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        helper = FBVacinations(context,true)
-        adapter = Adapter(context, helper.list as List<Vaccination>)
+//        helper = FBVacinations(context,true)
+        adapter = Adapter(context, DBVaccination.getInstance(context).all)
         recyclerView.adapter = adapter
-        helper.setAdapter(adapter)
+//        helper.setAdapter(adapter)
     }
 
     override fun onAttach(context: Context?) {

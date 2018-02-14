@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:inputType="number"
             android:layout_height="wrap_content"
-            android:hint="@string/forAge" />
+            android:hint="@string/ageInDays" />
     </android.support.design.widget.TextInputLayout>
 
     <Button

@@ -1,6 +1,7 @@
 package com.amarnehsoft.vaccinations.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -12,11 +13,12 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import com.amarnehsoft.vaccinations.R
+import com.amarnehsoft.vaccinations.activities.CorporationInfoActivity
+import com.amarnehsoft.vaccinations.admin.activities.AddEditAdsActivity
 import com.amarnehsoft.vaccinations.beans.Ad
-import com.amarnehsoft.vaccinations.beans.custome.VacinationForChild
-import com.amarnehsoft.vaccinations.controllers.VaccinationsForChildrenController
+import com.amarnehsoft.vaccinations.constants.VersionConstants
+import com.amarnehsoft.vaccinations.database.db2.DBAd
 import com.amarnehsoft.vaccinations.database.firebase.FBAd
-import com.amarnehsoft.vaccinations.database.firebase.FBVacinations
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -29,7 +31,7 @@ class HomeAdsFragment : Fragment() {
     private var mListener: OnFragmentInteractionListener? = null
     lateinit var recyclerView: RecyclerView
 
-    internal lateinit var helper: FBAd
+//    internal lateinit var helper: FBAd
     internal lateinit var adapter: Adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,10 +51,10 @@ class HomeAdsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        helper = FBAd(context)
-        adapter = Adapter(context, helper.list as List<Ad>)
+//        helper = FBAd(context)
+        adapter = Adapter(context, DBAd.getInstance(context).all)
         recyclerView.adapter = adapter
-        helper.setAdapter(adapter)
+//        helper.setAdapter(adapter)
     }
 
     override fun onAttach(context: Context?) {
@@ -92,7 +94,13 @@ class HomeAdsFragment : Fragment() {
             val bean = beans[position]
             holder.itemView.setOnClickListener {  }
             holder.txtContent.text = bean.content
-
+            if(VersionConstants.CURRENT_VERSION == VersionConstants.VERSION_ADMIN){
+                holder.itemView.setOnClickListener({
+                    val i = Intent(context,AddEditAdsActivity::class.java)
+                    i.putExtra("bean",bean)
+                    startActivity(i)
+                })
+            }
             Glide.with(this@HomeAdsFragment).load(bean?.img).into(holder.img)
         }
 

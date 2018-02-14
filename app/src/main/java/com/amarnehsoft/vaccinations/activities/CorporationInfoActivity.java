@@ -48,6 +48,7 @@ public class CorporationInfoActivity extends Base{
             txtContact.setText(mBean.getContact());
             txtAddress.setText(mBean.getAddress());
 
+
             if(mBean.getImg() != null){
                 Glide.with(this).load(mBean.getImg()).into(img);
             }

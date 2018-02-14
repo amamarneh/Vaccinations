@@ -1,5 +1,6 @@
 package com.amarnehsoft.vaccinations.activities;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,13 +11,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.beans.Child;
+import com.amarnehsoft.vaccinations.beans.VacChild;
 import com.amarnehsoft.vaccinations.beans.Vaccination;
+import com.amarnehsoft.vaccinations.controllers.AlarmsController;
 import com.amarnehsoft.vaccinations.controllers.NotifyVaccinationsController;
 import com.amarnehsoft.vaccinations.database.sqlite.ChildDB;
+import com.amarnehsoft.vaccinations.database.sqlite.DBVacChild;
 import com.amarnehsoft.vaccinations.database.sqlite.VacinationDB;
 import com.amarnehsoft.vaccinations.fragments.dialogs.ConfirmDialog;
 import com.amarnehsoft.vaccinations.fragments.dialogs.DatePickerFragment;
@@ -26,7 +31,7 @@ import com.amarnehsoft.vaccinations.utils.NumberUtils;
 import java.util.Date;
 import java.util.UUID;
 
-public class AddVaccinationActivity extends Base implements DatePickerFragment.IDatePickerFragment {
+public class AddVaccinationActivity extends Base implements DatePickerFragment.IDatePickerFragment ,TimePickerDialog.OnTimeSetListener{
 
     private EditText txtTitle;
     private Button btnChange;
@@ -61,7 +66,8 @@ public class AddVaccinationActivity extends Base implements DatePickerFragment.I
 
         if (mVaccination != null){
             txtTitle.setText(mVaccination.getName());
-            selectedDate = DateUtils.incrementDateByDays(mVaccination.getAge()- DateUtils.getAgeInDays(mChild.getBirthDate()));
+//            selectedDate = DateUtils.incrementDateByDays(mVaccination.getAge()- DateUtils.getAgeInDays(mChild.getBirthDate()));
+            selectedDate = mVaccination.getDate();
             txtDate.setText(DateUtils.formatDateWithoutTime(selectedDate));
         }
 
@@ -71,6 +77,8 @@ public class AddVaccinationActivity extends Base implements DatePickerFragment.I
                 DatePickerFragment.newInstance(DateUtils.getCalendarFromDate(DateUtils.incrementDateByDays(1)),1,AddVaccinationActivity.this,false,true).show(getSupportFragmentManager(),DatePickerFragment.TAG);
             }
         });
+
+        setTitle(getString(R.string.dateForYourChild));
     }
 
     @Override
@@ -99,8 +107,20 @@ public class AddVaccinationActivity extends Base implements DatePickerFragment.I
                 }
                 mVaccination.setName(txtTitle.getText().toString());
                 mVaccination.setAge(DateUtils.getDiffDays(selectedDate, new Date()) + DateUtils.getAgeInDays(mChild.getBirthDate()));
-                NotifyVaccinationsController.notifyDate(this, mVaccination, mChild);
+                mVaccination.setDate(selectedDate);
+
+
+                VacChild vacChild = new VacChild();
+                vacChild.setVacCode(mVaccination.getCode());
+                vacChild.setChildCode(mChild.getCode());
+                vacChild.setDate(selectedDate);
+                vacChild.setManualSet(1);
+
+                DBVacChild.getInstance(this).addVacChild(vacChild);
+//                NotifyVaccinationsController.notifyDate(this, mVaccination, mChild);
                 VacinationDB.getInstance(this).saveBean(mVaccination);
+
+                AlarmsController.addFixedAlarm(this,vacChild,0,0,false);
                 finish();
             }
         }
@@ -129,6 +149,13 @@ public class AddVaccinationActivity extends Base implements DatePickerFragment.I
     @Override
     public void onDateSet(int reqCode, int year, int month, int day) {
         selectedDate = DateUtils.getDate(year,month,day);
-        txtDate.setText(DateUtils.formatDateWithoutTime(selectedDate));
+        new TimePickerDialog(this,this,1,1,false).show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        selectedDate.setMinutes(minute);
+        selectedDate.setHours(hourOfDay);
+        txtDate.setText(DateUtils.formatDate(selectedDate));
     }
 }

@@ -20,7 +20,6 @@ import com.amarnehsoft.vaccinations.controllers.VaccinationsForChildrenControlle
 import com.amarnehsoft.vaccinations.database.firebase.FBAd
 import com.amarnehsoft.vaccinations.database.firebase.FBKindergarten
 import com.amarnehsoft.vaccinations.database.firebase.FBStocks
-import com.amarnehsoft.vaccinations.database.firebase.FBVacinations
 
 
 class StocksListFragment : Fragment() {

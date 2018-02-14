@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.beans.Cat;
 import com.amarnehsoft.vaccinations.beans.Stock;
+import com.amarnehsoft.vaccinations.database.db2.DBKindergarten;
+import com.amarnehsoft.vaccinations.database.db2.DBStock;
 import com.amarnehsoft.vaccinations.database.firebase.FBCat;
 import com.amarnehsoft.vaccinations.database.firebase.FBStocks;
 import com.bumptech.glide.Glide;
@@ -25,11 +27,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+
+import java.util.UUID;
 
 public class AddEditStockActivity extends AppCompatActivity {
     private TextView txtName,txtDesc,txtPrice;
     private ImageView img;
-    private Button btnSave,btnChangeImage;
+    private Button btnSave,btnChangeImage,btnDelete;
     private Stock mStock;
     private String corporationCode;
     private String catCode;
@@ -45,6 +50,7 @@ public class AddEditStockActivity extends AppCompatActivity {
         txtDesc=findViewById(R.id.txtDesc);
         img = findViewById(R.id.img);
         btnSave = findViewById(R.id.btnSave);
+        btnDelete  = findViewById(R.id.btnDelete);
         btnChangeImage= findViewById(R.id.btnChangeImage);
 
         mStock = getIntent().getParcelableExtra("bean");
@@ -73,6 +79,24 @@ public class AddEditStockActivity extends AppCompatActivity {
                 save();
             }
         });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SweetAlertDialog(AddEditStockActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText(getString(R.string.areYouSure))
+                        .setContentText(getString(R.string.delete))
+                        .setConfirmText(getString(R.string.yes))
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                delete();
+
+                            }
+                        })
+                        .show();
+            }
+        });
 
         btnChangeImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +106,14 @@ public class AddEditStockActivity extends AppCompatActivity {
         });
     }
 
+    private void delete() {
+        if(mStock != null){
+
+        DBStock.getInstance(this).deleteBean(mStock.getCode());
+        finish();
+        }
+    }
+
     private void prepareBean() {
         mStock.setName(txtName.getText().toString());
         mStock.setDesc(txtDesc.getText().toString());
@@ -89,11 +121,12 @@ public class AddEditStockActivity extends AppCompatActivity {
     }
 
     private void save() {
-        final DatabaseReference mDataStock = FBStocks.getDataRef().child(mStock.getCode());
+//        final DatabaseReference mDataStock = FBStocks.getDataRef().child(mStock.getCode());
         if(mUriImage == null){
 
-            mDataStock.setValue(mStock);
-            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+//            mDataStock.setValue(mStock);
+            DBStock.getInstance(this).saveBean(mStock);
+            Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             intent.putExtra("data",mStock);
             setResult(RESULT_OK,intent);
@@ -103,9 +136,9 @@ public class AddEditStockActivity extends AppCompatActivity {
 
             final ProgressDialog dialog = new ProgressDialog(this);
             dialog.setCancelable(false);
-            dialog.setMessage("Uploading image");
+            dialog.setMessage(getString(R.string.uploadImage));
             dialog.show();
-            StorageReference mReference = FirebaseStorage.getInstance().getReference().child("images");
+            StorageReference mReference = FirebaseStorage.getInstance().getReference().child("images").child(UUID.randomUUID().toString());
             mReference.putFile(mUriImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -114,15 +147,17 @@ public class AddEditStockActivity extends AppCompatActivity {
 
 
                         mStock.setImg(task.getResult().getDownloadUrl().toString());
-                        mDataStock.setValue(mStock);
-                        Toast.makeText(AddEditStockActivity.this, "Done", Toast.LENGTH_SHORT).show();
+//                        mDataStock.setValue(mStock);
+                        DBStock.getInstance(AddEditStockActivity.this).saveBean(mStock);
+
+                        Toast.makeText(AddEditStockActivity.this, getString(R.string.done), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.putExtra("data",mStock);
                         setResult(RESULT_OK,intent);
                         finish();
 
                     }else{
-                        Toast.makeText(AddEditStockActivity.this, "Error| couldn't upload image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditStockActivity.this, getString(R.string.err), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

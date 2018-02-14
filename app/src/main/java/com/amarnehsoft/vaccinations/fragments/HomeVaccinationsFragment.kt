@@ -18,9 +18,7 @@ import com.amarnehsoft.vaccinations.activities.VaccinationActivity
 import com.amarnehsoft.vaccinations.beans.Vaccination
 import com.amarnehsoft.vaccinations.beans.custome.VacinationForChild
 import com.amarnehsoft.vaccinations.controllers.VaccinationsForChildrenController
-import com.amarnehsoft.vaccinations.database.firebase.FBVacinations
-import com.amarnehsoft.vaccinations.database.sqlite.ChildDB
-import com.amarnehsoft.vaccinations.database.sqlite.VacinationDB
+
 import com.amarnehsoft.vaccinations.utils.DateUtils
 import org.w3c.dom.Text
 import java.util.*
@@ -50,23 +48,7 @@ class HomeVaccinationsFragment : Fragment() {
         super.onResume()
         txtName.visibility=View.INVISIBLE
         recyclerView.adapter = Adapter(context, VaccinationsForChildrenController(context).notifications)
-        var helper: FBVacinations
-        helper = object : FBVacinations(context,true){
-            override fun afterChildAdded(bean: Vaccination?,s:String?) {
-                super.afterChildAdded(bean,s)
-                try {
-                    val notifications = VaccinationsForChildrenController(context).notifications
-                    recyclerView!!.adapter = Adapter(context, notifications)
-                    if (notifications.size>0)
-                        txtName.visibility=View.VISIBLE
-                    else
-                        txtName.visibility=View.INVISIBLE
-                }catch (e : Exception){
-                    Log.e("Amarneh","exc>>"+e.message)
-                    e.printStackTrace()
-                }
-            }
-        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -103,6 +85,7 @@ class HomeVaccinationsFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+            txtName.visibility=View.VISIBLE
             val bean = beans[position]
             holder.itemView.setOnClickListener {
                 if (bean.vaccination.type==Vaccination.TYPE_VACCINATION)
@@ -112,18 +95,31 @@ class HomeVaccinationsFragment : Fragment() {
             }
             holder.txtName.text = bean.child.name
             holder.txtVaccinationName.text = bean.vaccination.name
-            val diff = bean.vaccination.age - DateUtils.getAgeInDays(bean.child.birthDate)
-            if (diff == 0){
-                holder.txtRemainingTime.text = getString(R.string.today)
-                holder.txtRemainingTime2.text = getString(R.string.today)
-            }
-            else{
-                holder.txtRemainingTime.text = diff.toString() + " " + getString(R.string.days)
-                holder.txtRemainingTime2.text = diff.toString() + " " + getString(R.string.days)
-            }
-            val d = DateUtils.incrementDateByDays(Date(),diff)
-            holder.txtDate.text = DateUtils.formatDateWithoutTime(d)
+//            val diff = bean.vaccination.age - DateUtils.getAgeInDays(bean.child.birthDate)
+//            if (diff == 0){
+//                holder.txtRemainingTime.text = getString(R.string.today)
+//                holder.txtRemainingTime2.text = getString(R.string.today)
+//            }
+//            else{
+//                holder.txtRemainingTime.text = diff.toString() + " " + getString(R.string.days)
+//                holder.txtRemainingTime2.text = diff.toString() + " " + getString(R.string.days)
+//            }
+//            val d = DateUtils.incrementDateByDays(Date(),diff)
 
+            val dt = bean.date
+
+            val days = DateUtils.getDiffDays(dt, Date())
+
+//            holder.txtRemainingTime2.text = days.toString() + " " + getString(R.string.days)
+            holder.txtDate.text = DateUtils.formatDateWithoutTime(dt)
+
+            holder.txtRemainingTime2.text = DateUtils.getRelative(dt)
+
+
+            Log.d("tag","bean.child.name="+bean.child.name.toString())
+            Log.d("tag","bean.child.birthDate.toString()="+bean.child.birthDate.toString())
+
+            Log.d("tag","dt.toString()="+dt.toString())
             if(bean.vaccination.type==Vaccination.TYPE_VACCINATION){
                 holder.img.setImageDrawable(resources.getDrawable(R.drawable.vaccination2))
             }else{

@@ -3,6 +3,8 @@ package com.amarnehsoft.vaccinations.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by jcc on 1/10/2018.
  */
@@ -11,6 +13,15 @@ public class Kindergarten implements Parcelable{
     private String code,name, address,description,fromTime,toTime,imgUrl, contactInfo;
     private int fromYear,toYear,fromDay,toDay;
 
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
+    }
+
+    private String extra;
     public String getImgUrl() {
         return imgUrl;
     }
@@ -35,6 +46,7 @@ public class Kindergarten implements Parcelable{
         toDay = in.readInt();
         imgUrl = in.readString();
         contactInfo = in.readString();
+        extra = in.readString();
     }
 
     public static final Creator<Kindergarten> CREATOR = new Creator<Kindergarten>() {
@@ -156,5 +168,7 @@ public class Kindergarten implements Parcelable{
         parcel.writeInt(toDay);
         parcel.writeString(imgUrl);
         parcel.writeString(contactInfo);
+        parcel.writeString(extra);
+
     }
 }

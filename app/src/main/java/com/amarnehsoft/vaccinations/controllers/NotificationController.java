@@ -29,12 +29,12 @@ public class NotificationController {
 
     public static Notification getNotification(Context context,String title,String content) {
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.custom_notification);
-        contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher_background);
+        contentView.setImageViewResource(R.id.image, R.mipmap.ic_launcher);
         contentView.setTextViewText(R.id.title, title);
         contentView.setTextViewText(R.id.text, content);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.drawable.baby)
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(content));

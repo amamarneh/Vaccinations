@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.amarnehsoft.vaccinations.database.DBVersions;
 import com.amarnehsoft.vaccinations.database.schema.ChildTable;
+import com.amarnehsoft.vaccinations.database.schema.VacChildTable;
 import com.amarnehsoft.vaccinations.database.schema.VacinationTable;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
     {
         db.execSQL(ChildTable._CREATE_TABLE);
         db.execSQL(VacinationTable._CREATE_TABLE);
+        db.execSQL(VacChildTable._CREATE_TABLE);
 
     }
 
@@ -68,6 +70,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
     {
         db.execSQL("drop table if EXISTS " + ChildTable.TBL_NAME);
         db.execSQL("drop table if EXISTS " + VacinationTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + VacChildTable.TBL_NAME);
         onCreate(db);
     }
 

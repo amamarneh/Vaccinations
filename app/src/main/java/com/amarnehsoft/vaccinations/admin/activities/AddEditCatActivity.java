@@ -12,6 +12,7 @@ import com.amarnehsoft.vaccinations.activities.abstractActivities.EmptyActivity;
 import com.amarnehsoft.vaccinations.admin.fragments.AddEditCatFragment;
 import com.amarnehsoft.vaccinations.beans.Cat;
 import com.amarnehsoft.vaccinations.beans.Kindergarten;
+import com.amarnehsoft.vaccinations.database.db2.DBCats;
 import com.amarnehsoft.vaccinations.database.firebase.FBCat;
 import com.google.firebase.database.DatabaseReference;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
@@ -51,7 +52,19 @@ public class AddEditCatActivity extends EmptyActivity<Cat>{
         int id = item.getItemId();
 
         if (id == R.id.action_delete) {
-            delete();
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText(getString(R.string.areYouSure))
+                    .setContentText(getString(R.string.removeCategory))
+                    .setConfirmText(getString(R.string.yes))
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                            delete();
+
+                        }
+                    })
+                    .show();
             return true;
         }
 
@@ -62,16 +75,18 @@ public class AddEditCatActivity extends EmptyActivity<Cat>{
         if(mBean != null){
 
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Are you sure?")
-                    .setContentText("Delete this Category?")
-                    .setConfirmText("Yes, delete it")
+                    .setTitleText(getString(R.string.areYouSure))
+                    .setContentText(getString(R.string.delete))
+                    .setConfirmText(getString(R.string.yes))
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
                             sDialog.dismissWithAnimation();
-                            DatabaseReference mDataCat = FBCat.getDataRef().child(mBean.getCode());
-                            mDataCat.removeValue();
-                            Toast.makeText(AddEditCatActivity.this, "Done", Toast.LENGTH_SHORT).show();
+//                            DatabaseReference mDataCat = FBCat.getDataRef().child(mBean.getCode());
+//                            mDataCat.removeValue();
+                            DBCats.getInstance(AddEditCatActivity.this).deleteBean(mBean.getCode());
+
+                            Toast.makeText(AddEditCatActivity.this, getString(R.string.done), Toast.LENGTH_SHORT).show();
                             finish();
 
                         }

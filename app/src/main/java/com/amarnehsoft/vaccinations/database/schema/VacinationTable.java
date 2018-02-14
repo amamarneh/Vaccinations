@@ -16,7 +16,8 @@ public class VacinationTable {
             + Cols.AGE + " integer ,"
             + Cols.ARG_NEW_AGE + " integer ,"
             + Cols.TYPE + " integer ,"
-            + Cols.ARG_MANUALLY_SET + " integer "
+            + Cols.ARG_MANUALLY_SET + " integer ,"
+            + Cols.DATE + " integer "
             + ")";
 
     public static final class Cols
@@ -28,5 +29,6 @@ public class VacinationTable {
         public static final String ARG_MANUALLY_SET="BOL_MANUALLY_SET";
         public static final String ARG_NEW_AGE="INT_NEW_AGE";
         public static final String TYPE="INT_TYPE";
+        public static final String DATE="DATE";
     }
 }

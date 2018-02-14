@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">Vaccinations</string>
+    <string name="app_name">Baby Care</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_dummy">DummyActivity</string>
 
     <string name="addChild">إضافة طفل</string>
     <string name="name">الإسم</string>
@@ -19,8 +22,9 @@
     <string name="delete">حذف</string>
     <string name="deleteChild">حذف الطفل</string>
     <string name="areYouSureYouWantToDeleteThisChild">هل انت متأكد من حذف هذا الطفل ؟</string>
-    <string name="forAge">لعمر</string>
-    <string name="haveToTakeThisVaccinationAfter">عليه اخذ التطعيم بعد</string>
+    <string name="forAge">العمر</string>
+    <string name="ageInDays">العمر (بالأيام)</string>
+    <string name="haveToTakeThisVaccinationAfter">عليه اخذ التطعيم</string>
     <string name="notificationDate">تاريخ التنبيه</string>
     <string name="changeNotificationDate">تغيير تاريخ التنبيه</string>
     <string name="change">تغيير</string>
@@ -76,5 +80,21 @@
     <string name="areYouSureYouWantToDeleteThisDate">هل انت متأكد من حذف الموعد ؟</string>
     <string name="vaccinationsAndDatesForYourChildrens">تطعيمات ومواعيد لأطفالك</string>
     <string name="language">اللغة</string>
-    <string name="changeImage">Change Image</string>
+    <string name="changeImage">تغيير الصورة</string>
+    <string name="all">الكل</string>
+    <string name="to_day">الى يوم</string>
+    <string name="to_time">الى الوقت</string>
+    <string name="exporting">تصدير..</string>
+    <string name="importing">جارِ التحديث</string>
+    <string name="addCat">اضافة صنف</string>
+    <string name="areYouSure">هل انت متأكد؟</string>
+    <string name="removeAd">حذف هذا الاعلان</string>
+    <string name="yes">نعم</string>
+    <string name="removeCategory">حذف هذا الصنف</string>
+    <string name="removeCor">Remove this Corporation</string>
+    <string name="done">Done</string>
+    <string name="uploadImage">جار رفع الصورة</string>
+    <string name="err">خطأ</string>
+    <string name="notifyTime">وقت التنبيه: </string>
+    <string name="stocks">البضاعة</string>
 </resources>

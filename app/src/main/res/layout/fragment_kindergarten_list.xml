@@ -6,6 +6,7 @@
     tools:context="com.amarnehsoft.vaccinations.fragments.HomeVaccinationsFragment">
 
     <EditText
+        android:visibility="gone"
         android:id="@+id/txtAddress"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
@@ -21,6 +22,6 @@
         android:id="@+id/recyclerView"
         android:nestedScrollingEnabled="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

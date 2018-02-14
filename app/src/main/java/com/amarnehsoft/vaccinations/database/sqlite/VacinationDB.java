@@ -8,9 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import com.amarnehsoft.vaccinations.beans.Child;
 import com.amarnehsoft.vaccinations.beans.Vaccination;
 import com.amarnehsoft.vaccinations.database.schema.ChildTable;
+import com.amarnehsoft.vaccinations.database.schema.VacChildTable;
 import com.amarnehsoft.vaccinations.database.schema.VacinationTable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -59,7 +61,31 @@ public class VacinationDB<B extends Vaccination,T extends VacinationTable> exten
         return list;
     }
 
+    public List<B> getVaccinationsByChild(String childCode){
+        SQLiteDatabase db = getReadableDatabase();
+        List<B> list = new ArrayList<>();
+        Cursor rs= null;
+        try {
+            rs = db.rawQuery("SELECT * FROM " + T.TBL_NAME +
+                            " WHERE " + T.Cols.CODE + " = ( select "+ VacChildTable.Cols.VAC_CODE+" from " +VacChildTable.TBL_NAME+
+                     " where " + VacChildTable.Cols.CHILD_CODE + " = '" + childCode + "' ) and "+T.Cols.TYPE+" = "+ Vaccination.TYPE_DATE
+                    , null);
 
+            if (rs.moveToFirst())
+            {
+                while (!rs.isAfterLast()) {
+                    B bean = (B)newBean();
+                    fillBeanFromCursor(rs, bean);
+                    list.add(bean);
+                    rs.moveToNext();
+                }
+            }
+        }finally {
+            if (rs != null)
+                rs.close();
+        }
+        return list;
+    }
     public int saveBean(B bean)
     {
         SQLiteDatabase db = getWritableDatabase();
@@ -162,6 +188,7 @@ public class VacinationDB<B extends Vaccination,T extends VacinationTable> exten
         bean.setManuallySet(rs.getInt(rs.getColumnIndex(T.Cols.ARG_MANUALLY_SET)));
         bean.setDesc(rs.getString(rs.getColumnIndex(T.Cols.DESC)));
         bean.setType(rs.getInt(rs.getColumnIndex(T.Cols.TYPE)));
+        bean.setDate(new Date(rs.getLong(rs.getColumnIndex(T.Cols.DATE))));
     }
 
     public int updateBean(B bean)
@@ -200,6 +227,7 @@ public class VacinationDB<B extends Vaccination,T extends VacinationTable> exten
         values.put(T.Cols.ARG_MANUALLY_SET,bean.getManuallySet());
         values.put(T.Cols.DESC,bean.getDesc());
         values.put(T.Cols.TYPE,bean.getType());
+        values.put(T.Cols.DATE,bean.getDate().getTime());
     }
 
 

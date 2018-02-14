@@ -57,13 +57,15 @@
                             android:src="@drawable/kindergarten"
                             android:layout_width="48dp"
                             android:layout_height="48dp" />
+
                         <EditText
-                            android:textColor="@color/colorPrimary"
                             android:id="@+id/txtName"
-                            android:text="@string/name"
-                            android:textSize="20sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/name"
+                            android:singleLine="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -88,10 +90,11 @@
 
                             <EditText
                                 android:id="@+id/txtAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
                                 android:hint="@string/address"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:singleLine="true" />
 
                         </LinearLayout>
 
@@ -108,10 +111,11 @@
 
                             <EditText
                                 android:id="@+id/txtContact"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
                                 android:hint="@string/contactInfo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:singleLine="true" />
 
                         </LinearLayout>
 
@@ -130,7 +134,7 @@
                                 android:id="@+id/txtDesc"
                                 android:layout_marginStart="5dp"
                                 android:hint="@string/desc"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
 
                         </LinearLayout>
@@ -139,15 +143,13 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnSave"
-                    android:text="@string/save"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+
             </LinearLayout>
             <Button
+                android:textColor="@color/white"
+                android:background="@drawable/btn"
                 android:id="@+id/btnAddCat"
-                android:text="@string/add"
+                android:text="@string/addCat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <FrameLayout

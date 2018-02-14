@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.admin.DashboardActivity;
+import com.amarnehsoft.vaccinations.controllers.DBController;
 
 import static com.amarnehsoft.vaccinations.constants.VersionConstants.CURRENT_VERSION;
 import static com.amarnehsoft.vaccinations.constants.VersionConstants.VERSION_ADMIN;

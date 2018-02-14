@@ -20,6 +20,7 @@ class KindergartnsListActivity : Base(){
         setContentView(R.layout.activity_fragment)
         mFragment = KindergartensListFragment.newInstance()
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container,mFragment).commit()
+        setTitle(getString(R.string.kindergartens))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

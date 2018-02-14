@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.amarnehsoft.vaccinations.beans.Child;
 import com.amarnehsoft.vaccinations.beans.Vaccination;
 
+import java.util.Date;
+
 /**
  * Created by jcc on 12/29/2017.
  */
@@ -13,6 +15,15 @@ import com.amarnehsoft.vaccinations.beans.Vaccination;
 public class VacinationForChild {
     private Child child;
     private Vaccination vaccination;
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public VacinationForChild() {
 

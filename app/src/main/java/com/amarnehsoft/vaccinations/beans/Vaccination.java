@@ -3,6 +3,8 @@ package com.amarnehsoft.vaccinations.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 /**
  * Created by jcc on 12/27/2017.
  */
@@ -18,7 +20,16 @@ public class Vaccination implements Parcelable{
     private int notificationId;
     private int type;
 
-    public Vaccination(){}
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    private Date date;
+    public Vaccination(){date = new Date();}
 
     protected Vaccination(Parcel in) {
         code = in.readString();
@@ -29,6 +40,7 @@ public class Vaccination implements Parcelable{
         manuallySet = in.readInt();
         notificationId = in.readInt();
         type = in.readInt();
+        date = new Date(in.readLong());
     }
 
     public static final Creator<Vaccination> CREATOR = new Creator<Vaccination>() {
@@ -122,5 +134,6 @@ public class Vaccination implements Parcelable{
         parcel.writeInt(manuallySet);
         parcel.writeInt(notificationId);
         parcel.writeInt(type);
+        parcel.writeLong(date.getTime());
     }
 }

@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -41,8 +43,9 @@ public class KindergartenEditFragment extends Fragment {
         private Button btnChangeImage;
         private Kindergarten mBean;
         private ImageView imgName;
-        private RecyclerView recyclerView;
+//        private RecyclerView recyclerView;
         private View layoutExtra;
+        private EditText txtExtra;
     private Uri mUriImage;
     private String imageUrl = null;
     OnFragmentInteractionListener mListener;
@@ -72,7 +75,7 @@ public class KindergartenEditFragment extends Fragment {
         kindergarten.setName(txtName.getText().toString().trim());
         kindergarten.setToTime(txtToTime.getText().toString());
         kindergarten.setImgUrl(imageUrl==null?mBean.getImgUrl():imageUrl);
-
+        kindergarten.setExtra(txtExtra.getText().toString().trim());
         return kindergarten;
 
     }
@@ -109,12 +112,12 @@ public class KindergartenEditFragment extends Fragment {
 
         txtContact = view.findViewById(R.id.txtContact);
         imgName = view.findViewById(R.id.imgName);
-        recyclerView = view.findViewById(R.id.recyclerView);
+        txtExtra = view.findViewById(R.id.txtExtra);
         layoutExtra = view.findViewById(R.id.layoutExtra);
 
         btnChangeImage =  view.findViewById(R.id.btnChangeImage);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         btnChangeImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,8 +166,7 @@ public class KindergartenEditFragment extends Fragment {
                 Glide.with(view).load(mBean.getImgUrl()).into(imgName);
             }
 
-            // TODO: 1/26/2018 get extra
-            setListExtra(null);
+            setListExtra(mBean.getExtra());
 
         }else{
             // new
@@ -173,13 +175,11 @@ public class KindergartenEditFragment extends Fragment {
         }
     }
 
-    private void setListExtra(List<String> list) {
-        if(list == null){
+    private void setListExtra(String txt) {
+        if(TextUtils.isEmpty(txt)){
             layoutExtra.setVisibility(View.GONE);
         }else{
-            layoutExtra.setVisibility(View.VISIBLE);
-            MyAdapter adapter = new MyAdapter(list);
-            recyclerView.setAdapter(adapter);
+            txtExtra.setText(txt);
         }
     }
 

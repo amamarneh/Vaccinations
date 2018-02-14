@@ -19,7 +19,9 @@ import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.adapters.CatsAdapter;
 import com.amarnehsoft.vaccinations.adapters.StockAdapter;
 import com.amarnehsoft.vaccinations.admin.activities.StocksListActivity;
+import com.amarnehsoft.vaccinations.beans.CorCat;
 import com.amarnehsoft.vaccinations.beans.Corporation;
+import com.amarnehsoft.vaccinations.database.db2.DBCorCat;
 import com.amarnehsoft.vaccinations.database.firebase.FBCat;
 import com.amarnehsoft.vaccinations.database.firebase.FBStocks;
 import com.amarnehsoft.vaccinations.database.firebase.FirebaseHelper;
@@ -30,6 +32,7 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,7 +78,11 @@ public class AddEditCorporationFragment extends ItemDetailFragment<Corporation> 
 
     private void setBean(){
         mItem = getArguments().getParcelable("bean");
-        mCats = getCats();
+        if(mItem == null){
+            mItem = new Corporation();
+            mItem.setCode(UUID.randomUUID().toString());
+        }
+//        mCats = getCats();
         Log.e("Amarneh","corporationDetailFragment.setBean , bean="+(mItem==null));
     }
 
@@ -98,15 +105,7 @@ public class AddEditCorporationFragment extends ItemDetailFragment<Corporation> 
     @Override
     public void onResume() {
         super.onResume();
-        if (mItem != null){
-            Log.e("Amarneh","CorporationDetailFragment.onResume , mItem != null");
-            FBCat fbCat = new FBCat(getContext(),mItem.getCatCodes());
-            CatsAdapter adapter = new CatsAdapter(fbCat.getList(),this);
-            catsRecyclerView.setAdapter(adapter);
-            fbCat.setAdapter(adapter);
-        }else {
-            Log.e("Amarneh","CorporationDetailFragment.onResume , mItem = null");
-        }
+       refreshView();
     }
     public ArrayList<String> getCats(){
         if(mItem == null)
@@ -117,32 +116,40 @@ public class AddEditCorporationFragment extends ItemDetailFragment<Corporation> 
     }
 
     public void addCat(String catCode){
-        boolean found = false;
-        for (String cat :
-                mCats) {
-            if (cat.equals(catCode))
-                found = true;
-        }
-        if(!found){
-            mCats.add(catCode);
-        }
+//        boolean found = false;
+//        for (String cat :
+//                mCats) {
+//            if (cat.equals(catCode))
+//                found = true;
+//        }
+//        if(!found){
+//            mCats.add(catCode);
+//        }
+        CorCat corCat = new CorCat();
+        corCat.setCode(UUID.randomUUID().toString());
+        corCat.setCorporationCode(mItem.getCode());
+        corCat.setCatCode(catCode);
+
+        DBCorCat.getInstance(getContext()).saveBean(corCat);
         refreshView();
 
-        mItem.setCatCodes(catsListToString(mCats));
+//        mItem.setCatCodes(catsListToString(mCats));
     }
     public void deleteCat(String catCode){
-        int i=0;
-        for (String cat :
-                mCats) {
-
-            if (cat.equals(catCode)){
-                mCats.remove(i);
-                break;
-            }
-            i++;
-        }
-
-        mItem.setCatCodes(catsListToString(mCats));
+//        int i=0;
+//        for (String cat :
+//                mCats) {
+//
+//            if (cat.equals(catCode)){
+//                mCats.remove(i);
+//                break;
+//            }
+//            i++;
+//        }
+//
+//        mItem.setCatCodes(catsListToString(mCats));
+        DBCorCat.getInstance(getContext()).deleteBean(catCode,mItem.getCode());
+        refreshView();
     }
 
     public String catsListToString(ArrayList<String> cats){
@@ -155,16 +162,16 @@ public class AddEditCorporationFragment extends ItemDetailFragment<Corporation> 
         //nothing to refresh
         if (mItem != null){
             Log.e("Amarneh","CorporationDetailFragment.onResume , mItem != null");
-            FBCat fbCat = new FBCat(getContext(),mItem.getCatCodes());
-            final CatsAdapter adapter = new CatsAdapter(fbCat.getList(),this);
-            fbCat.setListener(new FirebaseHelper.Listiner() {
-                @Override
-                public void onChildAdded(Object bean, String code) {
-                    adapter.notifyDataSetChanged();
-                }
-            });
+//            FBCat fbCat = new FBCat(getContext(),mItem.getCatCodes());
+            final CatsAdapter adapter = new CatsAdapter(DBCorCat.getInstance(getContext()).getCatFromCorporation(mItem.getCode()),this);
+//            fbCat.setListener(new FirebaseHelper.Listiner() {
+//                @Override
+//                public void onChildAdded(Object bean, String code) {
+//                    adapter.notifyDataSetChanged();
+//                }
+//            });
             catsRecyclerView.setAdapter(adapter);
-            fbCat.setAdapter(adapter);
+//            fbCat.setAdapter(adapter);
         }else {
             Log.e("Amarneh","CorporationDetailFragment.onResume , mItem = null");
         }
@@ -185,9 +192,9 @@ public class AddEditCorporationFragment extends ItemDetailFragment<Corporation> 
     @Override
     public void onLongClicked(final String catCode) {
         new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Are you sure?")
-                .setContentText("Remove this Cat")
-                .setConfirmText("Yes")
+                .setTitleText(getString(R.string.areYouSure))
+                .setContentText(getString(R.string.delete))
+                .setConfirmText(getString(R.string.yes))
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {

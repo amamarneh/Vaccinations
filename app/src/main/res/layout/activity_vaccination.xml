@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="#fff"
-    tools:context="com.amarnehsoft.vaccinations.activities.ChildActivity">
+    tools:context="com.amarnehsoft.vaccinations.activities.VaccinationActivity">
 
 
 
@@ -181,6 +181,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:visibility="gone"
                     android:text="@string/after"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

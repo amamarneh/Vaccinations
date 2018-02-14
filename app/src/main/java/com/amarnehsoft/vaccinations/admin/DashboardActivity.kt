@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.view.View
 import com.amarnehsoft.vaccinations.R
 import com.amarnehsoft.vaccinations.activities.CorporationsListActivity
-import com.amarnehsoft.vaccinations.admin.activities.AdsListActivity
-import com.amarnehsoft.vaccinations.admin.activities.CatListActivity
-import com.amarnehsoft.vaccinations.admin.activities.KindergartenListActivity
-import com.amarnehsoft.vaccinations.admin.activities.VaccinationsListActivity
+import com.amarnehsoft.vaccinations.admin.activities.*
+import com.amarnehsoft.vaccinations.controllers.DBController
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -24,7 +22,7 @@ class DashboardActivity : AppCompatActivity() {
         val btnKG = findViewById<View>(R.id.btnKindergarten)
         val btnCat = findViewById<View>(R.id.btnCat)
 
-        btnCorporations.setOnClickListener({startActivity(Intent(this,CorporationsListActivity::class.java))})
+        btnCorporations.setOnClickListener({startActivity(Intent(this,EditCorporationsListActivity::class.java))})
         val i = Intent(this,KindergartenListActivity::class.java)
         btnKG.setOnClickListener({startActivity( i)})
 
@@ -32,5 +30,10 @@ class DashboardActivity : AppCompatActivity() {
         adsLayout.setOnClickListener({startActivity(AdsListActivity.newIntent(this))})
 
         btnCat.setOnClickListener({startActivity(Intent(this,CatListActivity::class.java))})
+
+
+        btnSave.setOnClickListener({DBController().ExportDB(this)})
+
+        btnImport.setOnClickListener({DBController().ImportDB(this)})
     }
 }

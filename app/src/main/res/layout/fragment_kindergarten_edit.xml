@@ -20,7 +20,7 @@
             <ImageView
                 android:id="@+id/imgName"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="170dp"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
@@ -28,7 +28,7 @@
                 android:src="@drawable/kindergarten" />
             <Button
                 android:id="@+id/btnChangeImage"
-                android:text="change image"
+                android:text="@string/changeImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -49,13 +49,16 @@
                         android:src="@drawable/kindergarten"
                         android:layout_width="48dp"
                         android:layout_height="48dp" />
+
                     <EditText
-                        android:textColor="@color/colorPrimary"
                         android:id="@+id/txtName"
-                        android:text="@string/name"
-                        android:textSize="20sp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:text="@string/name"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
@@ -94,21 +97,28 @@
                             android:layout_height="24dp" />
 
                         <EditText
+                            android:layout_weight="1"
                             android:id="@+id/txtFromYear"
-                            android:text="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:text="1" />
 
                         <TextView
-                            android:text="to"
-                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/to"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content" />
 
                         <EditText
+                            android:layout_weight="1"
                             android:id="@+id/txtToYear"
-                            android:text="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:text="1" />
                     </LinearLayout>
 
 
@@ -144,18 +154,30 @@
 
                                 <EditText
                                     android:id="@+id/txtFromDay"
-                                    android:text="1"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:inputType="number"
+                                    android:text="1" />
 
                                 <TextView
-                                    android:text="to day"
-                                    android:layout_width="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/to_day"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content" />
 
                                 <EditText
                                     android:id="@+id/txtToDay"
-                                    android:text="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:inputType="number"
+                                    android:singleLine="true"
+                                    android:text="1" />
+                                <TextView
+                                    android:layout_weight="1"
+
+                                    android:text="Sat=0,..., Fri = 6"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
                             </LinearLayout>
@@ -167,20 +189,25 @@
 
                                 <EditText
                                     android:id="@+id/txtFromTime"
-                                    android:text="1"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:singleLine="true"
+                                    android:text="1" />
 
                                 <TextView
-                                    android:text="to time"
-                                    android:layout_width="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/to_time"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content" />
 
                                 <EditText
                                     android:id="@+id/txtToTime"
-                                    android:text="1"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:singleLine="true"
+                                    android:text="1" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -213,10 +240,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recyclerView"
+                    <EditText
+                        android:id="@+id/txtExtra"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
+
 
 
 

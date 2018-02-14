@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.adapters.Adapter;
 import com.amarnehsoft.vaccinations.beans.Stock;
+import com.amarnehsoft.vaccinations.database.db2.DBStock;
 import com.amarnehsoft.vaccinations.database.firebase.FBStocks;
 import com.amarnehsoft.vaccinations.database.firebase.FirebaseHelper;
 import com.bumptech.glide.Glide;
@@ -46,14 +47,14 @@ public class StocksListActivity extends AppCompatActivity {
     }
     private void refresh(){
         Log.d("Amarneh","refreah");
-        FBStocks fbStocks = new FBStocks(this,catCode,corporationCode);
-        final StockAdapter adapter = new StockAdapter(fbStocks.getList());
-        fbStocks.setListener(new FirebaseHelper.Listiner() {
-            @Override
-            public void onChildAdded(Object bean, String code) {
-                adapter.notifyDataSetChanged();
-            }
-        });
+//        FBStocks fbStocks = new FBStocks(this,catCode,corporationCode);
+        final StockAdapter adapter = new StockAdapter(DBStock.getInstance(this).getAll(catCode,corporationCode));
+//        fbStocks.setListener(new FirebaseHelper.Listiner() {
+//            @Override
+//            public void onChildAdded(Object bean, String code) {
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
         recyclerView.setAdapter(adapter);
     }
 

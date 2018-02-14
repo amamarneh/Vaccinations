@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class KindergartenInfoFragment extends Fragment {
@@ -70,6 +72,7 @@ public class KindergartenInfoFragment extends Fragment {
         layoutExtra = view.findViewById(R.id.layoutExtra);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         return view;
     }
 
@@ -95,13 +98,15 @@ public class KindergartenInfoFragment extends Fragment {
                 Glide.with(view).load(mBean.getImgUrl()).into(imgName);
             }
 
-            // TODO: 1/26/2018 get extra
-            List<String> extras = new ArrayList<>();
-            extras.add("some text");
-            extras.add("some text");
-            extras.add("some text");
-            extras.add("some text");
-            setListExtra(extras);
+
+            String[] extra = mBean.getExtra().split("\n");
+
+            List<String> extraList = null;
+            if(!TextUtils.isEmpty(mBean.getExtra())){
+                extraList =   Arrays.asList(extra);
+
+            }
+            setListExtra(extraList);
 
 
 

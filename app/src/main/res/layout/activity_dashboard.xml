@@ -17,7 +17,7 @@
 
     <Button
         android:id="@+id/btnKindergarten"
-        android:text="Kindergarten"
+        android:text="@string/kindergartens"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -37,6 +37,23 @@
     <Button
         android:id="@+id/btnCorporations"
         android:text="@string/corporations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:textColor="@color/white"
+        android:background="@drawable/btn"
+        android:id="@+id/btnSave"
+        android:text="@string/save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_red"
+        android:id="@+id/btnImport"
+        android:text="import"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

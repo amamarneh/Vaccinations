@@ -26,6 +26,8 @@ class AddChildActivity : Base(),AddChildFragment.OnFragmentInteractionListener {
         setTitle("Child")
         val c = intent.getParcelableExtra<Child>("child")
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container,AddChildFragment.newInstance(c)).commit()
+
+        setTitle(getString(R.string.addChild))
     }
 
 

@@ -27,6 +27,7 @@ public class CorporationsListActivity extends Base implements CorporationsListFr
         setContentView(R.layout.activity_corporations_list);
         mFragment = CorporationsListFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,mFragment).commit();
+        setTitle(getString(R.string.corporations));
     }
 
     @Override

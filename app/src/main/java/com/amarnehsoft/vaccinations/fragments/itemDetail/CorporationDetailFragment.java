@@ -15,6 +15,8 @@ import com.amarnehsoft.vaccinations.R;
 import com.amarnehsoft.vaccinations.adapters.CatsAdapter;
 import com.amarnehsoft.vaccinations.adapters.StockAdapter;
 import com.amarnehsoft.vaccinations.beans.Corporation;
+import com.amarnehsoft.vaccinations.database.db2.DBCorCat;
+import com.amarnehsoft.vaccinations.database.db2.DBStock;
 import com.amarnehsoft.vaccinations.database.firebase.FBCat;
 import com.amarnehsoft.vaccinations.database.firebase.FBStocks;
 
@@ -84,10 +86,10 @@ public class CorporationDetailFragment extends ItemDetailFragment<Corporation> i
         super.onResume();
         if (mItem != null){
             Log.e("Amarneh","CorporationDetailFragment.onResume , mItem != null");
-            FBCat fbCat = new FBCat(getContext(),mItem.getCatCodes());
-            CatsAdapter adapter = new CatsAdapter(fbCat.getList(),this);
+//            FBCat fbCat = new FBCat(getContext(),mItem.getCatCodes());
+            CatsAdapter adapter = new CatsAdapter(DBCorCat.getInstance(getContext()).getCatFromCorporation(mItem.getCode()),this);
             catsRecyclerView.setAdapter(adapter);
-            fbCat.setAdapter(adapter);
+//            fbCat.setAdapter(adapter);
         }else {
             Log.e("Amarneh","CorporationDetailFragment.onResume , mItem = null");
         }
@@ -100,10 +102,10 @@ public class CorporationDetailFragment extends ItemDetailFragment<Corporation> i
 
     @Override
     public void onCatClicked(String catCode) {
-        FBStocks fbStocks = new FBStocks(getContext(),catCode,mItem.getCode());
-        StockAdapter adapter = new StockAdapter(fbStocks.getList());
+//        FBStocks fbStocks = new FBStocks(getContext(),catCode,mItem.getCode());
+        StockAdapter adapter = new StockAdapter(DBStock.getInstance(getContext()).getAll(catCode,mItem.getCode()));
         stocksRecyclerView.setAdapter(adapter);
-        fbStocks.setAdapter(adapter);
+//        fbStocks.setAdapter(adapter);
     }
 
     @Override

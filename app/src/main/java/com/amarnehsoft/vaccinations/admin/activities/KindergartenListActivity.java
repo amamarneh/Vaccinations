@@ -16,7 +16,7 @@ import com.amarnehsoft.vaccinations.fragments.KindergartensListFragment;
 public class KindergartenListActivity extends EmptyActivity<Kindergarten> {
     @Override
     protected String getBarTitle() {
-        return "Kindergarten";
+        return getString(R.string.kindergartens);
     }
 
     @Override

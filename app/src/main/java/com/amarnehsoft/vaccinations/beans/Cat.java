@@ -66,4 +66,9 @@ public class Cat implements Parcelable{
         dest.writeString(name);
         dest.writeString(img);
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

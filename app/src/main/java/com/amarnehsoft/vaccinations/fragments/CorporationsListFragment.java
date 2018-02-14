@@ -32,6 +32,9 @@ import com.amarnehsoft.vaccinations.admin.fragments.AddEditCorporationFragment;
 import com.amarnehsoft.vaccinations.beans.Cat;
 import com.amarnehsoft.vaccinations.beans.Corporation;
 import com.amarnehsoft.vaccinations.constants.VersionConstants;
+import com.amarnehsoft.vaccinations.database.db2.DBCats;
+import com.amarnehsoft.vaccinations.database.db2.DBCorCat;
+import com.amarnehsoft.vaccinations.database.db2.DBCorporation;
 import com.amarnehsoft.vaccinations.database.firebase.FBCat;
 import com.amarnehsoft.vaccinations.database.firebase.FBCorporation;
 import com.amarnehsoft.vaccinations.utils.StringsUtils;
@@ -43,11 +46,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CorporationsListFragment extends Fragment {
-
     private OnFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
     private MyAdapter mAdapter;
-    private FBCorporation fb;
+
     private Spinner mSpinner;
     private EditText txtAddress;
     private String mCat=null,mQuery="",mAddress="";
@@ -77,29 +79,31 @@ public class CorporationsListFragment extends Fragment {
         mSpinner=v.findViewById(R.id.spinner);
         txtAddress=v.findViewById(R.id.txtAddress);
 
-        final List<String> list = new ArrayList<>();
+
+        final List list = DBCats.getInstance(getContext()).getAll();
+        list.add(0,getString(R.string.all));
 //        final List<Cat> beansList= new ArrayList<>();
+
+//        CatsAdapter adapter = new CatsAdapter(DBCorCat.getInstance(getContext()).getAll(),null);
+//        catsRecyclerView.setAdapter(adapter);
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, list);
         mSpinner.setAdapter(arrayAdapter);
-        FBCat fb = new FBCat(getContext(),null){
-            @Override
-            protected void afterChildAdded(Cat bean, String code) {
-                super.afterChildAdded(bean, code);
-//                beansList.add(bean);
-                list.add(bean.getName());
-                arrayAdapter.notifyDataSetChanged();
 
-                mCat=null;
-                onQueryTextChanged(mQuery);
-            }
-        };
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mCat = mSpinner.getSelectedItem().toString();
+//                mCat = mSpinner.getSelectedItem().toString();
 //                mCat = beansList.get(position).getCode();
-                onQueryTextChanged(mQuery);
+                    if(position == 0){
+                        mCat = null;
+                    }else{
+                        Cat cat = (Cat) list.get(position);
+                        mCat = cat.getCode();
+                    }
+
+//                setCorporation(cat);
+               onQueryTextChanged(mQuery);
             }
 
             @Override
@@ -131,13 +135,23 @@ public class CorporationsListFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        refreshView();
+    }
+
+    private void refreshView() {
+        mAdapter = new MyAdapter(DBCorporation.getInstance(getContext()).getAll());
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        fb = new FBCorporation(getContext());
-        mAdapter = new MyAdapter(fb.getList());
-        recyclerView.setAdapter(mAdapter);
-        fb.setAdapter(mAdapter);
+
+
     }
 
     @Override
@@ -158,31 +172,31 @@ public class CorporationsListFragment extends Fragment {
     }
 
     public void onQueryTextChanged(String s) {
-        mQuery = s;
-        List<Corporation> list = fb.search(s);
-        List<Corporation> list2=new ArrayList<>();
-        if (mCat != null){
-            for (Corporation bean : list){
-                if (StringsUtils.like(bean.getCats(),"%"+mCat+"%")){
-                    list2.add(bean);
-                }
-            }
-        }else {
-            list2 = list;
-        }
-
-        List<Corporation> list3 = new ArrayList<>();
-        if (!TextUtils.isEmpty(mAddress)){
-            for (Corporation bean : list2){
-                if (StringsUtils.like(bean.getAddress(),"%"+mAddress+"%")){
-                    list3.add(bean);
-                }
-            }
-        }else {
-            list3 = list2;
-        }
-
-        mAdapter.setList(list3);
+//        mQuery = s;
+//        List<Corporation> list = fb.search(s);
+//        List<Corporation> list2=new ArrayList<>();
+//        if (mCat != null){
+//            for (Corporation bean : list){
+//                if (StringsUtils.like(bean.getCats(),"%"+mCat+"%")){
+//                    list2.add(bean);
+//                }
+//            }
+//        }else {
+//            list2 = list;
+//        }
+//
+//        List<Corporation> list3 = new ArrayList<>();
+//        if (!TextUtils.isEmpty(mAddress)){
+//            for (Corporation bean : list2){
+//                if (StringsUtils.like(bean.getAddress(),"%"+mAddress+"%")){
+//                    list3.add(bean);
+//                }
+//            }
+//        }else {
+//            list3 = list2;
+//        }
+        List<Corporation> list = DBCorCat.getInstance(getContext()).getCorporationsByCat(mCat,s,mAddress);
+        mAdapter.setList(list);
         mAdapter.notifyDataSetChanged();
     }
 

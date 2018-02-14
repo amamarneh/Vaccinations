@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.amarnehsoft.vaccinations">
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name=".FireApp"
         android:allowBackup="true"
-        android:icon="@drawable/baby"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@drawable/baby"
         android:supportsRtl="true"
@@ -45,7 +45,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".admin.activities.KindergartenListActivity" />
         <activity android:name=".admin.activities.AddEditKindergartenActivity" />
-        <activity android:name=".activities.CorporationInfoActivity" />
+        <activity android:name=".activities.CorporationInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AddVaccinationActivity" />
         <activity android:name=".activities.MainActivity" />
@@ -54,6 +55,7 @@
         <activity android:name=".admin.activities.AddEditCorporationActivity" />
         <activity android:name=".admin.activities.AddEditStockActivity" />
         <activity android:name=".admin.activities.StocksListActivity"></activity>
+        <activity android:name=".admin.activities.EditCorporationsListActivity" />
     </application>
 
 </manifest>

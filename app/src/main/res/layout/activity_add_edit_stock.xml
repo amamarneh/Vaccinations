@@ -21,15 +21,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-                <EditText
-                    android:id="@+id/txtName"
-                    android:hint="@string/name"
-                    android:layout_width="match_parent"
-                    android:textAlignment="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/blue"
-                    android:textSize="17sp"
-                    android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
                 <LinearLayout
                     android:gravity="center"
@@ -40,14 +41,17 @@
                         android:text="@string/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+
                     <EditText
                         android:id="@+id/txtPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:hint="@string/price"
-                        android:layout_width="wrap_content"
-                        android:textStyle="bold"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
                         android:textColor="#a00"
-                        android:layout_height="wrap_content" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -60,8 +64,16 @@
     <Button
         android:id="@+id/btnSave"
         android:text="@string/save"
+        android:textColor="@color/white"
+        android:background="@drawable/btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
+    <Button
+        android:textColor="@color/white"
+        android:id="@+id/btnDelete"
+        android:text="@string/delete"
+        android:background="@drawable/btn_red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

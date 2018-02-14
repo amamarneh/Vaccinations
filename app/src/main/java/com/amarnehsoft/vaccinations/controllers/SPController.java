@@ -27,12 +27,25 @@ public class SPController {
     }
 
     private static final String ARG_TITLE="title";
+    private static final String ARG_H="h";
+    private static final String ARG_M="m";
     public String getTitle(){
         return mSharedPreferences.getString(ARG_TITLE,mContext.getString(R.string.app_name));
     }
     public void setTitle(String title){
         mSharedPreferences.edit().putString(ARG_TITLE,title).apply();
     }
-
+    public void saveHourOfDay(int h){
+        mSharedPreferences.edit().putInt(ARG_H,h).apply();
+    }
+    public void saveMinute(int m){
+        mSharedPreferences.edit().putInt(ARG_M,m).apply();
+    }
+    public int getHourOfDay(){
+        return mSharedPreferences.getInt(ARG_H,5);
+    }
+    public int getMinute(){
+        return mSharedPreferences.getInt(ARG_M,5);
+    }
 
 }

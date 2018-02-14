@@ -14,7 +14,9 @@ import android.widget.TextView
 import com.amarnehsoft.vaccinations.R
 import com.amarnehsoft.vaccinations.beans.Child
 import com.amarnehsoft.vaccinations.beans.Vaccination
-import com.amarnehsoft.vaccinations.database.firebase.FBVacinations
+import com.amarnehsoft.vaccinations.beans.custome.VacinationForChild
+import com.amarnehsoft.vaccinations.controllers.VaccinationsForChildrenController
+import com.amarnehsoft.vaccinations.database.db2.DBVaccination
 import com.amarnehsoft.vaccinations.database.sqlite.ChildDB
 import com.amarnehsoft.vaccinations.database.sqlite.VacinationDB
 import com.amarnehsoft.vaccinations.fragments.dialogs.ConfirmDialog
@@ -46,18 +48,18 @@ class ChildActivity : Base() {
 
     override fun onResume() {
         super.onResume()
-        var helper: FBVacinations
-        helper = object : FBVacinations(this,true){
-            override fun afterChildAdded(bean: Vaccination?,s:String?) {
-                super.afterChildAdded(bean,s)
+//        var helper: FBVacinations
+//        helper = object : FBVacinations(this,true){
+//            override fun afterChildAdded(bean: Vaccination?,s:String?) {
+//                super.afterChildAdded(bean,s)
                 try {
-                    recyclerView!!.adapter = Adapter(this@ChildActivity, VacinationDB.getInstance(this@ChildActivity).getUpCommingVaccinationsForAge(DateUtils.getAgeInDays(child?.birthDate)) as List<Vaccination>)
+                    recyclerView!!.adapter = Adapter(this@ChildActivity, VaccinationsForChildrenController(this).getVaccinationForChild(child))
                 }catch (e : Exception){
                     Log.e("Amarneh","exc>>"+e.message)
                     e.printStackTrace()
                 }
-            }
-        }
+//            }
+//        }
     }
 
     fun updateUI(child: Child?){
@@ -110,7 +112,7 @@ class ChildActivity : Base() {
         }
     }
 
-    inner class Adapter(internal var c: Context, internal var beans: List<Vaccination>) : RecyclerView.Adapter<MyViewHolder>() {
+    inner class Adapter(internal var c: Context, internal var beans: List<VacinationForChild>) : RecyclerView.Adapter<MyViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
             val v = LayoutInflater.from(c).inflate(R.layout.row_vaccination, parent, false)
@@ -120,26 +122,25 @@ class ChildActivity : Base() {
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val bean = beans[position]
             holder.itemView.setOnClickListener {
-                if (bean.type == Vaccination.TYPE_VACCINATION)
-                    startActivity(VaccinationActivity.newIntent(this@ChildActivity,bean, child))
+                if (bean.vaccination.type == Vaccination.TYPE_VACCINATION)
+                    startActivity(VaccinationActivity.newIntent(this@ChildActivity,bean.vaccination, child))
                 else
-                    startActivity(AddVaccinationActivity.newIntent(this@ChildActivity,bean,child))
+                    startActivity(AddVaccinationActivity.newIntent(this@ChildActivity,bean.vaccination,child))
             }
-            holder.txtName.text = child?.name
-            holder.txtVaccinationName.text = bean.name
-            val diff = bean.age - DateUtils.getAgeInDays(child?.birthDate)
-            if (diff == 0){
-                holder.txtRemainingTime.text = getString(R.string.today)
-                holder.txtRemainingTime2.text = getString(R.string.today)
-            }
-            else{
-                holder.txtRemainingTime.text = diff.toString() + " " + getString(R.string.days)
-                holder.txtRemainingTime2.text = diff.toString() + " " + getString(R.string.days)
-            }
-            val d = DateUtils.incrementDateByDays(Date(),diff)
-            holder.txtDate.text = DateUtils.formatDateWithoutTime(d)
 
-            if (bean.type == Vaccination.TYPE_VACCINATION){
+            holder.txtName.text = child?.name
+            holder.txtVaccinationName.text = bean.vaccination.name
+
+            val dt = bean.date
+
+            val days = DateUtils.getDiffDays(dt, Date())
+//            holder.txtRemainingTime2.text = days.toString() + " " + getString(R.string.days)
+
+            holder.txtRemainingTime2.text = DateUtils.getRelative(dt)
+
+            holder.txtDate.text = DateUtils.formatDateWithoutTime(dt)
+
+            if(bean.vaccination.type==Vaccination.TYPE_VACCINATION){
                 holder.img.setImageDrawable(resources.getDrawable(R.drawable.vaccination2))
             }else{
                 holder.img.setImageDrawable(resources.getDrawable(R.drawable.ic_date_range_black_36dp))
@@ -150,7 +151,7 @@ class ChildActivity : Base() {
             return beans.size
         }
 
-        fun setList(beans: List<Vaccination>) {
+        fun setList(beans: List<VacinationForChild>) {
             this.beans = beans
         }
     }

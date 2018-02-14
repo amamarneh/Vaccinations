@@ -16,9 +16,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.amarnehsoft.vaccinations.R;
+import com.amarnehsoft.vaccinations.admin.activities.AddEditCatActivity;
 import com.amarnehsoft.vaccinations.admin.activities.AddEditKindergartenActivity;
 import com.amarnehsoft.vaccinations.beans.Cat;
 import com.amarnehsoft.vaccinations.beans.Kindergarten;
+import com.amarnehsoft.vaccinations.database.db2.DBCats;
 import com.amarnehsoft.vaccinations.database.firebase.FBCat;
 import com.amarnehsoft.vaccinations.database.firebase.FBKindergarten;
 import com.bumptech.glide.Glide;
@@ -29,6 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -101,11 +105,13 @@ public class AddEditCatFragment extends Fragment {
     }
 
     private void save() {
-        DatabaseReference mDataCat = FBCat.getDataRef().child(mBean.getCode());
+//        DatabaseReference mDataCat = FBCat.getDataRef().child(mBean.getCode());
         if(mUriImage == null){
 
-                mDataCat.setValue(getBean());
-                Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+//                mDataCat.setValue(getBean());
+                DBCats.getInstance(getContext()).saveBean(getBean());
+
+                Toast.makeText(getContext(), getString(R.string.done), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.putExtra("data",getBean());
                 getActivity().setResult(RESULT_OK,intent);
@@ -115,9 +121,9 @@ public class AddEditCatFragment extends Fragment {
 
             final ProgressDialog dialog = new ProgressDialog(getContext());
             dialog.setCancelable(false);
-            dialog.setMessage("Uploading image");
+            dialog.setMessage(getString(R.string.uploadImage));
             dialog.show();
-            StorageReference mReference = FirebaseStorage.getInstance().getReference().child("images");
+            StorageReference mReference = FirebaseStorage.getInstance().getReference().child("images").child(UUID.randomUUID().toString());
             mReference.putFile(mUriImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -126,19 +132,21 @@ public class AddEditCatFragment extends Fragment {
 
                         Cat cat = getBean();
                         cat.setImg(task.getResult().getDownloadUrl().toString());
-                        FBCat fbCat = new FBCat(getContext());
-                        if(fbCat.save(cat,cat.getCode())){
-                            Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+//                        FBCat fbCat = new FBCat(getContext());
+//                        if(fbCat.save(cat,cat.getCode())){
+                        DBCats.getInstance(getContext()).saveBean(cat);
+
+                            Toast.makeText(getContext(), getString(R.string.done), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent();
                             intent.putExtra("data",cat);
                             getActivity().setResult(RESULT_OK,intent);
                             getActivity().finish();
-                        }
-                        else
-                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else
+//                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
 
                     }else{
-                        Toast.makeText(getContext(), "Error| couldn't upload image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.err), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

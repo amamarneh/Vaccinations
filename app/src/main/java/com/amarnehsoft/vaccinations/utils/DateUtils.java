@@ -33,10 +33,18 @@ public class DateUtils {
         date.setTime(calendar.getTimeInMillis());
         return date;
     }
+    public static CharSequence getRelative(Date date){
+        return  android.text.format.DateUtils.getRelativeTimeSpanString(date.getTime(),new Date().getTime(),android.text.format.DateUtils.DAY_IN_MILLIS,android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
 
+    }
     public static String formatDate(Date date){
         if (date == null) return "";
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d/MM/yyyy h:mm a", Locale.getDefault());
+        return dateFormat.format(date);
+    }
+    public static String formatTime(Date date){
+        if (date == null) return "";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
         return dateFormat.format(date);
     }
     public static String formatDateWithoutTime(Date date){

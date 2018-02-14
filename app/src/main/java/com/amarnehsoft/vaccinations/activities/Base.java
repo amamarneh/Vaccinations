@@ -13,6 +13,6 @@ public class Base extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setTitle(SPController.getInstance(this).getTitle());
+//        setTitle(SPController.getInstance(this).getTitle());
     }
 }

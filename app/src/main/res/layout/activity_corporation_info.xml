@@ -22,8 +22,8 @@
                 android:src="@drawable/kindergarten"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="match_parent"
-                android:scaleType="fitXY"
-                android:layout_height="150dp" />
+                android:scaleType="centerCrop"
+                android:layout_height="180dp" />
 
             <LinearLayout
                 android:layout_marginTop="2dp"

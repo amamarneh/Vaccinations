@@ -23,5 +23,7 @@ public class KindergartenInfoActivity extends Base implements KindergartenInfoFr
         setContentView(R.layout.activity_kindergarten_info);
         Kindergarten kindergarten = getIntent().getParcelableExtra("bean");
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, KindergartenInfoFragment.newInstance(kindergarten)).commit();
+
+
     }
 }

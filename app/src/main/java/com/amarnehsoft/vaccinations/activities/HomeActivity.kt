@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import com.amarnehsoft.vaccinations.R
 import com.amarnehsoft.vaccinations.controllers.SPController
-import com.amarnehsoft.vaccinations.database.firebase.FBVacinations
 import com.amarnehsoft.vaccinations.database.sqlite.ChildDB
 import com.amarnehsoft.vaccinations.fragments.ChildrenHorizantalListFragment
 import com.amarnehsoft.vaccinations.fragments.HomeAdsFragment

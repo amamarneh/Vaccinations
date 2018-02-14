@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,8 @@ import com.amarnehsoft.vaccinations.admin.fragments.KindergartenEditFragment;
 import com.amarnehsoft.vaccinations.beans.Cat;
 import com.amarnehsoft.vaccinations.beans.Corporation;
 import com.amarnehsoft.vaccinations.beans.Kindergarten;
+import com.amarnehsoft.vaccinations.database.db2.DBCats;
+import com.amarnehsoft.vaccinations.database.db2.DBCorporation;
 import com.amarnehsoft.vaccinations.database.firebase.FBCorporation;
 import com.amarnehsoft.vaccinations.database.firebase.FBKindergarten;
 import com.amarnehsoft.vaccinations.fragments.itemDetail.CorporationDetailFragment;
@@ -35,6 +39,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+
+import java.util.UUID;
 
 public class AddEditCorporationActivity extends AppCompatActivity {
 
@@ -45,7 +52,7 @@ public class AddEditCorporationActivity extends AppCompatActivity {
     private View nameLayout,layout;
     private Uri mUriImage;
     private static final int PICK_IMAGE = 1;
-    private Button btnChangeImage,btnAddCat,btnSave;
+    private Button btnChangeImage,btnAddCat;
     private AddEditCorporationFragment mFragment;
     public static Intent newIntent(Context context, Corporation bean){
         Intent intent = new Intent(context,AddEditCorporationActivity.class);
@@ -68,10 +75,10 @@ public class AddEditCorporationActivity extends AppCompatActivity {
         layout=findViewById(R.id.layout);
         btnChangeImage=findViewById(R.id.btnChangeImage);
         btnAddCat=findViewById(R.id.btnAddCat);
-        btnSave=findViewById(R.id.btnSave);
 
 
-        mFragment = AddEditCorporationFragment.newInstance(mBean);
+
+
         if (mBean != null){
             txtName.setText(mBean.getName());
             txtDesc.setText(mBean.getDesc());
@@ -81,7 +88,7 @@ public class AddEditCorporationActivity extends AppCompatActivity {
                 Glide.with(this).load(mBean.getImg()).into(img);
 
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mFragment).commit();
+
 
             nameLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -95,9 +102,11 @@ public class AddEditCorporationActivity extends AppCompatActivity {
             });
         }else{
             mBean = new Corporation();
-            mBean.setCode(FirebaseDatabase.getInstance().getReference().push().getKey());
+            mBean.setCode(UUID.randomUUID().toString());
         }
 
+        mFragment = AddEditCorporationFragment.newInstance(mBean);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mFragment).commit();
 
         btnChangeImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,36 +123,32 @@ public class AddEditCorporationActivity extends AppCompatActivity {
             }
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
+    }
 
-
-                mBean.setAddress(txtAddress.getText().toString());
-                mBean.setContact(txtContact.getText().toString());
-                mBean.setDesc(txtDesc.getText().toString());
-                mBean.setName(txtName.getText().toString());
-
-                save();
-            }
-        });
+    private void prepartBean() {
+        mBean.setAddress(txtAddress.getText().toString());
+        mBean.setContact(txtContact.getText().toString());
+        mBean.setDesc(txtDesc.getText().toString());
+        mBean.setName(txtName.getText().toString());
     }
 
     private void save() {
         if(mUriImage == null){
 
-            DatabaseReference mDataCor = FBCorporation.getDataRef().child(mBean.getCode());
-            mDataCor.setValue(mBean);
-            Toast.makeText(AddEditCorporationActivity.this, "Done", Toast.LENGTH_SHORT).show();
+//            DatabaseReference mDataCor = FBCorporation.getDataRef().child(mBean.getCode());
+//            mDataCor.setValue(mBean);
+
+            DBCorporation.getInstance(this).saveBean(mBean);
+            Toast.makeText(AddEditCorporationActivity.this, getString(R.string.done), Toast.LENGTH_SHORT).show();
             finish();
 
         }else{
             final ProgressDialog dialog = new ProgressDialog(this);
             dialog.setCancelable(false);
-            dialog.setMessage("Uploading image");
+            dialog.setMessage(getString(R.string.uploadImage));
             dialog.show();
-            StorageReference mReference = FirebaseStorage.getInstance().getReference().child("images");
+            StorageReference mReference = FirebaseStorage.getInstance().getReference().child("images").child(UUID.randomUUID().toString());
             mReference.putFile(mUriImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -152,18 +157,60 @@ public class AddEditCorporationActivity extends AppCompatActivity {
 
 
                         mBean.setImg(task.getResult().getDownloadUrl().toString());
-                        DatabaseReference mDataCor = FBCorporation.getDataRef().child(mBean.getCode());
-                        mDataCor.setValue(mBean);
-
-                        Toast.makeText(AddEditCorporationActivity.this, "Done", Toast.LENGTH_SHORT).show();
+//                        DatabaseReference mDataCor = FBCorporation.getDataRef().child(mBean.getCode());
+//                        mDataCor.setValue(mBean);
+                        DBCorporation.getInstance(AddEditCorporationActivity.this).saveBean(mBean);
+                        Toast.makeText(AddEditCorporationActivity.this, getString(R.string.done), Toast.LENGTH_SHORT).show();
                         finish();
 
                     }else{
-                        Toast.makeText(AddEditCorporationActivity.this, "Error| couldn't upload image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditCorporationActivity.this, getString(R.string.err), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save_delete, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_save) {
+            prepartBean();
+            save();
+            return true;
+        }
+        if (id == R.id.action_delete) {
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText(getString(R.string.areYouSure))
+                    .setContentText(getString(R.string.delete))
+                    .setConfirmText(getString(R.string.yes))
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                            delete();
+
+                        }
+                    })
+                    .show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void delete() {
+        if(mBean == null)
+            return;
+        DBCorporation.getInstance(this).deleteBean(mBean.getCode());
+        Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

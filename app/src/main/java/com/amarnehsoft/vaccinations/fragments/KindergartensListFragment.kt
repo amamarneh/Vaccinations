@@ -25,9 +25,7 @@ import com.amarnehsoft.vaccinations.beans.Kindergarten
 import com.amarnehsoft.vaccinations.beans.custome.VacinationForChild
 import com.amarnehsoft.vaccinations.constants.VersionConstants
 import com.amarnehsoft.vaccinations.controllers.VaccinationsForChildrenController
-import com.amarnehsoft.vaccinations.database.firebase.FBAd
-import com.amarnehsoft.vaccinations.database.firebase.FBKindergarten
-import com.amarnehsoft.vaccinations.database.firebase.FBVacinations
+import com.amarnehsoft.vaccinations.database.db2.DBKindergarten
 import com.amarnehsoft.vaccinations.utils.StringsUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -41,7 +39,7 @@ class KindergartensListFragment : Fragment() {
     lateinit var mQuery:String
     lateinit var mAddress:String
 
-    internal lateinit var helper: FBKindergarten
+//    internal lateinit var helper: FBKindergarten
     internal lateinit var adapter: Adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,16 +51,21 @@ class KindergartensListFragment : Fragment() {
         mAddress=""
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter = Adapter(context, DBKindergarten.getInstance(context).all)
+        recyclerView.adapter = adapter
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater!!.inflate(R.layout.fragment_kindergarten_list, container, false)
         recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
         txtAddress = v.findViewById<EditText>(R.id.txtAddress)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        helper = FBKindergarten(context)
-        adapter = Adapter(context, helper.list as List<Kindergarten>)
-        recyclerView.adapter = adapter
-        helper.setAdapter(adapter)
+//        helper = FBKindergarten(context)
+
+
+//        helper.setAdapter(adapter)
 
 
         txtAddress.addTextChangedListener(object : TextWatcher {
@@ -85,27 +88,28 @@ class KindergartensListFragment : Fragment() {
 
     fun search(s:String){
         mQuery = s
-        var res = ArrayList<Kindergarten>()
-        if (TextUtils.isEmpty(s))
-            res = helper.list as ArrayList<Kindergarten>
-        else{
-            for (k in helper.list as List<Kindergarten>){
-                if (StringsUtils.like(k.name,"%"+s+"%")){
-                    res.add(k)
-                }
-            }
-        }
-
-        var list2 =  ArrayList<Kindergarten>()
-        if (!TextUtils.isEmpty(mAddress)){
-            for (k in res){
-                if (StringsUtils.like(k.address,"%"+mAddress+"%"))
-                    list2.add(k)
-            }
-        }else{
-            list2 = res;
-        }
-        adapter.setList(list2)
+//        var res = ArrayList<Kindergarten>()
+//        if (TextUtils.isEmpty(s))
+//            res = DBKindergarten.getInstance(context).all as ArrayList<Kindergarten>
+//        else{
+//            for (k in DBKindergarten.getInstance(context).all){
+//                if (StringsUtils.like(k.name,"%"+s+"%")){
+//                    res.add(k)
+//                }
+//            }
+//        }
+//
+//        var list2 =  ArrayList<Kindergarten>()
+//        if (!TextUtils.isEmpty(mAddress)){
+//            for (k in res){
+//                if (StringsUtils.like(k.address,"%"+mAddress+"%"))
+//                    list2.add(k)
+//            }
+//        }else{
+//            list2 = res;
+//        }
+        var list2 =  DBKindergarten.getInstance(context).search(s)
+        adapter.setList(list2 as List<Kindergarten>)
         adapter.notifyDataSetChanged()
     }
 

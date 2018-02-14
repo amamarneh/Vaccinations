@@ -16,6 +16,8 @@ class StocksListActivity : Base(),StocksListFragment.OnFragmentInteractionListen
         val catCode = intent.getStringExtra("catCode")
         val corporationCode = intent.getStringExtra("corporationCode")
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container,StocksListFragment.newInstance(catCode,corporationCode)).commit()
+
+        setTitle(getString(R.string.stocks))
     }
 
     companion object {

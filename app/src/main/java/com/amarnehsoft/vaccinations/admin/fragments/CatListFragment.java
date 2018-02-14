@@ -18,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amarnehsoft.vaccinations.R;
+import com.amarnehsoft.vaccinations.adapters.CatsAdapter;
 import com.amarnehsoft.vaccinations.admin.activities.AddEditCatActivity;
 import com.amarnehsoft.vaccinations.beans.Cat;
+import com.amarnehsoft.vaccinations.database.db2.DBCats;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,7 @@ public class CatListFragment extends Fragment {
     public static final int MODE_SELECT = 1;
     public static final int MODE_NORMAL = 0;
     private int mMode = MODE_NORMAL;
+    CatsAdapter mAdapter;
     public CatListFragment() {
     }
 
@@ -53,35 +56,62 @@ public class CatListFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.recyclerView);
         mMode = getArguments().getInt("mode");
-        FirebaseRecyclerAdapter<Cat,MyHolder> adapter = new FirebaseRecyclerAdapter<Cat, MyHolder>(
-                Cat.class,
-                R.layout.row_cat,
-                MyHolder.class,
-                FirebaseDatabase.getInstance().getReference().child("cats")
-        ) {
-            @Override
-            protected void populateViewHolder(MyHolder viewHolder, final Cat model, int position) {
-                viewHolder.bind(model,mMode);
-                viewHolder.setListener(new MyHolder.Listener() {
-                    @Override
-                    public void onCatClicked(Cat cat) {
-                        Log.d("Amarneh","click");
-                        if(mMode == MODE_NORMAL){
-                            Intent i = AddEditCatActivity.newIntent(getContext(),cat);
-                            getContext().startActivity(i);
-                        }else{
-                            Intent intent = new Intent();
-                            intent.putExtra("data",model);
-                            getActivity().setResult(RESULT_OK,intent);
-                            getActivity().finish();
-                        }
-                    }
-                });
-            }
-        };
+//        FirebaseRecyclerAdapter<Cat,MyHolder> adapter = new FirebaseRecyclerAdapter<Cat, MyHolder>(
+//                Cat.class,
+//                R.layout.row_cat,
+//                MyHolder.class,
+//                FirebaseDatabase.getInstance().getReference().child("cats")
+//        ) {
+//            @Override
+//            protected void populateViewHolder(MyHolder viewHolder, final Cat model, int position) {
+//                viewHolder.bind(model,mMode);
+//                viewHolder.setListener(new MyHolder.Listener() {
+//                    @Override
+//                    public void onCatClicked(Cat cat) {
+//                        Log.d("Amarneh","click");
+//                        if(mMode == MODE_NORMAL){
+//                            Intent i = AddEditCatActivity.newIntent(getContext(),cat);
+//                            getContext().startActivity(i);
+//                        }else{
+//                            Intent intent = new Intent();
+//                            intent.putExtra("data",model);
+//                            getActivity().setResult(RESULT_OK,intent);
+//                            getActivity().finish();
+//                        }
+//                    }
+//                });
+//            }
+//        };
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        mAdapter = new CatsAdapter(DBCats.getInstance(getContext()).getAll(), new CatsAdapter.Listener() {
+            @Override
+            public void onCatClicked(String catCode) {
+                Log.d("Amarneh", "click");
+                if (mMode == MODE_NORMAL) {
+                    Intent i = AddEditCatActivity.newIntent(getContext(),  DBCats.getInstance(getContext()).getBeanById(catCode));
+                    getContext().startActivity(i);
+                } else {
+                    Intent intent = new Intent();
+                    intent.putExtra("data", DBCats.getInstance(getContext()).getBeanById(catCode));
+                    getActivity().setResult(RESULT_OK, intent);
+                    getActivity().finish();
+                }
+            }
+            @Override
+            public void onLongClicked(String catCode) {
+
+            }
+        });
+
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.setList(DBCats.getInstance(getContext()).getAll());
+        mAdapter.notifyDataSetChanged();
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
