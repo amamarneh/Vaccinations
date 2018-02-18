@@ -97,4 +97,6 @@
     <string name="err">Error</string>
     <string name="notifyTime">Notify time:</string>
     <string name="stocks">Stocks</string>
+    <string name="monthes">Monthes</string>
+    <string name="and">and</string>
 </resources>

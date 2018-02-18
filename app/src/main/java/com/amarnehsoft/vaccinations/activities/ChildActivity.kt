@@ -66,7 +66,7 @@ class ChildActivity : Base() {
         txtName?.text =child?.name
         var diff = DateUtils.getDiffDays(Date(),child?.birthDate)
         if (diff == 0) diff++
-        txtAge?.text =diff.toString() + " " + getString(R.string.days)
+        txtAge?.text = DateUtils.formatAge(this,diff)
         txtBirthDate?.text = DateUtils.formatDateWithoutTime(child?.birthDate)
     }
 

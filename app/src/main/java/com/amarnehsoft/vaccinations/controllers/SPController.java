@@ -29,6 +29,8 @@ public class SPController {
     private static final String ARG_TITLE="title";
     private static final String ARG_H="h";
     private static final String ARG_M="m";
+    private static final String ARG_LAST_AD_POSITION="lastAdPosition";
+
     public String getTitle(){
         return mSharedPreferences.getString(ARG_TITLE,mContext.getString(R.string.app_name));
     }
@@ -48,4 +50,11 @@ public class SPController {
         return mSharedPreferences.getInt(ARG_M,5);
     }
 
+    public void setLastAdPosition(int val){
+        mSharedPreferences.edit().putInt(ARG_LAST_AD_POSITION,val).apply();
+    }
+
+    public int getLastAdPosition(){
+        return mSharedPreferences.getInt(ARG_LAST_AD_POSITION,0);
+    }
 }

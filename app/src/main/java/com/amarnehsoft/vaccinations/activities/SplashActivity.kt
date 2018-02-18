@@ -66,7 +66,7 @@ class SplashActivity : AppCompatActivity() {
         }else{
             DBController().check(this, DBController.DBListener {
 
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
 
             })

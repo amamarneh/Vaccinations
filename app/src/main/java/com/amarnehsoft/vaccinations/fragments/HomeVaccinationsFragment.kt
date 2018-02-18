@@ -48,7 +48,6 @@ class HomeVaccinationsFragment : Fragment() {
         super.onResume()
         txtName.visibility=View.INVISIBLE
         recyclerView.adapter = Adapter(context, VaccinationsForChildrenController(context).notifications)
-
     }
 
     override fun onAttach(context: Context) {

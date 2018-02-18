@@ -163,4 +163,36 @@ public class DateUtils {
         }
         return "";
     }
+
+    public static String formatAge(Context context,int days){
+            int years = (int)(days / 365.25);
+            int months = (int)((days % 365.25) /30.5);
+            int day = (int)((days % 365.25) % 30.5);
+
+            if (years == 0){
+                if (months == 0){
+                    return day + context.getString(R.string.days);
+                }else {
+                    if (day == 0){
+                        return months + " " + context.getString(R.string.monthes);
+                    }else {
+                        return months + " " + context.getString(R.string.monthes)+ " " + context.getString(R.string.and) + " " + day + " " + context.getString(R.string.days);
+                    }
+                }
+            }else {
+                if (months != 0){
+                    if (day != 0){
+                        return years + " " + context.getString(R.string.years) + " " + context.getString(R.string.and) + " " + months + " " + context.getString(R.string.monthes) + " " + context.getString(R.string.and) + " " + day + " " + context.getString(R.string.days);
+                    }else {
+                        return years + " " + context.getString(R.string.years) + " " + context.getString(R.string.and) + " " + months;
+                    }
+                }else {
+                    if (day == 0){
+                        return years + " " + context.getString(R.string.years);
+                    }else {
+                        return years + " " + context.getString(R.string.years) + " " + context.getString(R.string.and) + " " + day + " " + context.getString(R.string.days);
+                    }
+                }
+            }
+    }
 }

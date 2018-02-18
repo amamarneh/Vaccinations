@@ -8,10 +8,7 @@ import android.view.MenuItem
 import com.amarnehsoft.vaccinations.R
 import com.amarnehsoft.vaccinations.controllers.SPController
 import com.amarnehsoft.vaccinations.database.sqlite.ChildDB
-import com.amarnehsoft.vaccinations.fragments.ChildrenHorizantalListFragment
-import com.amarnehsoft.vaccinations.fragments.HomeAdsFragment
-import com.amarnehsoft.vaccinations.fragments.HomeVaccinationsFragment
-import com.amarnehsoft.vaccinations.fragments.ShoppingFragment
+import com.amarnehsoft.vaccinations.fragments.*
 import com.amarnehsoft.vaccinations.fragments.dialogs.ConfirmDialog
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -19,6 +16,8 @@ import kotlinx.android.synthetic.main.activity_home.*
 class HomeActivity : Base()
                     ,ChildrenHorizantalListFragment.OnFragmentInteractionListener
                     ,HomeAdsFragment.OnFragmentInteractionListener
+                    ,HomeAdsPagerFragment.OnFragmentInteractionListener
+                    ,AdPagetItemFragment.OnFragmentInteractionListener
                     ,ShoppingFragment.OnFragmentInteractionListener
                     ,HomeVaccinationsFragment.OnFragmentInteractionListener{
 
@@ -29,7 +28,7 @@ class HomeActivity : Base()
         supportFragmentManager.beginTransaction().replace(R.id.childrenLayout,ChildrenHorizantalListFragment.newInstance()).commit()
         supportFragmentManager.beginTransaction().replace(R.id.notificationsLayout,HomeVaccinationsFragment.newInstance()).commit()
         supportFragmentManager.beginTransaction().replace(R.id.shoppingLayout,ShoppingFragment.newInstance()).commit()
-        supportFragmentManager.beginTransaction().replace(R.id.adsLayout,HomeAdsFragment.newInstance()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.adsLayout,HomeAdsPagerFragment.newInstance()).commit()
     }
 
     override fun onResume() {

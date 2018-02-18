@@ -97,4 +97,6 @@
     <string name="err">خطأ</string>
     <string name="notifyTime">وقت التنبيه: </string>
     <string name="stocks">البضاعة</string>
+    <string name="monthes">شهور</string>
+    <string name="and">و</string>
 </resources>

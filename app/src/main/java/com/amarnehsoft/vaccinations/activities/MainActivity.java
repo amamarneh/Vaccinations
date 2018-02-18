@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     public void openUser(View view) {
         CURRENT_VERSION  = VERSION_USER;
         startActivity(new Intent(this, HomeActivity.class));
-
     }
 
     public void openAdmin(View view) {
