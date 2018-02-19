@@ -6,9 +6,7 @@ package com.amarnehsoft.vaccinations.database;
 
 public class DBVersions {
     public enum Versoin{
-        VERSION_0(6),
-        VERSOIN_ADD_DATES_TO_AD(7),
-        VERSOIN_ADD_SECONDS_TO_AD(8);
+        VERSION_0(10);
 
         private int version;
         Versoin(int version){
@@ -17,5 +15,5 @@ public class DBVersions {
         public int value(){return version;}
     }
 
-    public static final Versoin CURRENT_VERSION = Versoin.VERSOIN_ADD_SECONDS_TO_AD;
+    public static final Versoin CURRENT_VERSION = Versoin.VERSION_0;
 }

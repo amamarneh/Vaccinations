@@ -28,12 +28,26 @@ import java.util.List;
 public abstract class DBHelper2<T> extends SQLiteOpenHelper
 {
 
+    public enum Versoin{
+
+        VERSOIN_ADD_DATES_TO_AD(10),
+        VERSOIN_ADD_SECONDS_TO_AD(11);
+
+        private int version;
+        Versoin(int version){
+            this.version=version;
+        }
+        public int value(){return version;}
+    }
+
+    public static final int VERSION = Versoin.VERSOIN_ADD_SECONDS_TO_AD.value();
+
+
     protected Class<T> entityClass;
 
     protected Context mContext;
     private int mNumberOfItems = 100;
 
-    public static final int VERSION = DBVersions.CURRENT_VERSION.value();
     public static final String DATABASE_NAME = "vaccinations2.db";
 
     protected DBHelper2(Context context)
@@ -78,7 +92,7 @@ public abstract class DBHelper2<T> extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        if (oldVersion < DBVersions.Versoin.VERSOIN_ADD_DATES_TO_AD.value()){
+        if (oldVersion < Versoin.VERSOIN_ADD_DATES_TO_AD.value()){
             try {
                 db.execSQL("alter table " + AdTable.TBL_NAME + " add column " + AdTable.Cols.FROM_DATE + " integer");
                 db.execSQL("alter table " + AdTable.TBL_NAME + " add column " + AdTable.Cols.TO_DATE + " integer");
@@ -88,7 +102,7 @@ public abstract class DBHelper2<T> extends SQLiteOpenHelper
             }
         }
 
-        if (oldVersion < DBVersions.Versoin.VERSOIN_ADD_SECONDS_TO_AD.value()){
+        if (oldVersion < Versoin.VERSOIN_ADD_SECONDS_TO_AD.value()){
             try {
                 db.execSQL("alter table " + AdTable.TBL_NAME + " add column " + AdTable.Cols.SECONDS+ " integer default 5");
                 Log.e("Amarneh","upgraded successfully, oldVersion="+oldVersion);
