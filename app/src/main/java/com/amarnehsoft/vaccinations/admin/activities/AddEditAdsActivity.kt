@@ -24,6 +24,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.amarnehsoft.vaccinations.database.db2.DBAd
 import com.amarnehsoft.vaccinations.database.db2.DBCats
+import com.amarnehsoft.vaccinations.fragments.dialogs.DatePickerFragment
+import com.amarnehsoft.vaccinations.utils.DateUtils
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
@@ -38,8 +40,25 @@ import java.io.File
 import java.util.*
 
 
-class AddEditAdsActivity : AppCompatActivity() {
+class AddEditAdsActivity : AppCompatActivity(),DatePickerFragment.IDatePickerFragment {
+
+    override fun onDateSet(reqCode: Int, year: Int, month: Int, day: Int) {
+        if (reqCode == 1){
+            val date = DateUtils.getDate(year,month,day)
+            selectedFromDate = date.time
+            btnFromDate.text = DateUtils.formatDateWithoutTime(Date(selectedFromDate))
+            ad?.fromDate = selectedFromDate
+        }else if (reqCode==2){
+            val date = DateUtils.getDate(year,month,day)
+            selectedToDate = date.time
+            btnToDate.text = DateUtils.formatDateWithoutTime(Date(selectedToDate))
+            ad?.toDate = selectedToDate
+        }
+    }
+
     val PICK_IMAGE = 1
+    var selectedFromDate =0L
+    var selectedToDate =0L
 
     private var mUriImage: Uri? = null
     var ad : Ad? = null
@@ -53,6 +72,10 @@ class AddEditAdsActivity : AppCompatActivity() {
         if(ad != null){
             Glide.with(this).load(ad!!.img).into(img)
             txtTitle.setText(ad?.content)
+            btnFromDate.setText(DateUtils.formatDateWithoutTime(Date(ad?.fromDate!!)))
+            btnToDate.setText(DateUtils.formatDateWithoutTime(Date(ad?.toDate!!)))
+            selectedFromDate = ad?.fromDate!!
+            selectedToDate = ad?.toDate!!
         }else{
             ad = Ad()
             ad!!.code = UUID.randomUUID().toString()
@@ -73,7 +96,25 @@ class AddEditAdsActivity : AppCompatActivity() {
                     }
                     .show()
         })
+
+        btnFromDate.setOnClickListener({
+            var fd = Date(selectedFromDate)
+
+            if(selectedFromDate==0L){
+                fd = Date()
+            }
+
+            DatePickerFragment.newInstance(DateUtils.getCalendarFromDate(fd),1,this,true,true).show(supportFragmentManager,DatePickerFragment.TAG)
+        })
+        btnToDate.setOnClickListener({
+            var td = Date(selectedToDate)
+            if (selectedToDate ==0L){
+                td = Date()
+            }
+            DatePickerFragment.newInstance(DateUtils.getCalendarFromDate(td),2,this,true,true).show(supportFragmentManager,DatePickerFragment.TAG)
+        })
     }
+
     private fun delete(){
         if(ad != null){
 
@@ -84,44 +125,48 @@ class AddEditAdsActivity : AppCompatActivity() {
     }
 
     private fun save() {
-        if (mUriImage == null) {
+        if (selectedFromDate == 0L || selectedToDate == 0L){
+            Toast.makeText(this,getString(R.string.pleaseSelectFromDateAndToDate),Toast.LENGTH_LONG).show()
+        }else{
 
-            ad!!.content = txtTitle.text.toString()
+            if (mUriImage == null) {
 
-            DBAd.getInstance(this).saveBean(ad)
+                ad!!.content = txtTitle.text.toString()
 
-            Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show()
-            val intent = Intent()
-            intent.putExtra("data", ad)
-            setResult(RESULT_OK, intent)
-            finish()
+                DBAd.getInstance(this).saveBean(ad)
 
-        } else {
+                Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show()
+                val intent = Intent()
+                intent.putExtra("data", ad)
+                setResult(RESULT_OK, intent)
+                finish()
 
-            val dialog = ProgressDialog(this)
-            dialog.setCancelable(false)
-            dialog.setMessage(getString(R.string.uploadImage))
-            dialog.show()
-            val mReference = FirebaseStorage.getInstance().reference.child("images").child(UUID.randomUUID().toString())
-            mReference.putFile(mUriImage!!).addOnCompleteListener { task ->
-                dialog.dismiss()
-                if (task.isSuccessful) {
+            } else {
 
-                    ad!!.content = txtTitle.text.toString()
-                    ad!!.img = task.result.downloadUrl!!.toString()
-                    DBAd.getInstance(this).saveBean(ad)
+                val dialog = ProgressDialog(this)
+                dialog.setCancelable(false)
+                dialog.setMessage(getString(R.string.uploadImage))
+                dialog.show()
+                val mReference = FirebaseStorage.getInstance().reference.child("images").child(UUID.randomUUID().toString())
+                mReference.putFile(mUriImage!!).addOnCompleteListener { task ->
+                    dialog.dismiss()
+                    if (task.isSuccessful) {
 
-                    Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show()
-                    val intent = Intent()
-                    intent.putExtra("data", ad)
-                    setResult(RESULT_OK, intent)
-                    finish()
-                } else {
-                    Toast.makeText(this, getString(R.string.err), Toast.LENGTH_SHORT).show()
+                        ad!!.content = txtTitle.text.toString()
+                        ad!!.img = task.result.downloadUrl!!.toString()
+                        DBAd.getInstance(this).saveBean(ad)
+
+                        Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show()
+                        val intent = Intent()
+                        intent.putExtra("data", ad)
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, getString(R.string.err), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
-
     }
 
     fun pickImage() {

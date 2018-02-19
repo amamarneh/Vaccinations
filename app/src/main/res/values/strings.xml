@@ -99,4 +99,7 @@
     <string name="stocks">Stocks</string>
     <string name="monthes">Monthes</string>
     <string name="and">and</string>
+    <string name="fromDate">From Date</string>
+    <string name="toDate">To Date</string>
+    <string name="pleaseSelectFromDateAndToDate">Please selkect from date and to date</string>
 </resources>

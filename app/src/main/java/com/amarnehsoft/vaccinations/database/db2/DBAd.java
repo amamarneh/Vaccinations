@@ -9,6 +9,11 @@ import com.amarnehsoft.vaccinations.beans.Ad;
 import com.amarnehsoft.vaccinations.beans.Cat;
 import com.amarnehsoft.vaccinations.database.db2.schema.AdTable;
 import com.amarnehsoft.vaccinations.database.db2.schema.CatTable;
+import com.amarnehsoft.vaccinations.fragments.dialogs.DatePickerFragment;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by alaam on 2/11/2018.
@@ -25,6 +30,34 @@ public class DBAd<B extends Ad,T extends AdTable> extends DBHelper2<Ad>{
 
     public DBAd(Context context) {
         super(context,Ad.class);
+    }
+
+    public List<B> getAll(long date)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        List<B> list = new ArrayList<>();
+        String selection=T.Cols.FROM_DATE + " < " + date + " and " + T.Cols.TO_DATE + " > " + date;
+        String[] args = null;
+
+        Cursor rs = null;
+        try {
+            rs = db.query(getTableName(), null
+                    , selection, args , null, null, null);
+
+            if (rs.moveToFirst())
+            {
+                while (!rs.isAfterLast()) {
+                    B bean = (B)newBean();
+                    fillBeanFromCursor(rs, bean);
+                    list.add(bean);
+                    rs.moveToNext();
+                }
+            }
+        }finally {
+            if (rs != null)
+                rs.close();
+        }
+        return list;
     }
 
     public B getBeanById(String id)
@@ -74,7 +107,10 @@ public class DBAd<B extends Ad,T extends AdTable> extends DBHelper2<Ad>{
         contentValues.put(T.Cols.CODE,bean.getCode());
         contentValues.put(T.Cols.CONTENT,bean.getContent());
         contentValues.put(T.Cols.IMG,bean.getImg());
+        contentValues.put(T.Cols.FROM_DATE,bean.getFromDate());
+        contentValues.put(T.Cols.TO_DATE,bean.getToDate());
     }
+
     public boolean deleteBean(String key){
         B person = getBeanById(key);
         if(person != null){
@@ -91,6 +127,8 @@ public class DBAd<B extends Ad,T extends AdTable> extends DBHelper2<Ad>{
         bean.setCode(rs.getString(rs.getColumnIndex(T.Cols.CODE)));
         bean.setContent(rs.getString(rs.getColumnIndex(T.Cols.CONTENT)));
         bean.setImg(rs.getString(rs.getColumnIndex(T.Cols.IMG)));
+        bean.setFromDate(rs.getLong(rs.getColumnIndex(T.Cols.FROM_DATE)));
+        bean.setToDate(rs.getLong(rs.getColumnIndex(T.Cols.TO_DATE)));
     }
 
 }

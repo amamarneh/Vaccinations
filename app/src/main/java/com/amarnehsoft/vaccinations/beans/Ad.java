@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 public class Ad implements Parcelable{
     private String code,content,img;
+    private long fromDate,toDate;
 
     public Ad(){}
 
@@ -16,6 +17,8 @@ public class Ad implements Parcelable{
         code = in.readString();
         content = in.readString();
         img = in.readString();
+        fromDate = in.readLong();
+        toDate = in.readLong();
     }
 
     public static final Creator<Ad> CREATOR = new Creator<Ad>() {
@@ -54,6 +57,22 @@ public class Ad implements Parcelable{
         this.img = img;
     }
 
+    public long getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(long fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public long getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(long toDate) {
+        this.toDate = toDate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -64,5 +83,7 @@ public class Ad implements Parcelable{
         parcel.writeString(code);
         parcel.writeString(content);
         parcel.writeString(img);
+        parcel.writeLong(fromDate);
+        parcel.writeLong(toDate);
     }
 }

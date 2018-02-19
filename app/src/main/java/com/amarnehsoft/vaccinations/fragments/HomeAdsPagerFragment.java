@@ -22,6 +22,7 @@ import com.amarnehsoft.vaccinations.controllers.SPController;
 import com.amarnehsoft.vaccinations.database.db2.DBAd;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -68,7 +69,7 @@ public class HomeAdsPagerFragment extends Fragment {
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        mList = DBAd.getInstance(getContext()).getAll();
+        mList = DBAd.getInstance(getContext()).getAll(new Date().getTime());
         if (mList.size() == 0){
             getView().setVisibility(View.GONE);
         }else {

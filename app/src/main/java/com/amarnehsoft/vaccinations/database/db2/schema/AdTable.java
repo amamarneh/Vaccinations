@@ -12,6 +12,8 @@ public class AdTable {
             + " ("
             + Cols.CODE + " VARCHAR ,"
             + Cols.CONTENT + " VARCHAR ,"
+            + Cols.FROM_DATE + " integer ,"
+            + Cols.TO_DATE + " integer ,"
             + Cols.IMG + " VARCHAR "
             + ")";
 
@@ -20,5 +22,7 @@ public class AdTable {
         public static final String CODE = "TXT_CODE";
         public static final String CONTENT = "CONTENT";
         public static final String IMG="TXT_IMG";
+        public static final String FROM_DATE="LNG_FROM_DATE";
+        public static final String TO_DATE="LNG_TO_DATE";
     }
 }

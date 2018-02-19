@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.amarnehsoft.vaccinations.beans.Ad;
 import com.amarnehsoft.vaccinations.database.DBVersions;
@@ -32,7 +33,7 @@ public abstract class DBHelper2<T> extends SQLiteOpenHelper
     protected Context mContext;
     private int mNumberOfItems = 100;
 
-    public static final int VERSION = 3;
+    public static final int VERSION = DBVersions.CURRENT_VERSION.value();
     public static final String DATABASE_NAME = "vaccinations2.db";
 
     protected DBHelper2(Context context)
@@ -72,20 +73,20 @@ public abstract class DBHelper2<T> extends SQLiteOpenHelper
         db.execSQL(StockTable._CREATE_TABLE);
         db.execSQL(VacinationTable._CREATE_TABLE);
         db.execSQL(AdTable._CREATE_TABLE);
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        db.execSQL("drop table if EXISTS " + CatTable.TBL_NAME);
-        db.execSQL("drop table if EXISTS " + CorCatTable.TBL_NAME);
-        db.execSQL("drop table if EXISTS " + CorporationTable.TBL_NAME);
-        db.execSQL("drop table if EXISTS " + KindergartenTable.TBL_NAME);
-        db.execSQL("drop table if EXISTS " + StockTable.TBL_NAME);
-        db.execSQL("drop table if EXISTS " + VacinationTable.TBL_NAME);
-        db.execSQL("drop table if EXISTS " + AdTable.TBL_NAME);
-        onCreate(db);
+        if (oldVersion < DBVersions.Versoin.VERSOIN_ADD_DATES_TO_AD.value()){
+            try {
+                db.execSQL("alter table " + AdTable.TBL_NAME + " add column " + AdTable.Cols.FROM_DATE + " integer");
+                db.execSQL("alter table " + AdTable.TBL_NAME + " add column " + AdTable.Cols.TO_DATE + " integer");
+                Log.e("Amarneh","upgraded successfully, oldVersion="+oldVersion);
+            }catch (Exception e) {
+                Log.e("Amarneh", "error while upgrading, oldVersion=" + oldVersion);
+            }
+        }
     }
 
     public int getNoOfBeans(){
