@@ -80,22 +80,42 @@ public class HomeAdsPagerFragment extends Fragment {
 
 
         final int[] position = {SPController.getInstance(getContext()).getLastAdPosition()};
-        int seconds = 5000;
-        mCounter = new CountDownTimer(mList.size() * seconds * 100,seconds) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if (position[0] > mList.size())
-                    position[0] = 0;
-                mPager.setCurrentItem(position[0],true);
-                SPController.getInstance(getContext()).setLastAdPosition(position[0]);
-                position[0]++;
+        final Ad[] ad = {null};
+        if (mList.size() > position[0]){
+            ad[0] = mList.get(position[0]);
+        }else {
+            position[0] = 0;
+            if (mList.size() > 0){
+                ad[0] = mList.get(position[0]);
             }
+        }
 
-            @Override
-            public void onFinish() {
+        if (ad[0] != null){
+            int second = 1000;
+            final int[] seconds = {ad[0].getSeconds()};
+            mCounter = new CountDownTimer(mList.size() * second * 200,second) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    seconds[0]--;
+                    if (seconds[0]<=0){
+                        if (position[0] >= mList.size())
+                            position[0] = 0;
+                        ad[0] = mList.get(position[0]);
+                        if (ad[0] != null){
+                            seconds[0] = ad[0].getSeconds();
+                        }
+                        mPager.setCurrentItem(position[0],true);
+                        SPController.getInstance(getContext()).setLastAdPosition(position[0]);
+                        position[0]++;
+                    }
+                }
 
-            }
-        }.start();
+                @Override
+                public void onFinish() {
+
+                }
+            }.start();
+        }
     }
 
     @Override

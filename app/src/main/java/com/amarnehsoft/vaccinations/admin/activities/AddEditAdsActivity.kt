@@ -26,6 +26,7 @@ import com.amarnehsoft.vaccinations.database.db2.DBAd
 import com.amarnehsoft.vaccinations.database.db2.DBCats
 import com.amarnehsoft.vaccinations.fragments.dialogs.DatePickerFragment
 import com.amarnehsoft.vaccinations.utils.DateUtils
+import com.amarnehsoft.vaccinations.utils.NumberUtils
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
@@ -76,9 +77,12 @@ class AddEditAdsActivity : AppCompatActivity(),DatePickerFragment.IDatePickerFra
             btnToDate.setText(DateUtils.formatDateWithoutTime(Date(ad?.toDate!!)))
             selectedFromDate = ad?.fromDate!!
             selectedToDate = ad?.toDate!!
+            txtSeconds.setText(ad?.seconds!!.toString())
         }else{
             ad = Ad()
             ad!!.code = UUID.randomUUID().toString()
+            txtSeconds.setText("5")
+            ad!!.seconds = 5
         }
         img.setOnClickListener({openGallery()})
         btnSave.setOnClickListener({
@@ -129,40 +133,45 @@ class AddEditAdsActivity : AppCompatActivity(),DatePickerFragment.IDatePickerFra
             Toast.makeText(this,getString(R.string.pleaseSelectFromDateAndToDate),Toast.LENGTH_LONG).show()
         }else{
 
-            if (mUriImage == null) {
+            if (NumberUtils.getInteger(txtSeconds.text.toString()) <= 0){
+                Toast.makeText(this,getString(R.string.pleaseEnterValidSeconds),Toast.LENGTH_LONG).show()
+            }else{
+                if (mUriImage == null) {
 
-                ad!!.content = txtTitle.text.toString()
+                    ad!!.content = txtTitle.text.toString()
+                    ad!!.seconds = txtSeconds.text.toString().toInt()
 
-                DBAd.getInstance(this).saveBean(ad)
+                    DBAd.getInstance(this).saveBean(ad)
 
-                Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show()
-                val intent = Intent()
-                intent.putExtra("data", ad)
-                setResult(RESULT_OK, intent)
-                finish()
+                    Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show()
+                    val intent = Intent()
+                    intent.putExtra("data", ad)
+                    setResult(RESULT_OK, intent)
+                    finish()
 
-            } else {
+                } else {
 
-                val dialog = ProgressDialog(this)
-                dialog.setCancelable(false)
-                dialog.setMessage(getString(R.string.uploadImage))
-                dialog.show()
-                val mReference = FirebaseStorage.getInstance().reference.child("images").child(UUID.randomUUID().toString())
-                mReference.putFile(mUriImage!!).addOnCompleteListener { task ->
-                    dialog.dismiss()
-                    if (task.isSuccessful) {
+                    val dialog = ProgressDialog(this)
+                    dialog.setCancelable(false)
+                    dialog.setMessage(getString(R.string.uploadImage))
+                    dialog.show()
+                    val mReference = FirebaseStorage.getInstance().reference.child("images").child(UUID.randomUUID().toString())
+                    mReference.putFile(mUriImage!!).addOnCompleteListener { task ->
+                        dialog.dismiss()
+                        if (task.isSuccessful) {
 
-                        ad!!.content = txtTitle.text.toString()
-                        ad!!.img = task.result.downloadUrl!!.toString()
-                        DBAd.getInstance(this).saveBean(ad)
+                            ad!!.content = txtTitle.text.toString()
+                            ad!!.img = task.result.downloadUrl!!.toString()
+                            DBAd.getInstance(this).saveBean(ad)
 
-                        Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show()
-                        val intent = Intent()
-                        intent.putExtra("data", ad)
-                        setResult(RESULT_OK, intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this, getString(R.string.err), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.done), Toast.LENGTH_SHORT).show()
+                            val intent = Intent()
+                            intent.putExtra("data", ad)
+                            setResult(RESULT_OK, intent)
+                            finish()
+                        } else {
+                            Toast.makeText(this, getString(R.string.err), Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }

@@ -14,6 +14,7 @@ public class AdTable {
             + Cols.CONTENT + " VARCHAR ,"
             + Cols.FROM_DATE + " integer ,"
             + Cols.TO_DATE + " integer ,"
+            + Cols.SECONDS + " integer ,"
             + Cols.IMG + " VARCHAR "
             + ")";
 
@@ -24,5 +25,6 @@ public class AdTable {
         public static final String IMG="TXT_IMG";
         public static final String FROM_DATE="LNG_FROM_DATE";
         public static final String TO_DATE="LNG_TO_DATE";
+        public static final String SECONDS="INT_SECONDS";
     }
 }

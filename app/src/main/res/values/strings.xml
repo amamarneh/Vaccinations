@@ -102,4 +102,6 @@
     <string name="fromDate">From Date</string>
     <string name="toDate">To Date</string>
     <string name="pleaseSelectFromDateAndToDate">Please selkect from date and to date</string>
+    <string name="seconds">Seconds</string>
+    <string name="pleaseEnterValidSeconds">Please Enter valid seconds</string>
 </resources>

@@ -87,6 +87,15 @@ public abstract class DBHelper2<T> extends SQLiteOpenHelper
                 Log.e("Amarneh", "error while upgrading, oldVersion=" + oldVersion);
             }
         }
+
+        if (oldVersion < DBVersions.Versoin.VERSOIN_ADD_SECONDS_TO_AD.value()){
+            try {
+                db.execSQL("alter table " + AdTable.TBL_NAME + " add column " + AdTable.Cols.SECONDS+ " integer default 5");
+                Log.e("Amarneh","upgraded successfully, oldVersion="+oldVersion);
+            }catch (Exception e) {
+                Log.e("Amarneh", "error while upgrading, oldVersion=" + oldVersion);
+            }
+        }
     }
 
     public int getNoOfBeans(){

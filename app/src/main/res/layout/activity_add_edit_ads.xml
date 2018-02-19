@@ -73,6 +73,27 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_marginStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/seconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/txtSeconds"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/border_flat"
+            android:padding="5dp"
+            android:text="5"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
     <Button
         android:id="@+id/btnSave"
         android:text="@string/save"

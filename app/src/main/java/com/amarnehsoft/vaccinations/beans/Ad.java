@@ -10,6 +10,7 @@ import android.os.Parcelable;
 public class Ad implements Parcelable{
     private String code,content,img;
     private long fromDate,toDate;
+    private int seconds;
 
     public Ad(){}
 
@@ -19,6 +20,7 @@ public class Ad implements Parcelable{
         img = in.readString();
         fromDate = in.readLong();
         toDate = in.readLong();
+        seconds = in.readInt();
     }
 
     public static final Creator<Ad> CREATOR = new Creator<Ad>() {
@@ -73,6 +75,14 @@ public class Ad implements Parcelable{
         this.toDate = toDate;
     }
 
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -85,5 +95,6 @@ public class Ad implements Parcelable{
         parcel.writeString(img);
         parcel.writeLong(fromDate);
         parcel.writeLong(toDate);
+        parcel.writeInt(seconds);
     }
 }

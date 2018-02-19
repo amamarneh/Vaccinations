@@ -109,6 +109,7 @@ public class DBAd<B extends Ad,T extends AdTable> extends DBHelper2<Ad>{
         contentValues.put(T.Cols.IMG,bean.getImg());
         contentValues.put(T.Cols.FROM_DATE,bean.getFromDate());
         contentValues.put(T.Cols.TO_DATE,bean.getToDate());
+        contentValues.put(T.Cols.SECONDS,bean.getSeconds());
     }
 
     public boolean deleteBean(String key){
@@ -129,6 +130,7 @@ public class DBAd<B extends Ad,T extends AdTable> extends DBHelper2<Ad>{
         bean.setImg(rs.getString(rs.getColumnIndex(T.Cols.IMG)));
         bean.setFromDate(rs.getLong(rs.getColumnIndex(T.Cols.FROM_DATE)));
         bean.setToDate(rs.getLong(rs.getColumnIndex(T.Cols.TO_DATE)));
+        bean.setSeconds(rs.getInt(rs.getColumnIndex(T.Cols.SECONDS)));
     }
 
 }
